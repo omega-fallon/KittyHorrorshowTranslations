@@ -26,10 +26,11 @@ namespace AnatomyTranslations
         }
 
         public string gameLanguage = "";
-        void OnGUI()
+        public bool guiDimensionsPrinted;
+        public void OnGUI()
         {
             // If we've loaded into gameplay and the language is still null, default to English.
-            if (anySceneLoaded || string.IsNullOrEmpty(gameLanguage))
+            if (scenesLoaded > 0 && string.IsNullOrEmpty(gameLanguage))
             {
                 Plugin.Instance.Logger.LogInfo("No input on language selection screen. Defaulting to English.");
                 gameLanguage = "English";
@@ -44,22 +45,37 @@ namespace AnatomyTranslations
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            if (GUI.Button(new Rect(264, 540, 150, 100), "English"))
+            // Math for button spacing
+            int appWidth = Screen.width;
+            int appHeight = Screen.height;
+
+            int numLangs = 4;
+            int widthSpacer = (appWidth - (numLangs * 150)) / (numLangs + 1);
+            int heightSpacer = (appHeight - 100) / 2;
+
+            if (!guiDimensionsPrinted)
+            {
+                guiDimensionsPrinted = true;
+                Plugin.Instance.Logger.LogInfo("Window dimensions: " + appWidth.ToString() + " " + appHeight.ToString());
+                Plugin.Instance.Logger.LogInfo("Button spacing values: " + widthSpacer.ToString() + " " + heightSpacer.ToString());
+            }
+
+            if (GUI.Button(new Rect(widthSpacer, heightSpacer, 150, 100), "English"))
             {
                 gameLanguage = "English";
                 AfterLanguageSelection();
             }
-            if (GUI.Button(new Rect(678, 540, 150, 100), "Français"))
+            if (GUI.Button(new Rect(widthSpacer + (1 * widthSpacer) + (1 * 150), heightSpacer, 150, 100), "Français"))
             {
                 gameLanguage = "French";
                 AfterLanguageSelection();
             }
-            if (GUI.Button(new Rect(1092, 540, 150, 100), "Nederlands"))
+            if (GUI.Button(new Rect(widthSpacer + (2 * widthSpacer) + (2 * 150), heightSpacer, 150, 100), "Nederlands"))
             {
                 gameLanguage = "Dutch";
                 AfterLanguageSelection();
             }
-            if (GUI.Button(new Rect(1506, 540, 150, 100), "日本語"))
+            if (GUI.Button(new Rect(widthSpacer + (3 * widthSpacer) + (3 * 150), heightSpacer, 150, 100), "日本語"))
             {
                 gameLanguage = "Japanese";
                 AfterLanguageSelection();
@@ -90,6 +106,11 @@ namespace AnatomyTranslations
         }
         // End OWML code
 
+        public void Start()
+        {
+            
+        }
+
         // Loading textures and audio
         public AudioClip amen_TRANS;
 
@@ -98,12 +119,6 @@ namespace AnatomyTranslations
         public Texture2D title2_TRANS;
         public Texture2D title3_TRANS;
         public Texture2D title4_TRANS;
-
-        public void Start()
-        {
-            
-        }
-
         public void AfterLanguageSelection()
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -134,7 +149,7 @@ namespace AnatomyTranslations
 
         private string lastText;
         private bool texturereplaceOnLoad;
-        private bool anySceneLoaded;
+        private int scenesLoaded = 0;
         
         [HarmonyPatch]
         public class MyPatchClass
@@ -144,8 +159,8 @@ namespace AnatomyTranslations
             [HarmonyPatch(typeof(LoadLevelNum), nameof(LoadLevelNum.OnEnter))]
             public static void SceneLoad()
             {
-                Plugin.Instance.Logger.LogInfo("A level was loaded.");
-                Plugin.Instance.anySceneLoaded = true;
+                Plugin.Instance.scenesLoaded += 1;
+                Plugin.Instance.Logger.LogInfo("A level was loaded. Number loaded this session: "+ Plugin.Instance.scenesLoaded.ToString());
 
                 // Check language //
                 if (string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
