@@ -50,8 +50,12 @@ namespace AnatomyTranslations
             int appHeight = Screen.height;
 
             int numLangs = 4;
-            int widthSpacer = (appWidth - (numLangs * 150)) / (numLangs + 1);
-            int heightSpacer = (appHeight - 100) / 2;
+
+            int buttonWidth = 150;
+            int buttonHeight = 100;
+
+            int widthSpacer = (appWidth - (numLangs * buttonWidth)) / (numLangs + 1);
+            int heightSpacer = (appHeight - buttonHeight) / 2;
 
             if (!guiDimensionsPrinted)
             {
@@ -60,22 +64,22 @@ namespace AnatomyTranslations
                 Plugin.Instance.Logger.LogInfo("Button spacing values: " + widthSpacer.ToString() + " " + heightSpacer.ToString());
             }
 
-            if (GUI.Button(new Rect(widthSpacer, heightSpacer, 150, 100), "English"))
+            if (GUI.Button(new Rect(widthSpacer, heightSpacer, buttonWidth, buttonHeight), "English"))
             {
                 gameLanguage = "English";
                 AfterLanguageSelection();
             }
-            if (GUI.Button(new Rect(widthSpacer + (1 * widthSpacer) + (1 * 150), heightSpacer, 150, 100), "Français"))
+            if (GUI.Button(new Rect(widthSpacer + (1 * widthSpacer) + (1 * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français"))
             {
                 gameLanguage = "French";
                 AfterLanguageSelection();
             }
-            if (GUI.Button(new Rect(widthSpacer + (2 * widthSpacer) + (2 * 150), heightSpacer, 150, 100), "Nederlands"))
+            if (GUI.Button(new Rect(widthSpacer + (2 * widthSpacer) + (2 * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands"))
             {
                 gameLanguage = "Dutch";
                 AfterLanguageSelection();
             }
-            if (GUI.Button(new Rect(widthSpacer + (3 * widthSpacer) + (3 * 150), heightSpacer, 150, 100), "日本語"))
+            if (GUI.Button(new Rect(widthSpacer + (3 * widthSpacer) + (3 * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語"))
             {
                 gameLanguage = "Japanese";
                 AfterLanguageSelection();
@@ -380,11 +384,16 @@ namespace AnatomyTranslations
             [HarmonyPatch(typeof(PlaySound), "DoPlaySound")]
             public static void AudioReplacement(PlaySound __instance)
             {
-                Plugin.Instance.Logger.LogInfo("Sound played: "+ __instance.clip.Value.ToString());
+                Plugin.Instance.Logger.LogInfo("Sound played: "+ __instance.clip.Value.name);
 
-                switch (__instance.clip.Value.ToString())
+                if (Plugin.Instance.gameLanguage == "English" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
                 {
-                    case "amen (UnityEngine.AudioClip)":
+                    return;
+                }
+
+                switch (__instance.clip.Value.name)
+                {
+                    case "amen":
                         __instance.clip.Value = Plugin.Instance.amen_TRANS;
                         break;
                 }
