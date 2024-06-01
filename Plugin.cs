@@ -57,6 +57,12 @@ namespace AnatomyTranslations
             int widthSpacer = (appWidth - (numLangs * buttonWidth)) / (numLangs + 1);
             int heightSpacer = (appHeight - buttonHeight) / 2;
 
+            // Write code here to catch buttons overlapping if we ever get enough languages for that to happen
+            if (widthSpacer < 0)
+            {
+
+            }
+
             if (!guiDimensionsPrinted)
             {
                 guiDimensionsPrinted = true;
@@ -141,8 +147,29 @@ namespace AnatomyTranslations
                     input_TRANS = GetTexture("images\\input_FR.png");
                     title1_TRANS = GetTexture("images\\title1_FR.png");
                     title2_TRANS = GetTexture("images\\title2_FR.png");
-                    title3_TRANS = GetTexture("images\\title3_FR.png");
-                    title4_TRANS = GetTexture("images\\title4_FR.png");
+                    //title3_TRANS = GetTexture("images\\title3_FR.png");
+                    //title4_TRANS = GetTexture("images\\title4_FR.png");
+
+                    break;
+                case "Dutch":
+                    // Audio
+                    amen_TRANS = GetAudio("audio\\Achy Breaky Song.mp3");
+
+                    // Images
+                    input_TRANS = GetTexture("images\\input_NL.png");
+                    title1_TRANS = GetTexture("images\\title1_NL.png");
+                    title2_TRANS = GetTexture("images\\title2_NL.png");
+                    //title3_TRANS = GetTexture("images\\title3_NL.png");
+                    //title4_TRANS = GetTexture("images\\title4_NL.png");
+
+                    break;
+                case "Japanese":
+                    // Images
+                    input_TRANS = GetTexture("images\\input_JA.png");
+                    title1_TRANS = GetTexture("images\\title1_JA.png");
+                    title2_TRANS = GetTexture("images\\title2_JA.png");
+                    //title3_TRANS = GetTexture("images\\title3_JA.png");
+                    //title4_TRANS = GetTexture("images\\title4_JA.png");
 
                     break;
             }
@@ -154,17 +181,21 @@ namespace AnatomyTranslations
         private string lastText;
         private bool texturereplaceOnLoad;
         private int scenesLoaded = 0;
-        
+        private int currentLevelIndex;
+        private GUIStyle guiStyle = new GUIStyle();
+
         [HarmonyPatch]
         public class MyPatchClass
         {
             // Level loading
             [HarmonyPostfix]
             [HarmonyPatch(typeof(LoadLevelNum), nameof(LoadLevelNum.OnEnter))]
-            public static void SceneLoad()
+            public static void SceneLoad(LoadLevelNum __instance)
             {
+                // Setting variables //
+                Plugin.Instance.Logger.LogInfo("A level was loaded. Index: " + __instance.levelIndex.ToString() + ". Number of levels loaded this session: " + Plugin.Instance.scenesLoaded.ToString());
                 Plugin.Instance.scenesLoaded += 1;
-                Plugin.Instance.Logger.LogInfo("A level was loaded. Number loaded this session: "+ Plugin.Instance.scenesLoaded.ToString());
+                Plugin.Instance.currentLevelIndex = __instance.levelIndex.Value;
 
                 // Check language //
                 if (string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
@@ -180,6 +211,13 @@ namespace AnatomyTranslations
 
             // Text replacement
             [HarmonyPostfix]
+            [HarmonyPatch(typeof(GUILabel), nameof(GUILabel.OnGUI))]
+            public static void StyleReplacement(GUILabel __instance)
+            {
+                
+            }
+
+            [HarmonyPostfix]
             [HarmonyPatch(typeof(GUIContentAction), nameof(GUIContentAction.OnGUI))]
             public static void TextReplacement(GUIContentAction __instance)
             {
@@ -187,6 +225,14 @@ namespace AnatomyTranslations
                 {
                     Plugin.Instance.lastText = __instance.text.Value;
                     Plugin.Instance.Logger.LogInfo("Text was written to the screen: " + __instance.text.Value);
+                    Plugin.Instance.Logger.LogInfo("Style was as follows: " + __instance.style.Value);
+                }
+
+                switch (Plugin.Instance.gameLanguage)
+                {
+                    case "Japanese":
+                        //__instance.style.Value = "";
+                        break;
                 }
 
                 switch (__instance.text.Value)
@@ -202,7 +248,14 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CASSETTE IN DE EETKAMER";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "食堂にカセットがある";
+                                if (Plugin.Instance.currentLevelIndex > 1)
+                                {
+                                    __instance.text.Value = "食堂にカセットがいる";// いる (animate)
+                                }
+                                else
+                                {
+                                    __instance.text.Value = "食堂にカセットがある";// ある (inanimate)
+                                }
                                 break;
                         }
                         break;
@@ -216,7 +269,14 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CASSETTE IN DE BENEDEN BADKAMER";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "階下の風呂場にカセットがある";
+                                if (Plugin.Instance.currentLevelIndex > 1)
+                                {
+                                    __instance.text.Value = "階下の風呂場にカセットがいる";
+                                }
+                                else
+                                {
+                                    __instance.text.Value = "階下の風呂場にカセットがある";
+                                }
                                 break;
                         }
                         break;
@@ -230,7 +290,14 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CASSETTE IN DE GARAGE";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "車庫にカセットがある";
+                                if (Plugin.Instance.currentLevelIndex > 1)
+                                {
+                                    __instance.text.Value = "車庫にカセットがいる";
+                                }
+                                else
+                                {
+                                    __instance.text.Value = "車庫にカセットがある";
+                                }
                                 break;
                         }
                         break;
@@ -244,7 +311,14 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CASSETTE IN DE WOONKAMER";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "居間にカセットがある";
+                                if (Plugin.Instance.currentLevelIndex > 1)
+                                {
+                                    __instance.text.Value = "居間にカセットがいる";
+                                }
+                                else
+                                {
+                                    __instance.text.Value = "居間にカセットがある";
+                                }
                                 break;
                         }
                         break;
@@ -258,7 +332,14 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CASSETTE OP DE TRAP";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "階段にカセットがあります";
+                                if (Plugin.Instance.currentLevelIndex > 1)
+                                {
+                                    __instance.text.Value = "階段にカセットがいる";
+                                }
+                                else
+                                {
+                                    __instance.text.Value = "階段にカセットがある";
+                                }
                                 break;
                         }
                         break;
@@ -272,7 +353,14 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CASSETTE IN EEN SLAAPKAMER";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "ある寝室にカセットがあります";
+                                if (Plugin.Instance.currentLevelIndex > 1)
+                                {
+                                    __instance.text.Value = "ある寝室にカセットがいる";
+                                }
+                                else
+                                {
+                                    __instance.text.Value = "ある寝室にカセットがある";
+                                }
                                 break;
                         }
                         break;
@@ -286,7 +374,14 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CASSETTE IN DE KELDER";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "地下室にカセットがある";
+                                if (Plugin.Instance.currentLevelIndex > 1)
+                                {
+                                    __instance.text.Value = "地下室にカセットがいる";
+                                }
+                                else
+                                {
+                                    __instance.text.Value = "地下室にカセットがある";
+                                }
                                 break;
                         }
                         break;
@@ -300,7 +395,14 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CASSETTE IN DE HOOFDSLAAPKAMER";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "主寝室にカセットがある";
+                                if (Plugin.Instance.currentLevelIndex > 1)
+                                {
+                                    __instance.text.Value = "主寝室にカセットがいる";
+                                }
+                                else
+                                {
+                                    __instance.text.Value = "主寝室にカセットがある";
+                                }
                                 break;
                         }
                         break;
@@ -316,7 +418,7 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ERRRRRRRRRRRRRR       IS EEN CASSETTE IN DE EETKAMER";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "食堂にiiiiiiiiiiiiii       カセットがある";
+                                __instance.text.Value = "食堂にiiiiiiiiiiiiii       カセットがいる";
                                 break;
                         }
                         break;
@@ -330,7 +432,7 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN CA   A A  AAAA  A         DEuREN ZIJN ONTGRENDELD";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "カ   カ カ  カカカカ  カ がある         すべてnoドアはロックされていない";
+                                __instance.text.Value = "カセットがいi   i i  iiii  i         すべてnoドアはロックされていない";
                                 break;
                         }
                         break;
@@ -344,7 +446,7 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN C";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "がある gがある gがある gがある gがある gがある gがある gがある";
+                                __instance.text.Value = "トがいる gがいる gがいる gがいる gがいる gがいる gがいる gがいる";
                                 break;
                         }
                         break;
@@ -358,7 +460,7 @@ namespace AnatomyTranslations
                                 __instance.text.Value = "ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR";
                                 break;
                             case "Japanese":
-                                __instance.text.Value = "があrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr";
+                                __instance.text.Value = "がいrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr";
                                 break;
                         }
                         break;
