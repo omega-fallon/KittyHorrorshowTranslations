@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <AssemblyName>OmegaFallon.AnatomyTranslations</AssemblyName>
-    <Product>Anatomy Translations</Product>
+    <AssemblyName>OmegaFallon.KittyHorrorshowTranslations</AssemblyName>
+    <Product>Kitty Horrorshow Translations</Product>
     <Version>1.0.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -12,7 +12,7 @@
       https://nuget.bepinex.dev/v3/index.json;
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
-    <RootNamespace>OmegaFallon.AnatomyTranslations</RootNamespace>
+    <RootNamespace>OmegaFallon.KittyHorrorshowTranslations</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,7 +33,7 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="NAudio">
-      <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\Anatomy_win\BepInEx\plugins\AnatomyTranslations\NAudio-Unity.dll</HintPath>
+      <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\BepInEx\plugins\KittyHorrorshowTranslations\NAudio-Unity.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

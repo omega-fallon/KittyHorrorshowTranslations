@@ -9,10 +9,10 @@ using System.IO;
 using static HutongGames.PlayMaker.Actions.SendMessage;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace AnatomyTranslations
+namespace KittyHorrorshowTranslations
 {
     [BepInProcess("Anatomy.exe")]
-    [BepInPlugin("OmegaFallon.AnatomyTranslations", "Anatomy Translations", "1.0.0.0")]
+    [BepInPlugin("OmegaFallon.KittyHorrorshowTranslations", "Kitty Horrorshow Translations", "1.0.0.0")]
     public class Plugin : BaseUnityPlugin
     {
         public static Plugin Instance;
@@ -22,7 +22,7 @@ namespace AnatomyTranslations
             Instance = this;
 
             // Plugin startup logic
-            Logger.LogInfo($"Plugin {"OmegaFallon.AnatomyTranslations"} is loaded!");
+            Logger.LogInfo($"Plugin {"OmegaFallon.KittyHorrorshowTranslations"} is loaded!");
         }
 
         public string gameLanguage = "";
@@ -95,7 +95,7 @@ namespace AnatomyTranslations
         // OWML code
         public AudioClip GetAudio(string filename)
         {
-            var path = Paths.PluginPath + "\\AnatomyTranslations\\" + filename;
+            var path = Paths.PluginPath + "\\KittyHorrorshowTranslations\\" + filename;
             Logger.LogInfo("Loading audio from "+path);
             using var reader = new NAudio.Wave.AudioFileReader(path);
             var sampleCount = (int)(reader.Length * 8 / reader.WaveFormat.BitsPerSample);
@@ -107,7 +107,7 @@ namespace AnatomyTranslations
         }
         public Texture2D GetTexture(string filename)
         {
-            var path = Paths.PluginPath + "\\AnatomyTranslations\\" + filename;
+            var path = Paths.PluginPath + "\\KittyHorrorshowTranslations\\" + filename;
             Logger.LogInfo("Loading texture from " + path);
             var data = File.ReadAllBytes(path);
             var texture = new Texture2D(2, 2);
