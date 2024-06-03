@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
@@ -24,10 +24,18 @@
       <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Anatomy_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
+	  <Reference Include="Assembly-CSharp">
+		  <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Gloompuke_Data\Managed\Assembly-CSharp.dll</HintPath>
+		  <Private>false</Private>
+	  </Reference>
     <Reference Include="PlayMaker">
       <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Anatomy_Data\Managed\PlayMaker.dll</HintPath>
       <Private>false</Private>
     </Reference>
+	  <Reference Include="DialogueSystem">
+		  <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Gloompuke_Data\Managed\DialogueSystem.dll</HintPath>
+		  <Private>false</Private>
+	  </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Anatomy_Data\Managed\UnityEngine.UI.dll</HintPath>
       <Private>false</Private>

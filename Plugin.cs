@@ -11,20 +11,47 @@ using static System.Net.Mime.MediaTypeNames;
 using HutongGames.Utility;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace KittyHorrorshowTranslations
 {
-    [BepInProcess("Anatomy.exe")]
-    [BepInProcess("exclusion.exe")]
-    [BepInProcess("sunset.exe")]
-    [BepInProcess("Leechbowl.exe")]
-    [BepInProcess("pente.exe")]
-    [BepInProcess("rainhouse.exe")]
-    [BepInProcess("Monastery.exe")]
-    [BepInProcess("actias.exe")]
-    [BepInProcess("grandmother.exe")]
-    [BepInProcess("Roads.exe")]
-    [BepInProcess("CHYRZA.exe")]
+    // Fully works under x86
+    [BepInProcess("actias.exe")] // 5.2.0
+    [BepInProcess("ccccccc.exe")] // 5.0.2
+    [BepInProcess("Anatomy.exe")] // 5.2.0
+
+    [BepInProcess("grandmother.exe")] // 5.2.0
+    [BepInProcess("Leechbowl.exe")] // 5.2.0
+    [BepInProcess("pente.exe")] // 5.2.0
+
+    [BepInProcess("Gloompuke.exe")] // 5.3.5
+    [BepInProcess("Scarlet.exe")] // 5.3.5
+
+    // Fully works under x64
+    [BepInProcess("Monastery.exe")] // 5.4.3
+    [BepInProcess("Roads.exe")] // 5.4.3
+
+    // Logs generated but no language menu under x86
+    [BepInProcess("sigilvalley.exe")] // 4.6.3
+    [BepInProcess("sunset.exe")] // 4.6.3
+    [BepInProcess("rainhouse.exe")] // 4.6.3
+    [BepInProcess("CHYRZA.exe")] // 4.3.3
+
+    // Fully doesn't work under x86 and x64
+    [BepInProcess("basements.exe")] // 2017.4.2
+    [BepInProcess("wormclot.exe")] // 2017.4.2
+    [BepInProcess("GhostLake.exe")] // unknown
+    [BepInProcess("seven.exe")] // 2017.4.2
+
+    [BepInProcess("exclusion.exe")] // 2017.4.2
+    [BepInProcess("Grandmother's Garden.exe")] // 2017.4.2
+    [BepInProcess("Lethargy Hill.exe")] // 2019.2.0
+    [BepInProcess("Tenement.exe")] // 2017.4.2
+
+    [BepInProcess("LivingRoom.exe")] // 2019.4.0
+    [BepInProcess("Decommissioned City #65.exe")] // 2021.2.14
+
+    // The plugin itself //
     [BepInPlugin("OmegaFallon.KittyHorrorshowTranslations", "Kitty Horrorshow Translations", "1.0.0.0")]
     public class Plugin : BaseUnityPlugin
     {
@@ -43,10 +70,29 @@ namespace KittyHorrorshowTranslations
             Logger.LogInfo("Current running game is " + runningGame);
 
             // Add .cs files for individual games
-            gameObject.AddComponent<Actias>();
-            gameObject.AddComponent<Anatomy>();
-            gameObject.AddComponent<Grandmother>();
-            gameObject.AddComponent<Leechbowl>();
+            switch (runningGame)
+            {
+                case "Actias":
+                    gameObject.AddComponent<Actias>();
+                    break;
+                case "Anatomy":
+                    gameObject.AddComponent<Anatomy>();
+                    break;
+                case "Gloompuke":
+                    gameObject.AddComponent<Gloompuke>();
+                    break;
+                case "Grandmother":
+                    gameObject.AddComponent<Grandmother>();
+                    break;
+                case "Leechbowl":
+                    gameObject.AddComponent<Leechbowl>();
+                    break;
+            }
+        }
+
+        public void PrintThisString(string str)
+        {
+            Logger.LogInfo(str);
         }
 
         public string runningGame;
@@ -54,13 +100,6 @@ namespace KittyHorrorshowTranslations
         public bool guiDimensionsPrinted;
         public void OnGUI()
         {
-            // If we've loaded into gameplay and the language is still null, default to English.
-            if (false && scenesLoaded > 0 && string.IsNullOrEmpty(gameLanguage))
-            {
-                Plugin.Instance.Logger.LogInfo("No input on language selection screen. Defaulting to English.");
-                gameLanguage = "English";
-            }
-            
             // If the language has already been decided, return.
             if (!string.IsNullOrEmpty(gameLanguage))
             {
@@ -71,11 +110,19 @@ namespace KittyHorrorshowTranslations
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
+                // Establishing order and inclusion of languages - in final release, have this vary by game
+                string[] languages = ["English", "French", "Dutch", "Japanese"];
+
+                int englishDex = Array.IndexOf(languages, "English");
+                int frenchDex = Array.IndexOf(languages, "French");
+                int dutchDex = Array.IndexOf(languages, "Dutch");
+                int japaneseDex = Array.IndexOf(languages, "Japanese");
+
                 // Math for button spacing
                 int appWidth = Screen.width;
                 int appHeight = Screen.height;
 
-                int numLangs = 4;
+                int numLangs = languages.Length;
 
                 int buttonWidth = 150;
                 int buttonHeight = 100;
@@ -97,17 +144,10 @@ namespace KittyHorrorshowTranslations
                     Plugin.Instance.Logger.LogInfo("Button spacing values: " + widthSpacer.ToString() + " " + heightSpacer.ToString());
                 }
 
-                // Establishing order and inclusion of languages - in final release, have this vary by game
-                string[] languages = ["English", "French", "Dutch", "Japanese"];
-                int englishDex = Array.IndexOf(languages, "English");
-                int frenchDex = Array.IndexOf(languages, "French");
-                int dutchDex = Array.IndexOf(languages, "Dutch");
-                int japaneseDex = Array.IndexOf(languages, "Japanese");
-
                 // Placing the buttons
                 if (englishDex != -1)
                 {
-                    if (GUI.Button(new Rect(widthSpacer + (englishDex * widthSpacer) + (englishDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "English" + "\n\n(" + (englishDex + 1) + ")"))
+                    if (GUI.Button(new Rect(widthSpacer + (englishDex * widthSpacer) + (englishDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "English" + "\n\n(Press " + (englishDex + 1) + ")"))
                     {
                         gameLanguage = "English";
                         AfterLanguageSelection();
@@ -115,7 +155,7 @@ namespace KittyHorrorshowTranslations
                 }
                 if (frenchDex != -1)
                 {
-                    if (GUI.Button(new Rect(widthSpacer + (frenchDex * widthSpacer) + (frenchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français" + "\n\n(" + (frenchDex + 1) + ")"))
+                    if (GUI.Button(new Rect(widthSpacer + (frenchDex * widthSpacer) + (frenchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français" + "\n\n(Appuyez " + (frenchDex + 1) + ")"))
                     {
                         gameLanguage = "French";
                         AfterLanguageSelection();
@@ -123,7 +163,7 @@ namespace KittyHorrorshowTranslations
                 }
                 if (dutchDex != -1)
                 {
-                    if (GUI.Button(new Rect(widthSpacer + (dutchDex * widthSpacer) + (dutchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands" + "\n\n(" + (dutchDex + 1) + ")"))
+                    if (GUI.Button(new Rect(widthSpacer + (dutchDex * widthSpacer) + (dutchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands" + "\n\n(Druk " + (dutchDex + 1) + ")"))
                     {
                         gameLanguage = "Dutch";
                         AfterLanguageSelection();
@@ -131,7 +171,7 @@ namespace KittyHorrorshowTranslations
                 }
                 if (japaneseDex != -1)
                 {
-                    if (GUI.Button(new Rect(widthSpacer + (japaneseDex * widthSpacer) + (japaneseDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語" + "\n\n(" + (japaneseDex + 1) + ")"))
+                    if (GUI.Button(new Rect(widthSpacer + (japaneseDex * widthSpacer) + (japaneseDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語" + "\n\n(" + (japaneseDex + 1) + "を押す)"))
                     {
                         gameLanguage = "Japanese";
                         AfterLanguageSelection();
@@ -139,22 +179,22 @@ namespace KittyHorrorshowTranslations
                 }
 
                 // Allowing keypresses as alternative
-                if ((Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) && !string.IsNullOrEmpty(languages[0]))
+                if ((Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) && numLangs >= 1 && !string.IsNullOrEmpty(languages[0]))
                 {
                     gameLanguage = languages[0];
                     AfterLanguageSelection();
                 }
-                if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && !string.IsNullOrEmpty(languages[1]))
+                if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && numLangs >= 2 && !string.IsNullOrEmpty(languages[1]))
                 {
                     gameLanguage = languages[1];
                     AfterLanguageSelection();
                 }
-                if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && !string.IsNullOrEmpty(languages[2]))
+                if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && numLangs >= 3 && !string.IsNullOrEmpty(languages[2]))
                 {
                     gameLanguage = languages[2];
                     AfterLanguageSelection();
                 }
-                if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && !string.IsNullOrEmpty(languages[3]))
+                if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && numLangs >= 4 && !string.IsNullOrEmpty(languages[3]))
                 {
                     gameLanguage = languages[3];
                     AfterLanguageSelection();
@@ -204,6 +244,9 @@ namespace KittyHorrorshowTranslations
             {
                 case "Anatomy":
                     Anatomy.Instance.AssetLoading();
+                    break;
+                case "Gloompuke":
+                    Gloompuke.Instance.EditObjectNames();
                     break;
             }
 
@@ -316,13 +359,14 @@ namespace KittyHorrorshowTranslations
         public void TextureReplacement()
         {
             // Skipping games for which texture replacement is unnecessary
-            string[] skipTextureReplacement = ["Grandmother"];
+            string[] skipTextureReplacement = ["Grandmother", "Gloompuke"];
             if (Array.IndexOf(skipTextureReplacement, runningGame) != -1)
             {
                 return;
             }
 
             // First, we run the sprite replacement foreach
+            Logger.LogInfo("Beginning image runthroughs...");
             foreach (var image in Resources.FindObjectsOfTypeAll<SpriteRenderer>())
             {
                 Logger.LogInfo("Image was run through: " + image.gameObject.name);
@@ -341,12 +385,15 @@ namespace KittyHorrorshowTranslations
                 }
 
             }
+            Logger.LogInfo("End of image runthroughs.");
 
             // Secondly, the actual *texture* replacement loop. Yes, these two things are different, but I'm calling them both textures because that's what they are.
+            Logger.LogInfo("Beginning texture runthroughs...");
             foreach (var renderer in Resources.FindObjectsOfTypeAll<Texture2D>())
             {
                 Logger.LogInfo("Texture was run through: " + renderer.name);
             }
+            Logger.LogInfo("End of texture runthroughs.");
         }
 
         // Call this function at Start if you wanna see something funny.

@@ -19,17 +19,31 @@ namespace KittyHorrorshowTranslations
             switch (str)
             {
                 // How'd you get lost in Leechbowl? The streets are numbered!
+                case "Main St":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French":
+                            str = "Rue Principale";
+                            break;
+                        case "Dutch":
+                            str = "Hoofdstraat";
+                            break;
+                        case "Japanese":
+                            str = "大通り";
+                            break;
+                    }
+                    break;
                 case "First St":
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Première Rue";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Eerste St";
                             break;
                         case "Japanese":
-                            str = "";
+                            str = "最初の道";
                             break;
                     }
                     break;
@@ -37,13 +51,13 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Deuxième Rue";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Tweede St";
                             break;
                         case "Japanese":
-                            str = "";
+                            str = "第二の道";
                             break;
                     }
                     break;
@@ -51,13 +65,13 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Troisième Rue";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Derde St";
                             break;
                         case "Japanese":
-                            str = "";
+                            str = "三番目の道";
                             break;
                     }
                     break;
@@ -65,13 +79,13 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Quatrième Rue";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Vierde St";
                             break;
                         case "Japanese":
-                            str = "";
+                            str = "四番の道";
                             break;
                     }
                     break;
@@ -79,85 +93,29 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Cinquième Rue";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Vijfde St";
                             break;
                         case "Japanese":
-                            str = "";
+                            str = "五番目の道";
                             break;
                     }
                     break;
 
-                // Others
-                case "Botfly Rd":
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "French":
-                            str = "";
-                            break;
-                        case "Dutch":
-                            str = "";
-                            break;
-                        case "Japanese":
-                            str = "";
-                            break;
-                    }
-                    break;
-                case "Leechbowl Rd":
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "French":
-                            str = "";
-                            break;
-                        case "Dutch":
-                            str = "";
-                            break;
-                        case "Japanese":
-                            str = "";
-                            break;
-                    }
-                    break;
-                case "Cholera Ave":
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "French":
-                            str = "";
-                            break;
-                        case "Dutch":
-                            str = "";
-                            break;
-                        case "Japanese":
-                            str = "";
-                            break;
-                    }
-                    break;
+                // Streets
                 case "Rheum St":
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Rue Rheum";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Rheum St";
                             break;
                         case "Japanese":
-                            str = "";
-                            break;
-                    }
-                    break;
-                case "Hematoma Way":
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "French":
-                            str = "";
-                            break;
-                        case "Dutch":
-                            str = "";
-                            break;
-                        case "Japanese":
-                            str = "";
+                            str = "Rheumの道";
                             break;
                     }
                     break;
@@ -165,41 +123,13 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Rue Lymphe";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Lymfe St";
                             break;
                         case "Japanese":
-                            str = "";
-                            break;
-                    }
-                    break;
-                case "Main St":
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "French":
-                            str = "";
-                            break;
-                        case "Dutch":
-                            str = "";
-                            break;
-                        case "Japanese":
-                            str = "";
-                            break;
-                    }
-                    break;
-                case "Annelid Cres":
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "French":
-                            str = "";
-                            break;
-                        case "Dutch":
-                            str = "";
-                            break;
-                        case "Japanese":
-                            str = "";
+                            str = "リンパ液の道";
                             break;
                     }
                     break;
@@ -207,13 +137,59 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Rue Ankylostome";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Mijnworm St";
                             break;
                         case "Japanese":
-                            str = "";
+                            str = "鉤虫の道";
+                            break;
+                    }
+                    break;
+
+                // Roads
+                case "Botfly Rd":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French":
+                            str = "Rt Œstre";
+                            break;
+                        case "Dutch":
+                            str = "Horzel Rt";
+                            break;
+                        case "Japanese":
+                            str = "ウマバエの街路";
+                            break;
+                    }
+                    break;
+                case "Leechbowl Rd":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French":
+                            str = "Rt Bol-Sangsue";
+                            break;
+                        case "Dutch":
+                            str = "Lijkkom Rt";
+                            break;
+                        case "Japanese":
+                            str = "蛭碗の街路";
+                            break;
+                    }
+                    break;
+
+                // Avenues
+                case "Cholera Ave":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French":
+                            str = "Ave Choléra";
+                            break;
+                        case "Dutch":
+                            str = "Cholera Ln";
+                            break;
+                        case "Japanese":
+                            str = "コレラの大通り";
                             break;
                     }
                     break;
@@ -221,28 +197,57 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Ave Crachat";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Sputum Ln";
                             break;
                         case "Japanese":
-                            str = "";
+                            str = "喀痰の大通り";
                             break;
                     }
                     break;
-                
+
+                // misc.
+                case "Annelid Cres":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French":
+                            str = "Croi Annélidé";
+                            break;
+                        case "Dutch":
+                            str = "Annelies Sikk";
+                            break;
+                        case "Japanese":
+                            str = "環形動物の三日月";
+                            break;
+                    }
+                    break;
+                case "Hematoma Way":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French":
+                            str = "Chem Hématome";
+                            break;
+                        case "Dutch":
+                            str = "Hematoom Weg";
+                            break;
+                        case "Japanese":
+                            str = "血腫の道";
+                            break;
+                    }
+                    break;
                 case "Mealworm Ln":
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "";
+                            str = "Voie Ver-de-Farine";
                             break;
                         case "Dutch":
-                            str = "";
+                            str = "Meelworm Gang";
                             break;
                         case "Japanese":
-                            str = "";
+                            str = "ミルワームの路地";
                             break;
                     }
                     break;
