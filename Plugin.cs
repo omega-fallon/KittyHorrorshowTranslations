@@ -24,6 +24,7 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("actias.exe")]
     [BepInProcess("grandmother.exe")]
     [BepInProcess("Roads.exe")]
+    [BepInProcess("CHYRZA.exe")]
     [BepInPlugin("OmegaFallon.KittyHorrorshowTranslations", "Kitty Horrorshow Translations", "1.0.0.0")]
     public class Plugin : BaseUnityPlugin
     {
@@ -45,6 +46,7 @@ namespace KittyHorrorshowTranslations
             gameObject.AddComponent<Actias>();
             gameObject.AddComponent<Anatomy>();
             gameObject.AddComponent<Grandmother>();
+            gameObject.AddComponent<Leechbowl>();
         }
 
         public string runningGame;
@@ -53,7 +55,7 @@ namespace KittyHorrorshowTranslations
         public void OnGUI()
         {
             // If we've loaded into gameplay and the language is still null, default to English.
-            if (scenesLoaded > 0 && string.IsNullOrEmpty(gameLanguage))
+            if (false && scenesLoaded > 0 && string.IsNullOrEmpty(gameLanguage))
             {
                 Plugin.Instance.Logger.LogInfo("No input on language selection screen. Defaulting to English.");
                 gameLanguage = "English";
@@ -87,6 +89,7 @@ namespace KittyHorrorshowTranslations
 
                 }
 
+                // Printing dimensions
                 if (!guiDimensionsPrinted)
                 {
                     guiDimensionsPrinted = true;
@@ -94,24 +97,66 @@ namespace KittyHorrorshowTranslations
                     Plugin.Instance.Logger.LogInfo("Button spacing values: " + widthSpacer.ToString() + " " + heightSpacer.ToString());
                 }
 
-                if (GUI.Button(new Rect(widthSpacer, heightSpacer, buttonWidth, buttonHeight), "English"))
+                // Establishing order and inclusion of languages - in final release, have this vary by game
+                string[] languages = ["English", "French", "Dutch", "Japanese"];
+                int englishDex = Array.IndexOf(languages, "English");
+                int frenchDex = Array.IndexOf(languages, "French");
+                int dutchDex = Array.IndexOf(languages, "Dutch");
+                int japaneseDex = Array.IndexOf(languages, "Japanese");
+
+                // Placing the buttons
+                if (englishDex != -1)
                 {
-                    gameLanguage = "English";
+                    if (GUI.Button(new Rect(widthSpacer + (englishDex * widthSpacer) + (englishDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "English" + "\n\n(" + (englishDex + 1) + ")"))
+                    {
+                        gameLanguage = "English";
+                        AfterLanguageSelection();
+                    }
+                }
+                if (frenchDex != -1)
+                {
+                    if (GUI.Button(new Rect(widthSpacer + (frenchDex * widthSpacer) + (frenchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français" + "\n\n(" + (frenchDex + 1) + ")"))
+                    {
+                        gameLanguage = "French";
+                        AfterLanguageSelection();
+                    }
+                }
+                if (dutchDex != -1)
+                {
+                    if (GUI.Button(new Rect(widthSpacer + (dutchDex * widthSpacer) + (dutchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands" + "\n\n(" + (dutchDex + 1) + ")"))
+                    {
+                        gameLanguage = "Dutch";
+                        AfterLanguageSelection();
+                    }
+                }
+                if (japaneseDex != -1)
+                {
+                    if (GUI.Button(new Rect(widthSpacer + (japaneseDex * widthSpacer) + (japaneseDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語" + "\n\n(" + (japaneseDex + 1) + ")"))
+                    {
+                        gameLanguage = "Japanese";
+                        AfterLanguageSelection();
+                    }
+                }
+
+                // Allowing keypresses as alternative
+                if ((Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) && !string.IsNullOrEmpty(languages[0]))
+                {
+                    gameLanguage = languages[0];
                     AfterLanguageSelection();
                 }
-                if (GUI.Button(new Rect(widthSpacer + (1 * widthSpacer) + (1 * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français"))
+                if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && !string.IsNullOrEmpty(languages[1]))
                 {
-                    gameLanguage = "French";
+                    gameLanguage = languages[1];
                     AfterLanguageSelection();
                 }
-                if (GUI.Button(new Rect(widthSpacer + (2 * widthSpacer) + (2 * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands"))
+                if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && !string.IsNullOrEmpty(languages[2]))
                 {
-                    gameLanguage = "Dutch";
+                    gameLanguage = languages[2];
                     AfterLanguageSelection();
                 }
-                if (GUI.Button(new Rect(widthSpacer + (3 * widthSpacer) + (3 * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語"))
+                if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && !string.IsNullOrEmpty(languages[3]))
                 {
-                    gameLanguage = "Japanese";
+                    gameLanguage = languages[3];
                     AfterLanguageSelection();
                 }
             }
@@ -238,14 +283,10 @@ namespace KittyHorrorshowTranslations
                         __instance.text.Value = Anatomy.Instance.TextReplacement(__instance.text.Value);
                         break;
                     case "Grandmother":
-                        try
-                        {
-                            __instance.text.Value = Grandmother.Instance.TextReplacement(__instance.text.Value);
-                        }
-                        catch (Exception ex)
-                        {
-                            Plugin.Instance.Logger.LogInfo("Text replacement error occured: " + ex.ToString());
-                        }
+                        __instance.text.Value = Grandmother.Instance.TextReplacement(__instance.text.Value);
+                        break;
+                    case "Leechbowl":
+                        __instance.text.Value = Leechbowl.Instance.TextReplacement(__instance.text.Value);
                         break;
                 }
             }
