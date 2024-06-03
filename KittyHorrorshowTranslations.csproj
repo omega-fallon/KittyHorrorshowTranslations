@@ -21,15 +21,15 @@
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
     <PackageReference Include="UnityEngine.Modules" Version="5.2.0" IncludeAssets="compile" />
     <Reference Include="Assembly-CSharp">
-      <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\Anatomy_win\Anatomy_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Anatomy_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="PlayMaker">
-      <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\Anatomy_win\Anatomy_Data\Managed\PlayMaker.dll</HintPath>
+      <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Anatomy_Data\Managed\PlayMaker.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\Anatomy_win\Anatomy_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Anatomy_Data\Managed\UnityEngine.UI.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="NAudio">
