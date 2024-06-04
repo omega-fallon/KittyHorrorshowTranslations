@@ -58,7 +58,6 @@ namespace KittyHorrorshowTranslations
         public static Plugin Instance;
         public void Awake()
         {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
             Instance = this;
 
             // Plugin startup logic
@@ -69,7 +68,8 @@ namespace KittyHorrorshowTranslations
             runningGame = char.ToUpper(runningGame[0]) + runningGame.Substring(1);
             Logger.LogInfo("Current running game is " + runningGame);
 
-            // Add .cs files for individual games
+            // Add .cs files and Harmony patches for individual games
+            Harmony.CreateAndPatchAll(typeof(MainPatches));
             switch (runningGame)
             {
                 case "Actias":
@@ -79,6 +79,7 @@ namespace KittyHorrorshowTranslations
                     gameObject.AddComponent<Anatomy>();
                     break;
                 case "Gloompuke":
+                    Harmony.CreateAndPatchAll(typeof(Gloompuke.GloompukePatches));
                     gameObject.AddComponent<Gloompuke>();
                     break;
                 case "Grandmother":
@@ -103,102 +104,100 @@ namespace KittyHorrorshowTranslations
             // If the language has already been decided, return.
             if (!string.IsNullOrEmpty(gameLanguage))
             {
-                // nothing
+                return;
             }
-            else
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            // Establishing order and inclusion of languages - in final release, have this vary by game
+            string[] languages = ["English", "French", "Dutch", "Japanese"];
+
+            int englishDex = Array.IndexOf(languages, "English");
+            int frenchDex = Array.IndexOf(languages, "French");
+            int dutchDex = Array.IndexOf(languages, "Dutch");
+            int japaneseDex = Array.IndexOf(languages, "Japanese");
+
+            // Math for button spacing
+            int appWidth = Screen.width;
+            int appHeight = Screen.height;
+
+            int numLangs = languages.Length;
+
+            int buttonWidth = 150;
+            int buttonHeight = 100;
+
+            int widthSpacer = (appWidth - (numLangs * buttonWidth)) / (numLangs + 1);
+            int heightSpacer = (appHeight - buttonHeight) / 2;
+
+            // Write code here to catch buttons overlapping if we ever get enough languages for that to happen
+            if (widthSpacer < 0)
             {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
 
-                // Establishing order and inclusion of languages - in final release, have this vary by game
-                string[] languages = ["English", "French", "Dutch", "Japanese"];
+            }
 
-                int englishDex = Array.IndexOf(languages, "English");
-                int frenchDex = Array.IndexOf(languages, "French");
-                int dutchDex = Array.IndexOf(languages, "Dutch");
-                int japaneseDex = Array.IndexOf(languages, "Japanese");
+            // Printing dimensions
+            if (!guiDimensionsPrinted)
+            {
+                guiDimensionsPrinted = true;
+                Plugin.Instance.Logger.LogInfo("Window dimensions: " + appWidth.ToString() + " " + appHeight.ToString());
+                Plugin.Instance.Logger.LogInfo("Button spacing values: " + widthSpacer.ToString() + " " + heightSpacer.ToString());
+            }
 
-                // Math for button spacing
-                int appWidth = Screen.width;
-                int appHeight = Screen.height;
-
-                int numLangs = languages.Length;
-
-                int buttonWidth = 150;
-                int buttonHeight = 100;
-
-                int widthSpacer = (appWidth - (numLangs * buttonWidth)) / (numLangs + 1);
-                int heightSpacer = (appHeight - buttonHeight) / 2;
-
-                // Write code here to catch buttons overlapping if we ever get enough languages for that to happen
-                if (widthSpacer < 0)
+            // Placing the buttons
+            if (englishDex != -1)
+            {
+                if (GUI.Button(new Rect(widthSpacer + (englishDex * widthSpacer) + (englishDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "English" + "\n\n(Press " + (englishDex + 1) + ")"))
                 {
-
-                }
-
-                // Printing dimensions
-                if (!guiDimensionsPrinted)
-                {
-                    guiDimensionsPrinted = true;
-                    Plugin.Instance.Logger.LogInfo("Window dimensions: " + appWidth.ToString() + " " + appHeight.ToString());
-                    Plugin.Instance.Logger.LogInfo("Button spacing values: " + widthSpacer.ToString() + " " + heightSpacer.ToString());
-                }
-
-                // Placing the buttons
-                if (englishDex != -1)
-                {
-                    if (GUI.Button(new Rect(widthSpacer + (englishDex * widthSpacer) + (englishDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "English" + "\n\n(Press " + (englishDex + 1) + ")"))
-                    {
-                        gameLanguage = "English";
-                        AfterLanguageSelection();
-                    }
-                }
-                if (frenchDex != -1)
-                {
-                    if (GUI.Button(new Rect(widthSpacer + (frenchDex * widthSpacer) + (frenchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français" + "\n\n(Appuyez " + (frenchDex + 1) + ")"))
-                    {
-                        gameLanguage = "French";
-                        AfterLanguageSelection();
-                    }
-                }
-                if (dutchDex != -1)
-                {
-                    if (GUI.Button(new Rect(widthSpacer + (dutchDex * widthSpacer) + (dutchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands" + "\n\n(Druk " + (dutchDex + 1) + ")"))
-                    {
-                        gameLanguage = "Dutch";
-                        AfterLanguageSelection();
-                    }
-                }
-                if (japaneseDex != -1)
-                {
-                    if (GUI.Button(new Rect(widthSpacer + (japaneseDex * widthSpacer) + (japaneseDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語" + "\n\n(" + (japaneseDex + 1) + "を押す)"))
-                    {
-                        gameLanguage = "Japanese";
-                        AfterLanguageSelection();
-                    }
-                }
-
-                // Allowing keypresses as alternative
-                if ((Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) && numLangs >= 1 && !string.IsNullOrEmpty(languages[0]))
-                {
-                    gameLanguage = languages[0];
+                    gameLanguage = "English";
                     AfterLanguageSelection();
                 }
-                if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && numLangs >= 2 && !string.IsNullOrEmpty(languages[1]))
+            }
+            if (frenchDex != -1)
+            {
+                if (GUI.Button(new Rect(widthSpacer + (frenchDex * widthSpacer) + (frenchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français" + "\n\n(Appuyez " + (frenchDex + 1) + ")"))
                 {
-                    gameLanguage = languages[1];
+                    gameLanguage = "French";
                     AfterLanguageSelection();
                 }
-                if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && numLangs >= 3 && !string.IsNullOrEmpty(languages[2]))
+            }
+            if (dutchDex != -1)
+            {
+                if (GUI.Button(new Rect(widthSpacer + (dutchDex * widthSpacer) + (dutchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands" + "\n\n(Druk " + (dutchDex + 1) + ")"))
                 {
-                    gameLanguage = languages[2];
+                    gameLanguage = "Dutch";
                     AfterLanguageSelection();
                 }
-                if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && numLangs >= 4 && !string.IsNullOrEmpty(languages[3]))
+            }
+            if (japaneseDex != -1)
+            {
+                if (GUI.Button(new Rect(widthSpacer + (japaneseDex * widthSpacer) + (japaneseDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語" + "\n\n(" + (japaneseDex + 1) + "を押す)"))
                 {
-                    gameLanguage = languages[3];
+                    gameLanguage = "Japanese";
                     AfterLanguageSelection();
                 }
+            }
+
+            // Allowing keypresses as alternative
+            if ((Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) && numLangs >= 1 && !string.IsNullOrEmpty(languages[0]))
+            {
+                gameLanguage = languages[0];
+                AfterLanguageSelection();
+            }
+            if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && numLangs >= 2 && !string.IsNullOrEmpty(languages[1]))
+            {
+                gameLanguage = languages[1];
+                AfterLanguageSelection();
+            }
+            if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && numLangs >= 3 && !string.IsNullOrEmpty(languages[2]))
+            {
+                gameLanguage = languages[2];
+                AfterLanguageSelection();
+            }
+            if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && numLangs >= 4 && !string.IsNullOrEmpty(languages[3]))
+            {
+                gameLanguage = languages[3];
+                AfterLanguageSelection();
             }
         }
 
@@ -261,7 +260,7 @@ namespace KittyHorrorshowTranslations
         public GUIStyle guiStyle = new GUIStyle();
 
         [HarmonyPatch]
-        public class MyPatchClass
+        public class MainPatches
         {
             // Level loading
             [HarmonyPostfix]

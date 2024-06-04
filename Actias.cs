@@ -25,30 +25,18 @@ namespace KittyHorrorshowTranslations
                 case "2 remain ":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = str[0] + " restent ";
-                            break;
-                        case "Dutch":
-                            str = str[0] + " blijven ";
-                            break;
-                        case "Japanese":
-                            str = "残り" + str[0] + "基 ";//counter for "big things that are hard to move", specifically listed as being used for Japanese "toro", which are large stone lanterns and fairly analagous to pylons
-                            break;
+                        case "French": str = str[0] + " restent "; break;
+                        case "Dutch": str = str[0] + " blijven "; break;
+                        case "Japanese": str = "残り" + str[0] + "基 "; break; //counter for "big things that are hard to move", specifically listed as being used for Japanese "toro", which are large stone lanterns and fairly analagous to pylons
                     }
                     break;
 
                 case "1 remains ":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "1 reste ";
-                            break;
-                        case "Dutch":
-                            str = "1 blijft ";
-                            break;
-                        case "Japanese":
-                            str = "残り1基 ";
-                            break;
+                        case "French": str = "1 reste "; break;
+                        case "Dutch": str = "1 blijft "; break;
+                        case "Japanese": str = "残り1基 "; break;
                     }
                     break;
             }

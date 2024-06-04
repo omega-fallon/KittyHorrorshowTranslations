@@ -70,12 +70,8 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE IN THE DINING ROOM":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CASSETTE DANS LA SALLE À MANGER";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CASSETTE IN DE EETKAMER";
-                            break;
+                        case "French": str = "IL Y A UNE CASSETTE DANS LA SALLE À MANGER"; break;
+                        case "Dutch": str = "ER IS EEN CASSETTE IN DE EETKAMER"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -91,12 +87,8 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE IN THE DOWNSTAIRS BATHROOM":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CASSETTE DANS LA SALLE DE BAINS EN BAS";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CASSETTE IN DE BENEDEN BADKAMER";
-                            break;
+                        case "French": str = "IL Y A UNE CASSETTE DANS LA SALLE DE BAINS EN BAS"; break;
+                        case "Dutch": str = "ER IS EEN CASSETTE IN DE BENEDEN BADKAMER"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -112,12 +104,8 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE IN THE GARAGE":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CASSETTE DANS LE GARAGE";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CASSETTE IN DE GARAGE";
-                            break;
+                        case "French": str = "IL Y A UNE CASSETTE DANS LE GARAGE"; break;
+                        case "Dutch": str = "ER IS EEN CASSETTE IN DE GARAGE"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -133,12 +121,8 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE IN THE LIVING ROOM":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CASSETTE DANS LE SALON";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CASSETTE IN DE WOONKAMER";
-                            break;
+                        case "French": str = "IL Y A UNE CASSETTE DANS LE SALON"; break;
+                        case "Dutch": str = "ER IS EEN CASSETTE IN DE WOONKAMER"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -154,12 +138,8 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE ON THE STAIRS":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CASSETTE SUR LES ESCALIERS";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CASSETTE OP DE TRAP";
-                            break;
+                        case "French": str = "IL Y A UNE CASSETTE SUR LES ESCALIERS"; break;
+                        case "Dutch": str = "ER IS EEN CASSETTE OP DE TRAP"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -175,12 +155,8 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE IN A BEDROOM":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CASSETTE DANS UNE CHAMBRE";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CASSETTE IN EEN SLAAPKAMER";
-                            break;
+                        case "French": str = "IL Y A UNE CASSETTE DANS UNE CHAMBRE"; break;
+                        case "Dutch": str = "ER IS EEN CASSETTE IN EEN SLAAPKAMER"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -196,12 +172,8 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE IN THE BASEMENT":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CASSETTE DANS LE SOUS-SOL";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CASSETTE IN DE KELDER";
-                            break;
+                        case "French": str = "IL Y A UNE CASSETTE DANS LE SOUS-SOL"; break;
+                        case "Dutch": str = "ER IS EEN CASSETTE IN DE KELDER"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -217,12 +189,8 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE IN THE MASTER BEDROOM":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CASSETTE DANS LA CHAMBRE PRINCIPALE";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CASSETTE IN DE HOOFDSLAAPKAMER";
-                            break;
+                        case "French": str = "IL Y A UNE CASSETTE DANS LA CHAMBRE PRINCIPALE"; break;
+                        case "Dutch": str = "ER IS EEN CASSETTE IN DE HOOFDSLAAPKAMER"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -240,71 +208,41 @@ namespace KittyHorrorshowTranslations
                 case "THERRRRRRRRRRRR       RE IS A TAPE IN THE DINING ROOM":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "ILLLLLLLLLLLLLL       Ÿ A UNE CASSETTE DANS LA SALLE À MANGER";
-                            break;
-                        case "Dutch":
-                            str = "ERRRRRRRRRRRRRR       IS EEN CASSETTE IN DE EETKAMER";
-                            break;
-                        case "Japanese":
-                            str = "食堂にiiiiiiiiiiiiii       カセットがいる";
-                            break;
+                        case "French": str = "ILLLLLLLLLLLLLL       Ÿ A UNE CASSETTE DANS LA SALLE À MANGER"; break;
+                        case "Dutch": str = "ERRRRRRRRRRRRRR       IS EEN CASSETTE IN DE EETKAMER"; break;
+                        case "Japanese": str = "食堂にiiiiiiiiiiiiii       カセットがいる"; break;
                     }
                     break;
                 case "THERE IS A TA   A A  AAAA  A         DOOrRS ARE UnNLOCKED":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE CA   A A  AAAA  A         POrTES SONT DéVERROUILLÉES";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN CA   A A  AAAA  A         DEuREN ZIJN ONTGRENDELD";
-                            break;
-                        case "Japanese":
-                            str = "カセットがいi   i i  iiii  i         すべてnoドアはロックされていない";
-                            break;
+                        case "French": str = "IL Y A UNE CA   A A  AAAA  A         POrTES SONT DéVERROUILLÉES"; break;
+                        case "Dutch": str = "ER IS EEN CA   A A  AAAA  A         DEuREN ZIJN ONTGRENDELD"; break;
+                        case "Japanese": str = "カセットがいi   i i  iiii  i         すべてnoドアはロックされていない"; break;
                     }
                     break;
                 case "THERE IS A TTHERE IS A TTHERE IS A TTHERE IS A TTHERE IS A TTHERE IS A TTHERE IS A TTHERE IS A T":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "IL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE C";
-                            break;
-                        case "Dutch":
-                            str = "ER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN C";
-                            break;
-                        case "Japanese":
-                            str = "トがいる gがいる gがいる gがいる gがいる gがいる gがいる gがいる";
-                            break;
+                        case "French": str = "IL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE IIL Y A UNE C"; break;
+                        case "Dutch": str = "ER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN EER IS EEN C"; break;
+                        case "Japanese": str = "トがいる gがいる gがいる gがいる gがいる gがいる gがいる gがいる"; break;
                     }
                     break;
                 case "THHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "ILLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL";
-                            break;
-                        case "Dutch":
-                            str = "ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR";
-                            break;
-                        case "Japanese":
-                            str = "がいrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr";
-                            break;
+                        case "French": str = "ILLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL"; break;
+                        case "Dutch": str = "ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"; break;
+                        case "Japanese": str = "がいrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"; break;
                     }
                     break;
                 case "                                                                          HHHHHHHHHHHHHHHHHHHHHHHURTS":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French":
-                            str = "                                                                          FFFFFFFFFFFFFFFFFFFFAIT MAL";
-                            break;
-                        case "Dutch":
-                            str = "                                                                          DDDDDDDDDDDDDDDDDDDOET PIJN";
-                            break;
-                        case "Japanese":
-                            str = "                                                                          iiiiiiiiiiiiiiiiiiiiii痛い";
-                            break;
+                        case "French": str = "                                                                          FFFFFFFFFFFFFFFFFFFFAIT MAL"; break;
+                        case "Dutch": str = "                                                                          DDDDDDDDDDDDDDDDDDDOET PIJN"; break;
+                        case "Japanese": str = "                                                                          iiiiiiiiiiiiiiiiiiiiii痛い"; break;
                     }
                     break;
             }
