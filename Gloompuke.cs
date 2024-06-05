@@ -63,7 +63,7 @@ namespace KittyHorrorshowTranslations
             //    else
             //    {
             //        Plugin.Instance.PrintThisString("Language has already been set. Running texture replacements.");
-            //        Plugin.Instance.TextureReplacement();
+            //        Plugin.Instance.TextureAudioReplacement();
             //    }
             //}
 

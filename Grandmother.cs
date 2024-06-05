@@ -278,9 +278,9 @@ namespace KittyHorrorshowTranslations
 
                     // Quotes from the grinning woman
                     str = str.Replace("\"I know which house is yours.  I have looked upon your bed.\"", woman1);
-                    str = str.Replace("\"From each of them, I took an eyelid.  I made myself a fine shawl.\"", woman2);
-                    str = str.Replace("\"You should not have come here.\"", woman3);
-                    str = str.Replace("\"I have eaten all the corpses in the graveyard.  I will not stop.\"", woman4);
+                    str = str.Replace("\"I have eaten all the corpses in the graveyard.  I will not stop.\"", woman2);
+                    str = str.Replace("\"From each of them, I took an eyelid.  I made myself a fine shawl.\"", woman3);
+                    str = str.Replace("\"You should not have come here.\"", woman4);
                     str = str.Replace("\"I raked my teeth against the stone of my own grave until they shattered.  I vomit blood still.\"", woman5);
 
                     break;

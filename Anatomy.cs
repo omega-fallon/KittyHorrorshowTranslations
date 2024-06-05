@@ -253,14 +253,14 @@ namespace KittyHorrorshowTranslations
         {
             switch (audioClip.name)
             {
-                case "amen":
+                case "intro_1":
                     audioClip = amen_TRANS;
                     break;
             }
             return audioClip;
         }
 
-        public UnityEngine.Sprite TextureReplacement(SpriteRenderer spriteRenderer)
+        public UnityEngine.Sprite TextureAudioReplacement(SpriteRenderer spriteRenderer)
         {
             switch (spriteRenderer.gameObject.name)
             {
