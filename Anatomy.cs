@@ -24,42 +24,15 @@ namespace KittyHorrorshowTranslations
 
         public void AssetLoading()
         {
-            switch (Plugin.Instance.gameLanguage)
-            {
-                case "French":
-                    // Audio
-                    amen_TRANS = Plugin.Instance.GetAudio("Achy Breaky Song.mp3");
+            // Audio
+            amen_TRANS = Plugin.Instance.GetAudio("Achy Breaky Song.mp3");
 
-                    // Images
-                    input_TRANS = Plugin.Instance.GetTexture("Anatomy\\input_FR.png");
-                    title1_TRANS = Plugin.Instance.GetTexture("Anatomy\\title1_FR.png");
-                    title2_TRANS = Plugin.Instance.GetTexture("Anatomy\\title2_FR.png");
-                    //title3_TRANS = Plugin.Instance.GetTexture("Anatomy\\title3_FR.png");
-                    //title4_TRANS = Plugin.Instance.GetTexture("Anatomy\\title4_FR.png");
-
-                    break;
-                case "Dutch":
-                    // Audio
-                    amen_TRANS = Plugin.Instance.GetAudio("Achy Breaky Song.mp3");
-
-                    // Images
-                    input_TRANS = Plugin.Instance.GetTexture("Anatomy\\input_NL.png");
-                    title1_TRANS = Plugin.Instance.GetTexture("Anatomy\\title1_NL.png");
-                    title2_TRANS = Plugin.Instance.GetTexture("Anatomy\\title2_NL.png");
-                    //title3_TRANS = Plugin.Instance.GetTexture("Anatomy\\title3_NL.png");
-                    //title4_TRANS = Plugin.Instance.GetTexture("Anatomy\\title4_NL.png");
-
-                    break;
-                case "Japanese":
-                    // Images
-                    input_TRANS = Plugin.Instance.GetTexture("Anatomy\\input_JA.png");
-                    title1_TRANS = Plugin.Instance.GetTexture("Anatomy\\title1_JA.png");
-                    title2_TRANS = Plugin.Instance.GetTexture("Anatomy\\title2_JA.png");
-                    //title3_TRANS = Plugin.Instance.GetTexture("Anatomy\\title3_JA.png");
-                    //title4_TRANS = Plugin.Instance.GetTexture("Anatomy\\title4_JA.png");
-
-                    break;
-            }
+            // Images
+            input_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\input.png");
+            title1_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title1.png");
+            title2_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title2.png");
+            title3_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title3.png");
+            title4_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title4.png");
         }
 
         public string TextReplacement(string str)
@@ -260,7 +233,7 @@ namespace KittyHorrorshowTranslations
             return audioClip;
         }
 
-        public UnityEngine.Sprite TextureAudioReplacement(SpriteRenderer spriteRenderer)
+        public UnityEngine.Sprite TextureReplacement(SpriteRenderer spriteRenderer)
         {
             switch (spriteRenderer.gameObject.name)
             {

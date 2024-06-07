@@ -16,10 +16,6 @@ using System.Drawing;
 namespace KittyHorrorshowTranslations
 {
     // To be tested
-    [BepInProcess("aurelia.exe")]
-    [BepInProcess("GYR.exe")] // 
-    [BepInProcess("Needlerust.exe")] // 
-    [BepInProcess("Sieve.exe")] // 
     [BepInProcess("skin.exe")]
     [BepInProcess("Spine.exe")] // 
     [BepInProcess("stormsea.exe")] // 
@@ -49,6 +45,7 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("Charon.exe")] // 
     [BepInProcess("cyberskull.exe")] // 
     [BepInProcess("factory.exe")] // 
+    [BepInProcess("aurelia.exe")] // 
 
     // Fully works under x86 with code that avoids the mouse lock crash
     [BepInProcess("sigilvalley.exe")] // 4.6.3
@@ -65,6 +62,9 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("Dust.exe")] // 
     [BepInProcess("Erosion.exe")] // 
     [BepInProcess("GES_Final.exe")] // 
+    [BepInProcess("GYR.exe")] // 
+    [BepInProcess("Needlerust.exe")] // 
+    [BepInProcess("Sieve.exe")] // 
 
     // DOES NOT WORK under x86 or x64 - has a UnityPlayer.dll
     [BepInProcess("basements.exe")] // 2017.4.2
@@ -102,7 +102,14 @@ namespace KittyHorrorshowTranslations
             // Add .cs files and Harmony patches for individual games
             if (runningGame != "CHYRZA")
             {
-                Harmony.CreateAndPatchAll(typeof(HutongPatches));
+                try
+                {
+                    Harmony.CreateAndPatchAll(typeof(HutongPatches));
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogInfo("Error in doing Hutong patches:" + ex.ToString());
+                }
             }
             
             switch (runningGame)
@@ -161,54 +168,53 @@ namespace KittyHorrorshowTranslations
         public int notNeededButtonFrames;
         public void OnGUI()
         {
-            // DEBUG! Comment out in final release
-            if (Input.GetKeyUp(KeyCode.Alpha9))
-            {
-                nineDown = false;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha9) && nineDown == false)
-            {
-                nineDown = true;
-
-                Logger.LogInfo("Running debug texture and audio replacement...");
-                TextureAudioReplacement(true);
-                Logger.LogInfo("Done with debug texture and audio replacement.");
-            }
-
-            // A similar thing for Rainhouse specifically
-            if (runningGame == "Rainhouse" && rainHouseImageRunDone != true)
-            {
-                TextureAudioReplacement();
-
-                if (imagesRanThrough > 1)
-                {
-                    rainHouseImageRunDone = true;
-                }
-            }
-
-            // If the language has already been decided, return.
-            if (!string.IsNullOrEmpty(gameLanguage))
-            {
-                return;
-            }
-
-            // Error dodging for 4.0 games
-            switch (runningGame)
-            {
-                case "Sigilvalley":
-                case "Sigilvalley_64bit":
-                case "Sunset":
-                case "Rainhouse":
-                case "CHYRZA":
-                    break;
-                default:
-                    UnlockCursor();
-                    break;
-            }
-
-            // Button GUI
             try
             {
+                // DEBUG! Comment out in final release
+                if (Input.GetKeyUp(KeyCode.Alpha9))
+                {
+                    nineDown = false;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha9) && nineDown == false)
+                {
+                    nineDown = true;
+
+                    Logger.LogInfo("Running debug texture and audio replacement...");
+                    TextureAudioReplacement(true);
+                    Logger.LogInfo("Done with debug texture and audio replacement.");
+                }
+
+                // A similar thing for Rainhouse specifically
+                if (runningGame == "Rainhouse" && rainHouseImageRunDone != true)
+                {
+                    TextureAudioReplacement();
+
+                    if (imagesRanThrough > 1)
+                    {
+                        rainHouseImageRunDone = true;
+                    }
+                }
+
+                // If the language has already been decided, return.
+                if (!string.IsNullOrEmpty(gameLanguage))
+                {
+                    return;
+                }
+
+                // Error dodging for 4.0 games
+                switch (runningGame)
+                {
+                    case "Sigilvalley":
+                    case "Sigilvalley_64bit":
+                    case "Sunset":
+                    case "Rainhouse":
+                    case "CHYRZA":
+                        break;
+                    default:
+                        UnlockCursor();
+                        break;
+                }
+
                 // Establishing order and inclusion of languages - in final release, have this vary by game
                 string[] languages = [];
                 switch (runningGame)
@@ -554,7 +560,10 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.runningGame)
                     {
                         case "Anatomy":
-                            image.sprite = Anatomy.Instance.TextureAudioReplacement(image);
+                            image.sprite = Anatomy.Instance.TextureReplacement(image);
+                            break;
+                        case "Actias":
+                            image.sprite = Actias.Instance.TextureReplacement(image);
                             break;
                     }
 
