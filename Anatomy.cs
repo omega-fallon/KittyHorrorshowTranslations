@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using static PixelCrushers.DialogueSystem.Articy.ArticyData;
 
 namespace KittyHorrorshowTranslations
 {
@@ -24,6 +25,12 @@ namespace KittyHorrorshowTranslations
 
         public void AssetLoading()
         {
+            // Don't do any asset loads if the language is English or null/empty
+            if (Plugin.Instance.gameLanguage == "English" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
+            {
+                return;
+            }
+
             // Audio
             amen_TRANS = Plugin.Instance.GetAudio("Achy Breaky Song.mp3");
 
@@ -31,8 +38,40 @@ namespace KittyHorrorshowTranslations
             input_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\input.png");
             title1_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title1.png");
             title2_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title2.png");
-            title3_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title3.png");
-            title4_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title4.png");
+            //title3_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title3.png");
+            //title4_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title4.png");
+        }
+
+        public void OnGUI()
+        {
+            try
+            {
+                // Subtitles
+                string str;
+                int widthSpacer = (Screen.width - 200) / 2;
+                int heightSpacer = (Screen.height - 200) / 2;
+
+                str = "";
+
+                switch (Plugin.Instance.lastSoundPlayed)
+                {
+                    case "tapeStop":
+                        break;
+                    case "tape1":
+                    case "tape2":
+                        str = (Plugin.Instance.updateCounter - Plugin.Instance.updateCountAtLastSoundStart).ToString();
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(str))
+                {
+                    GUI.DoLabel(new Rect(x: 480, y: 648, width: 960, height: 324), new GUIContent(str), Plugin.Instance.runningGameStyle.m_Ptr);
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Instance.PrintThisString("Anatomy.OnGUI exception: "+ex);
+            }
         }
 
         public string TextReplacement(string str)
@@ -238,19 +277,19 @@ namespace KittyHorrorshowTranslations
             switch (spriteRenderer.gameObject.name)
             {
                 case "input":
-                    spriteRenderer.sprite = Sprite.Create(input_TRANS, new Rect(0.0f, 0.0f, 800, 600), new Vector2(0.5f, 0.5f), 100.0f);
+                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(input_TRANS, 800, 600);
                     break;
                 case "title1":
-                    spriteRenderer.sprite = Sprite.Create(title1_TRANS, new Rect(0.0f, 0.0f, 800, 600), new Vector2(0.5f, 0.5f), 100.0f);
+                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title1_TRANS, 800, 600);
                     break;
                 case "title2":
-                    spriteRenderer.sprite = Sprite.Create(title2_TRANS, new Rect(0.0f, 0.0f, 800, 600), new Vector2(0.5f, 0.5f), 100.0f);
+                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title2_TRANS, 800, 600);
                     break;
                 case "title3":
-                    spriteRenderer.sprite = Sprite.Create(title3_TRANS, new Rect(0.0f, 0.0f, 800, 600), new Vector2(0.5f, 0.5f), 100.0f);
+                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title3_TRANS, 800, 600);
                     break;
                 case "title4":
-                    spriteRenderer.sprite = Sprite.Create(title4_TRANS, new Rect(0.0f, 0.0f, 800, 600), new Vector2(0.5f, 0.5f), 100.0f);
+                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title4_TRANS, 800, 600);
                     break;
             }
             return spriteRenderer.sprite;

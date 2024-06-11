@@ -16,15 +16,7 @@ using System.Drawing;
 namespace KittyHorrorshowTranslations
 {
     // To be tested
-    [BepInProcess("skin.exe")]
-    [BepInProcess("Spine.exe")] // 
-    [BepInProcess("stormsea.exe")] // 
-    [BepInProcess("Tin.exe")] // 
-    [BepInProcess("vaporcrane_win.exe")] // 
-    [BepInProcess("village_win.exe")]
-    [BepInProcess("wraith.exe")] // 
-    [BepInProcess("wraithshead.exe")] // 
-    [BepInProcess("zerega.exe")] // 
+    [BepInProcess("village_win.exe")] // 
 
     // Fully works under x86
     [BepInProcess("actias.exe")] // 5.2.0
@@ -46,6 +38,11 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("cyberskull.exe")] // 
     [BepInProcess("factory.exe")] // 
     [BepInProcess("aurelia.exe")] // 
+    [BepInProcess("skin.exe")] // 
+    [BepInProcess("stormsea.exe")] // 5.1.1
+    [BepInProcess("vaporcrane_win.exe")] // 5.1.1
+    [BepInProcess("wraith.exe")] // 
+    [BepInProcess("wraithshead.exe")] // 
 
     // Fully works under x86 with code that avoids the mouse lock crash
     [BepInProcess("sigilvalley.exe")] // 4.6.3
@@ -65,6 +62,8 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("GYR.exe")] // 
     [BepInProcess("Needlerust.exe")] // 
     [BepInProcess("Sieve.exe")] // 
+    [BepInProcess("Spine.exe")] // 
+    [BepInProcess("Tin.exe")] // 5.4.3
 
     // DOES NOT WORK under x86 or x64 - has a UnityPlayer.dll
     [BepInProcess("basements.exe")] // 2017.4.2
@@ -81,6 +80,7 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("Decommissioned City #65.exe")] // 2021.2.14
     [BepInProcess("bhk.exe")] // 
     [BepInProcess("complex.exe")] // 
+    [BepInProcess("zerega.exe")] // 
 
     // The plugin itself //
     [BepInPlugin("OmegaFallon.KittyHorrorshowTranslations", "Kitty Horrorshow Translations", "1.0.0.0")]
@@ -99,19 +99,37 @@ namespace KittyHorrorshowTranslations
             runningGame = char.ToUpper(runningGame[0]) + runningGame.Substring(1);
             Logger.LogInfo("Current running game is " + runningGame);
 
-            // Add .cs files and Harmony patches for individual games
-            if (runningGame != "CHYRZA")
+            // Unity patches
+            try
             {
-                try
-                {
-                    Harmony.CreateAndPatchAll(typeof(HutongPatches));
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogInfo("Error in doing Hutong patches:" + ex.ToString());
-                }
+                Harmony.CreateAndPatchAll(typeof(UnityPatches));
+            }
+            catch (Exception ex) 
+            {
+                Logger.LogInfo("Error in doing Unity patches: " + ex.ToString());
+            }
+
+            // Hutong patches
+            switch (runningGame)
+            {
+                case "CHYRZA":
+                case "Wraith":
+                case "Village":
+                case "Village_win":
+                    break;
+                default:
+                    try
+                    {
+                        Harmony.CreateAndPatchAll(typeof(HutongPatches));
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogInfo("Error in doing Hutong patches: " + ex.ToString());
+                    }
+                    break;
             }
             
+            // Add .cs files and Harmony patches for individual games
             switch (runningGame)
             {
                 case "Actias":
@@ -136,10 +154,9 @@ namespace KittyHorrorshowTranslations
                 case "Sunset":
                     gameObject.AddComponent<Sunset>();
                     break;
-                default:
-                    gameObject.AddComponent<MiscGames>();
-                    break;
             }
+
+            gameObject.AddComponent<MiscGames>();
         }
 
         public void PrintThisString(string str)
@@ -165,36 +182,46 @@ namespace KittyHorrorshowTranslations
 
         public bool nineDown;
         public bool rainHouseImageRunDone;
+
+        public void Update()
+        {
+            // Update counter
+            Plugin.Instance.updateCounter += 1;
+
+            // DEBUG! Comment out in final release
+            if (Input.GetKeyUp(KeyCode.Alpha9))
+            {
+                nineDown = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha9) && nineDown == false)
+            {
+                nineDown = true;
+
+                Logger.LogInfo("Running debug texture and audio replacement...");
+                TextureAudioReplacement(true);
+                Logger.LogInfo("Done with debug texture and audio replacement.");
+            }
+
+            // Hacky thing that makes texture replacements work on games with a little opening title card
+            string[] titleCardGames = ["Rainhouse","Actias"];
+            if (Array.IndexOf(titleCardGames, runningGame) != -1 && rainHouseImageRunDone != true)
+            {
+                TextureAudioReplacement();
+
+                if (imagesRanThrough > 1)
+                {
+                    rainHouseImageRunDone = true;
+                }
+            }
+        }
+
         public int notNeededButtonFrames;
+        public bool cursorErrorSkip;
+
         public void OnGUI()
         {
             try
             {
-                // DEBUG! Comment out in final release
-                if (Input.GetKeyUp(KeyCode.Alpha9))
-                {
-                    nineDown = false;
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha9) && nineDown == false)
-                {
-                    nineDown = true;
-
-                    Logger.LogInfo("Running debug texture and audio replacement...");
-                    TextureAudioReplacement(true);
-                    Logger.LogInfo("Done with debug texture and audio replacement.");
-                }
-
-                // A similar thing for Rainhouse specifically
-                if (runningGame == "Rainhouse" && rainHouseImageRunDone != true)
-                {
-                    TextureAudioReplacement();
-
-                    if (imagesRanThrough > 1)
-                    {
-                        rainHouseImageRunDone = true;
-                    }
-                }
-
                 // If the language has already been decided, return.
                 if (!string.IsNullOrEmpty(gameLanguage))
                 {
@@ -202,17 +229,17 @@ namespace KittyHorrorshowTranslations
                 }
 
                 // Error dodging for 4.0 games
-                switch (runningGame)
+                if (cursorErrorSkip != true)
                 {
-                    case "Sigilvalley":
-                    case "Sigilvalley_64bit":
-                    case "Sunset":
-                    case "Rainhouse":
-                    case "CHYRZA":
-                        break;
-                    default:
+                    try
+                    {
                         UnlockCursor();
-                        break;
+                    }
+                    catch
+                    {
+                        cursorErrorSkip = true;
+                        Plugin.Instance.Logger.LogInfo("Inconsequential error: UnlockCursor failed likely due to this being a 4.x game.");
+                    }
                 }
 
                 // Establishing order and inclusion of languages - in final release, have this vary by game
@@ -221,6 +248,8 @@ namespace KittyHorrorshowTranslations
                 {
                     case "Sigilvalley":
                     case "Sigilvalley_64bit":
+                    case "Vaporcrane":
+                    case "Vaporcrane_win":
                         languages = ["Unneeded"];
                         break;
                     default:
@@ -378,26 +407,33 @@ namespace KittyHorrorshowTranslations
         public void AfterLanguageSelection()
         {
             // Error dodging for 4.0 games
-            switch (runningGame)
+            if (cursorErrorSkip != true)
             {
-                case "Sigilvalley":
-                case "Sigilvalley_64bit":
-                case "Sunset":
-                case "Rainhouse":
-                case "CHYRZA":
-                    break;
-                default:
+                try
+                {
                     LockCursor();
-                    break;
+                }
+                catch
+                {
+                    cursorErrorSkip = true;
+                    Logger.LogInfo("Inconsequential error: LockCursor failed likely due to this being a 4.x game.");
+                }
             }
 
-            Plugin.Instance.Logger.LogInfo("Language set to "+gameLanguage);
+            Logger.LogInfo("Language set to "+gameLanguage);
+            foreach (string font in UnityEngine.Font.GetOSInstalledFontNames())
+            {
+                Logger.LogInfo(font);
+            }
 
             // Loading assets & other funcs. Language-specific assets are loaded into the _TRANS assets. This reduces switch statements later on. //
             switch (runningGame)
             {
                 case "Anatomy":
                     Anatomy.Instance.AssetLoading();
+                    break;
+                case "Actias":
+                    Actias.Instance.AssetLoading();
                     break;
                 case "CHYRZA":
                     break;
@@ -418,6 +454,91 @@ namespace KittyHorrorshowTranslations
         public int scenesLoaded;
         public int currentLevelIndex;
         public GUIStyle guiStyle = new GUIStyle();
+
+        public string lastSoundPlayed;
+        public int updateCountAtLastSoundStart;
+        public int updateCounter;
+
+        public GUIStyle runningGameStyle;
+        public UnityEngine.Font runningGameFont;
+
+        public bool runningGameStyleGot;
+
+        [HarmonyPatch]
+        public class UnityPatches
+        {
+            // Text replacement
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(GUI), nameof(GUI.Label), new System.Type[] { typeof(Rect), typeof(GUIContent), typeof(GUIStyle) })]
+            public static void GUILabel_Prefix(GUI __instance, Rect position, GUIContent content, GUIStyle style)
+            {
+                if (content.m_Text != Plugin.Instance.lastText)
+                {
+                    Plugin.Instance.lastText = content.m_Text;
+                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel rect: " + position);
+                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel text: " + content.m_Text);
+
+                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel style: " + style);
+                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel font: " + style.font);
+                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel font size: " + style.fontSize);
+                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel IntPtr: " + style.m_Ptr);
+
+                    if (Plugin.Instance.runningGameStyleGot != true && !string.IsNullOrEmpty(content.m_Text))
+                    {
+                        Plugin.Instance.runningGameStyleGot = true;
+                        Plugin.Instance.runningGameStyle = style;
+                        Plugin.Instance.runningGameFont = style.font;
+                    }
+                }
+
+                // Font replacement - WIP
+                if (false)
+                {
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French":
+                            switch (Plugin.Instance.runningGame)
+                            {
+                                case "Anatomy":
+                                case "Actias":
+                                    Plugin.Instance.Logger.LogInfo("Changing everything to Comic Sans because life sucks.");
+                                    style.font = UnityEngine.Font.CreateDynamicFontFromOSFont("Comic Sans MS", 30);
+                                    break;
+                            }
+                            break;
+                        case "Japanese":
+                            switch (Plugin.Instance.runningGame)
+                            {
+                                case "Anatomy":
+                                case "Actias":
+                                    style.font = UnityEngine.Font.CreateDynamicFontFromOSFont("Microsoft Himalaya", 30);
+                                    break;
+                            }
+                            break;
+                    }
+                }
+
+                // Call individual games' text replacement functions
+                switch (Plugin.Instance.runningGame)
+                {
+                    case "Actias":
+                        content.m_Text = Actias.Instance.TextReplacement(content.m_Text);
+                        break;
+                    case "Anatomy":
+                        content.m_Text = Anatomy.Instance.TextReplacement(content.m_Text);
+                        break;
+                    case "Grandmother":
+                        content.m_Text = Grandmother.Instance.TextReplacement(content.m_Text);
+                        break;
+                    case "Leechbowl":
+                        content.m_Text = Leechbowl.Instance.TextReplacement(content.m_Text);
+                        break;
+                }
+
+                // For games with too little text to justify getting their own .cs file or for phrases which appear in multiple games.
+                content.m_Text = MiscGames.Instance.TextReplacement(content.m_Text);
+            }
+        }
 
         [HarmonyPatch]
         public class HutongPatches
@@ -445,48 +566,6 @@ namespace KittyHorrorshowTranslations
                 }
             }
 
-            // Text replacement
-            [HarmonyPostfix]
-            [HarmonyPatch(typeof(GUIContentAction), nameof(GUIContentAction.OnGUI))]
-            public static void TextReplacement(GUIContentAction __instance)
-            {
-                if (__instance.text.Value != Plugin.Instance.lastText)
-                {
-                    Plugin.Instance.lastText = __instance.text.Value;
-                    Plugin.Instance.Logger.LogInfo("Text was written to the screen: " + __instance.text.Value);
-                    Plugin.Instance.Logger.LogInfo("Style was as follows: " + __instance.style.Value);
-                }
-
-                // Font replacement - WIP
-                switch (Plugin.Instance.gameLanguage)
-                {
-                    case "Japanese":
-                        //__instance.style.Value = "";
-                        break;
-                }
-
-                // Call individual games' text replacement functions
-                switch (Plugin.Instance.runningGame)
-                {
-                    case "Actias":
-                        __instance.text.Value = Actias.Instance.TextReplacement(__instance.text.Value);
-                        break;
-                    case "Anatomy":
-                        __instance.text.Value = Anatomy.Instance.TextReplacement(__instance.text.Value);
-                        break;
-                    case "Grandmother":
-                        __instance.text.Value = Grandmother.Instance.TextReplacement(__instance.text.Value);
-                        break;
-                    case "Leechbowl":
-                        __instance.text.Value = Leechbowl.Instance.TextReplacement(__instance.text.Value);
-                        break;
-                    // For games with too little text to justify getting their own .cs file
-                    default:
-                        __instance.text.Value = MiscGames.Instance.TextReplacement(__instance.text.Value);
-                        break;
-                }
-            }
-
             // Audio replacement
             [HarmonyPrefix]
             [HarmonyPatch(typeof(PlaySound), "DoPlaySound")]
@@ -494,6 +573,42 @@ namespace KittyHorrorshowTranslations
             {
                 Plugin.Instance.Logger.LogInfo("Sound played: " + __instance.clip.Value.name);
 
+                // Subtitle code
+                if (Plugin.Instance.runningGame == "Anatomy") 
+                {
+                    switch (__instance.clip.Value.name)
+                    {
+                        case "tapeStop":
+                        case "tape1":
+                        case "tape2":
+                        case "tape3":
+                        case "tape4":
+                        case "tape5":
+                        case "tape6":
+                        case "tape7":
+                        case "tape8":
+                        case "tape9":
+                        case "tape x":
+                        case "tape1_2":
+                        case "tape2_2":
+                        case "tape3_2":
+                        case "tape4_2":
+                        case "tape5_2":
+                        case "tape6_2":
+                        case "finalspeech":
+                        case "tape1_3":
+                        case "tape2_3":
+                        case "tape3_3":
+                        case "tape4_3":
+                        case "tape5_3":
+                        case "tapeX_3":
+                            Plugin.Instance.updateCountAtLastSoundStart = Plugin.Instance.updateCounter;
+                            Plugin.Instance.lastSoundPlayed = __instance.clip.Value.name;
+                            break;
+                    }
+                }
+
+                // Don't do any actual replacements if the language is English or null/empty
                 if (Plugin.Instance.gameLanguage == "English" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
                 {
                     return;
@@ -589,6 +704,81 @@ namespace KittyHorrorshowTranslations
                     }
                 }
                 Logger.LogInfo("End of texture runthroughs.");
+            }
+        }
+
+        // Sprite replacement shorthand
+        public UnityEngine.Sprite SpriteReplace(Texture2D texture, int width, int height)
+        {
+            try
+            {
+                var sprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, width, height), new Vector2(0.5f, 0.5f), 100.0f);
+                return sprite;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogInfo("Exception occured when trying to create sprite: "+ex.ToString());
+                return null;
+            }
+        }
+
+        // Japanese shorthand
+        public string IntToJapanese(string str)
+        {
+            switch (str)
+            {
+                case "1":
+                    return "いっ";
+                case "2":
+                    return "に";
+                case "3":
+                    return "さん";
+                case "4":
+                    return "よん";
+                case "5":
+                    return "ご";
+                case "6":
+                    return "ろっ";
+                case "7":
+                    return "なな";
+                case "8":
+                    return "はっ";
+                case "9":
+                    return "きゅう";
+                case "10":
+                    return "じゅっ";
+                default:
+                    return "ERROR";
+            }
+        }
+        public string IntToRoman(string str)
+        {
+            switch (str)
+            {
+                case "0":
+                    return "０";
+                case "1":
+                    return "Ⅰ";
+                case "2":
+                    return "Ⅱ";
+                case "3":
+                    return "Ⅲ";
+                case "4":
+                    return "Ⅳ";
+                case "5":
+                    return "Ⅴ";
+                case "6":
+                    return "Ⅵ";
+                case "7":
+                    return "Ⅶ";
+                case "8":
+                    return "Ⅷ";
+                case "9":
+                    return "Ⅸ";
+                case "10":
+                    return "Ⅹ";
+                default:
+                    return "ERROR";
             }
         }
 

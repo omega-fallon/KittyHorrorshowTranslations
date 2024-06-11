@@ -210,7 +210,7 @@ namespace KittyHorrorshowTranslations
                         case "French":
                             openPage = "Vous ouvrez sur une page aléatoire :  ";
                             sheSays = "Elle dit : ";
-                            pressSpace = "  (Appuyez sur Espace pour continuer)";
+                            pressSpace = "  (Appuyez Espace pour continuer)";
 
                             book1 = "FILL IN";
                             book2 = "FILL IN";
