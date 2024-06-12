@@ -84,7 +84,7 @@ namespace KittyHorrorshowTranslations
                     {
                         case "French": str = str[0] + " restent "; break;
                         case "Dutch": str = str[0] + " blijven "; break;
-                        case "Japanese": str = "残り" + Plugin.Instance.IntToRoman(str[0].ToString()) + " " + "基 "; break; //counter for "big things that are hard to move", specifically listed as being used for Japanese "toro", which are large stone lanterns and fairly analagous to pylons
+                        case "Japanese": str = "残り" + Plugin.Instance.IntToRoman(str[0].ToString()) + " " + "基 "; break; //counter for "big things that are hard to move", specifically listed as being used for Japanese "toro", which are large stone lanterns and fairly analagous to pylons
                     }
                     break;
             }

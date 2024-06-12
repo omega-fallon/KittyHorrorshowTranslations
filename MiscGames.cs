@@ -27,7 +27,7 @@ namespace KittyHorrorshowTranslations
                         case "Japanese": str = "FILL IN"; break;
                     }
                     break;
-                
+
                 case "IM THE CYBERSKULL!!!":
                     switch (Plugin.Instance.gameLanguage)
                     {
@@ -40,8 +40,8 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French": str = "(l!()_ (l!()_ (l!()_!!!"; break; // cliq
-                        case "Dutch": str = "FILL IN"; break;
-                        case "Japanese": str = "FILL IN"; break;
+                        case "Dutch": str = "|2473l3|\\| |2473l3|\\| |2473l3|\\|!!!"; break; // ratelen
+                        case "Japanese": str = "64746474 64746474 64746474!!!"; break; // がたがた, gatagata
                     }
                     break;
                 case "DONT TOUCH MY SERVERS MEATPUNK!!!":
@@ -130,7 +130,7 @@ namespace KittyHorrorshowTranslations
                 case "\"To The Fire, My Hours\"":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "« Au Feu, Mes Heures »"; break;
+                        case "French": str = "« Au Feu, Mes Heures »"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
                     }
@@ -138,7 +138,7 @@ namespace KittyHorrorshowTranslations
                 case "\"The Parting Kiss of the Sand\"":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "« Le Baiser d'Adieu du Sable »"; break;
+                        case "French": str = "« Le Baiser d'Adieu du Sable »"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
                     }
@@ -146,7 +146,7 @@ namespace KittyHorrorshowTranslations
                 case "\"Left With Naught But Fury and Starlight\"":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "« Ne Restait Plus Que la Fureur et la Lumière des Étoiles »"; break;
+                        case "French": str = "« Ne Restait Plus Que la Fureur et la Lumière des Étoiles »"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
                     }
@@ -154,7 +154,7 @@ namespace KittyHorrorshowTranslations
                 case "\"Drowned by the Knives of the Forest\"":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "« Noyé par les Couteaux de la Forêt »"; break;
+                        case "French": str = "« Noyé par les Couteaux de la Forêt »"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
                     }

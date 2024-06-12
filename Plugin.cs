@@ -12,6 +12,7 @@ using HutongGames.Utility;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Drawing;
+using OmegaFallon.KittyHorrorshowTranslations;
 
 namespace KittyHorrorshowTranslations
 {
@@ -137,6 +138,7 @@ namespace KittyHorrorshowTranslations
                     break;
                 case "Anatomy":
                     gameObject.AddComponent<Anatomy>();
+                    gameObject.AddComponent<Anatomy_Subtitles>();
                     break;
                 case "CHYRZA":
                     gameObject.AddComponent<CHYRZA>();
@@ -217,15 +219,67 @@ namespace KittyHorrorshowTranslations
 
         public int notNeededButtonFrames;
         public bool cursorErrorSkip;
+        public bool subtitlesDecided;
+        public bool doSubtitles;
 
         public void OnGUI()
         {
             try
             {
-                // If the language has already been decided, return.
+                // If the language has already been decided and subtitles have been decided (for games that need them), return
                 if (!string.IsNullOrEmpty(gameLanguage))
                 {
-                    return;
+                    if (subtitlesDecided)
+                    {
+                        return;
+                    }
+                    else if (runningGame == "Anatomy")
+                    {
+                        switch (gameLanguage)
+                        {
+                            case "English":
+                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Enable subtitles?\n\nY / N"))
+                                {
+                                    // nothing
+                                }
+                                break;
+                            case "French":
+                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Activer les sous-titres ?\n\nY (OUI) / N (NON)"))
+                                {
+                                    // nothing
+                                }
+                                break;
+                            case "Dutch":
+                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Ondertiteling inschakelen?\n\nY (JA) / N (NEE)"))
+                                {
+                                    // nothing
+                                }
+                                break;
+                            case "Japanese":
+                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "字幕を有効にしますか?\n\nY (はい) / N (いいえ)"))
+                                {
+                                    // nothing
+                                }
+                                break;
+                        }
+                        
+                        // Keycodes aren't translated because that's not how it works in the other games
+                        if (Input.GetKeyDown(KeyCode.Y))
+                        {
+                            subtitlesDecided = true;
+                            doSubtitles = true;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.N))
+                        {
+                            subtitlesDecided = true;
+                            doSubtitles = false;
+                        }
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
 
                 // Error dodging for 4.0 games
@@ -423,7 +477,7 @@ namespace KittyHorrorshowTranslations
             Logger.LogInfo("Language set to "+gameLanguage);
             foreach (string font in UnityEngine.Font.GetOSInstalledFontNames())
             {
-                Logger.LogInfo(font);
+                Logger.LogInfo("System font found: "+font);
             }
 
             // Loading assets & other funcs. Language-specific assets are loaded into the _TRANS assets. This reduces switch statements later on. //
@@ -441,7 +495,6 @@ namespace KittyHorrorshowTranslations
                     Gloompuke.Instance.EditObjectNames();
                     break;
                 case "Sunset":
-                    Sunset.Instance.EditObjectNames();
                     break;
             }
 
@@ -467,6 +520,20 @@ namespace KittyHorrorshowTranslations
         [HarmonyPatch]
         public class UnityPatches
         {
+            // Audio replacement
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(AudioSource), nameof(AudioSource.PlayOneShot), new System.Type[] { typeof(AudioClip), typeof(float) })]
+            public static void PlayOneShot_Patch(AudioClip clip)
+            {
+                Plugin.Instance.Logger.LogInfo("PlayOneShot, audio played: " + clip.name);
+            }
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(AudioSource), nameof(AudioSource.PlayClipAtPoint), new System.Type[] { typeof(AudioClip), typeof(Vector3), typeof(float) })]
+            public static void PlayClipAtPoint_Patch(AudioClip clip)
+            {
+                Plugin.Instance.Logger.LogInfo("PlayClipAtPoint, audio played: " + clip.name);
+            }
+
             // Text replacement
             [HarmonyPrefix]
             [HarmonyPatch(typeof(GUI), nameof(GUI.Label), new System.Type[] { typeof(Rect), typeof(GUIContent), typeof(GUIStyle) })]
@@ -475,13 +542,13 @@ namespace KittyHorrorshowTranslations
                 if (content.m_Text != Plugin.Instance.lastText)
                 {
                     Plugin.Instance.lastText = content.m_Text;
-                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel rect: " + position);
-                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel text: " + content.m_Text);
+                    Plugin.Instance.Logger.LogInfo("GUI.Label rect: " + position);
+                    Plugin.Instance.Logger.LogInfo("GUI.Label text: " + content.m_Text);
 
-                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel style: " + style);
-                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel font: " + style.font);
-                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel font size: " + style.fontSize);
-                    Plugin.Instance.Logger.LogInfo("GUI.DoLabel IntPtr: " + style.m_Ptr);
+                    Plugin.Instance.Logger.LogInfo("GUI.Label style: " + style.name);
+                    Plugin.Instance.Logger.LogInfo("GUI.Label font: " + style.font);
+                    Plugin.Instance.Logger.LogInfo("GUI.Label font size: " + style.fontSize);
+                    Plugin.Instance.Logger.LogInfo("GUI.Label IntPtr: " + style.m_Ptr);
 
                     if (Plugin.Instance.runningGameStyleGot != true && !string.IsNullOrEmpty(content.m_Text))
                     {
@@ -565,6 +632,32 @@ namespace KittyHorrorshowTranslations
                     Plugin.Instance.TextureAudioReplacement();
                 }
             }
+
+            // Text replacement for some other games
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(SetStringValue), nameof(SetStringValue.OnEnter))]
+            public static void SetString_Patch(SetStringValue __instance)
+            {
+                Plugin.Instance.lastText = __instance.stringValue.Value;
+                Plugin.Instance.Logger.LogInfo("A string was set by the name of " + __instance.stringVariable.Name + ": " + __instance.stringValue.Value);
+
+                __instance.stringValue.Value = MiscGames.Instance.TextReplacement(__instance.stringValue.Value);
+            }
+
+            // Text replacement finding style
+            //[HarmonyPostfix]
+            //[HarmonyPatch(typeof(GUILabel), nameof(GUILabel.OnGUI))]
+            //public static void Hutong_GUILabel_Patch(GUILabel __instance)
+            //{
+            //    Plugin.Instance.Logger.LogInfo("HutongGames.PlayMaker.Actions.GUILabel style: " + __instance.style.Value);
+            //}
+
+            //[HarmonyPostfix]
+            //[HarmonyPatch(typeof(GUIContentAction), nameof(GUIContentAction.OnGUI))]
+            //public static void Hutong_GUIContentAction_Patch(GUIContentAction __instance)
+            //{
+            //    Plugin.Instance.Logger.LogInfo("HutongGames.PlayMaker.Actions.GUIContentAction style: " + __instance.style.Value);
+            //}
 
             // Audio replacement
             [HarmonyPrefix]
@@ -717,7 +810,7 @@ namespace KittyHorrorshowTranslations
             }
             catch (Exception ex)
             {
-                Logger.LogInfo("Exception occured when trying to create sprite: "+ex.ToString());
+                Logger.LogInfo("Exception occured when trying to create sprite named "+ texture.name + ": " + ex.ToString());
                 return null;
             }
         }

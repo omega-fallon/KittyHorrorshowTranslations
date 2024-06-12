@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PixelCrushers.DialogueSystem;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -40,38 +42,6 @@ namespace KittyHorrorshowTranslations
             title2_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title2.png");
             //title3_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title3.png");
             //title4_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title4.png");
-        }
-
-        public void OnGUI()
-        {
-            try
-            {
-                // Subtitles
-                string str;
-                int widthSpacer = (Screen.width - 200) / 2;
-                int heightSpacer = (Screen.height - 200) / 2;
-
-                str = "";
-
-                switch (Plugin.Instance.lastSoundPlayed)
-                {
-                    case "tapeStop":
-                        break;
-                    case "tape1":
-                    case "tape2":
-                        str = (Plugin.Instance.updateCounter - Plugin.Instance.updateCountAtLastSoundStart).ToString();
-                        break;
-                }
-
-                if (!string.IsNullOrEmpty(str))
-                {
-                    GUI.DoLabel(new Rect(x: 480, y: 648, width: 960, height: 324), new GUIContent(str), Plugin.Instance.runningGameStyle.m_Ptr);
-                }
-            }
-            catch (Exception ex)
-            {
-                Plugin.Instance.PrintThisString("Anatomy.OnGUI exception: "+ex);
-            }
         }
 
         public string TextReplacement(string str)

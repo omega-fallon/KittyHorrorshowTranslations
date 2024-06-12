@@ -14,16 +14,6 @@ namespace KittyHorrorshowTranslations
             Instance = this;
         }
 
-        public void EditObjectNames()
-        {
-            foreach (GameObject obj in Resources.FindObjectsOfTypeAll<GameObject>())
-            {
-                string translatedName = obj.name;
-
-                Plugin.Instance.PrintThisString("Found object with this name: " + obj.name);
-            }
-        }
-
         public string TextReplacement(string str)
         {
             switch (str)
