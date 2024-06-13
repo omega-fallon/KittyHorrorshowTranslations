@@ -333,6 +333,46 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         subtitleTimestampsGlobal = subtitleTimestampsX_3;
                         break;
 
+                    // Final speech //
+                    case "finalspeech":
+                        Dictionary<double, string> subtitleTimestampsfinal = new Dictionary<double, string>
+                        {
+                            { 3.2, "What happens to a house when it is left alone?"},
+                            { 8.445, "When it becomes worn and aged?" },
+                            { 12.4, "When its paint peels?" },
+                            { 14.8, "When its foundations begin to sink?"},
+                            { 19.7, "When it goes for too long unlived in?" },
+                            { 24.7, "What does it think of?" },
+                            { 28.4, "What does it dream?" },
+                            { 33, "How does it regard those creatures who built it?" },
+                            { 36.88, "Brought it into existence only to abandon it" },
+                            { 40.6, "when its usefulness no longer satisfies them." },
+                            { 47, "It may grow lonesome." },
+                            { 51.27, "It may stare for long hours into the darkness of its own empty halls and see shadows." },
+                            { 57.5, "and its heart may jump as it thinks \"here, here is someone again, I am not alone.\"" },
+                            { 65, "And each time it is wrong." },
+                            { 68.37, "And the hurt starts over." },
+                            { 73.4, "It may haunt itself," },
+                            { 76.2, "inventing ghosts to walk its floors," },
+                            { 80, "making friends with its shadow puppets," },
+                            { 83.4, "laughing and whispering to itself at the end of some quiet cul-de-sac." },
+                            { 91.6, "It may grow angry." },
+                            { 95.6, "Its basement may fill with churning acid like an empty stomach," },
+                            { 100.47, "and its gorge may rise as it asks itself, through clenched teeth, \"what did I do wrong?\"" },
+                            { 109.8, "It may grow bitter." },
+                            { 113.47, "It may grow hungry." },
+                            { 116.67, "So hungry and so bitter that its scruples dissolve and its doors unlock themselves." },
+                            { 124.86, "While a house may hunger, it cannot starve." },
+                            { 129.79, "And so in fever and anger and loneliness," },
+                            { 134.82, "it may simply lie in wait." },
+                            { 138.94, "Doors open." },
+                            { 142, "Shades drawn." },
+                            { 145, "Hallways empty." },
+                            { 149.8, "Hungry." }
+                        };
+                        subtitleTimestampsGlobal = subtitleTimestampsfinal;
+                        break;
+
                     // Default //
                     default:
                         currentSubtitle = "";
@@ -376,17 +416,19 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     // Dream code
                     else if (Plugin.Instance.lastSoundPlayed == "tape6_2" && audioTimeInSeconds >= 20.8 && !(audioTimeInSeconds >= 115.3))
                     {
-                        x = (float)(Screen.width * 0.25);
-                        y = (float)(Screen.height * 0.6);
+                        style.m_Normal.textColor = Color.red;
+
                         width = (float)(Screen.width * 0.5);
                         height = (float)(Screen.height * 0.3);
+                        x = (float)(Screen.width * 0.25);
+                        y = (float)(Screen.height * 0.6);
                     }
                     else
                     {
-                        x = (float)(Screen.width * 0.25);
-                        y = (float)(Screen.height * 0.6);
                         width = (float)(Screen.width * 0.5);
                         height = (float)(Screen.height * 0.3);
+                        x = (float)(Screen.width * 0.25);
+                        y = (float)(Screen.height * 0.6);
                     }
 
                     // Write the subtitle

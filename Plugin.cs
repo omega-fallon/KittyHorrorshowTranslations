@@ -184,11 +184,11 @@ namespace KittyHorrorshowTranslations
 
         public bool nineDown;
         public bool rainHouseImageRunDone;
-
+        public int updateCounterAtLastDebugLevelLoad;
         public void Update()
         {
             // Update counter
-            Plugin.Instance.updateCounter += 1;
+            updateCounter += 1;
 
             // DEBUG! Comment out in final release
             if (Input.GetKeyUp(KeyCode.Alpha9))
@@ -202,6 +202,67 @@ namespace KittyHorrorshowTranslations
                 Logger.LogInfo("Running debug texture and audio replacement...");
                 TextureAudioReplacement(true);
                 Logger.LogInfo("Done with debug texture and audio replacement.");
+            }
+
+            // Debug level loading
+            if (Plugin.Instance.updateCounter - updateCounterAtLastDebugLevelLoad < 2)
+            {
+                return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                Plugin.Instance.Logger.LogInfo("L is pressed.");
+                if (Input.GetKeyDown(KeyCode.Alpha0))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(0);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(1);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(2);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(3);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(4);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(5);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(6);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha7))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(7);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha8))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(8);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha9))
+                {
+                    updateCounterAtLastDebugLevelLoad = Plugin.Instance.updateCounter;
+                    UnityEngine.Application.LoadLevel(9);
+                }
             }
 
             // Hacky thing that makes texture replacements work on games with a little opening title card
@@ -619,6 +680,9 @@ namespace KittyHorrorshowTranslations
                 Plugin.Instance.scenesLoaded += 1;
                 Plugin.Instance.currentLevelIndex = __instance.levelIndex.Value;
 
+                // DEBUG
+                //__instance.levelIndex.Value = 7;
+
                 Plugin.Instance.Logger.LogInfo("A level was loaded. Index: " + __instance.levelIndex.ToString() + ". Number of levels loaded this session: " + Plugin.Instance.scenesLoaded.ToString());
 
                 // Check language //
@@ -630,6 +694,40 @@ namespace KittyHorrorshowTranslations
                 {
                     Plugin.Instance.Logger.LogInfo("Language has already been set. Running texture replacements.");
                     Plugin.Instance.TextureAudioReplacement();
+                }
+            }
+
+            // GameObject activation
+            [HarmonyPostfix]
+            [HarmonyPatch(typeof(ActivateGameObject), "DoActivateGameObject")]
+            public static void ActivateGameObject_Patch(ActivateGameObject __instance)
+            {
+                if (__instance.activate.Value)
+                {
+                    Plugin.Instance.Logger.LogInfo("A GameObject was activated: " + __instance.gameObject.GameObject.ToString());
+                }
+                else
+                {
+                    Plugin.Instance.Logger.LogInfo("A GameObject was deactivated: " + __instance.gameObject.GameObject.ToString());
+                }
+
+                // For some reason, these two tapes do not use Hutong's "PlaySound" so we're doing this hacky workaround. It works, and that's what matters.
+                if (Plugin.Instance.runningGame == "Anatomy" && __instance.activate.Value)
+                {
+                    switch (__instance.gameObject.GameObject.ToString())
+                    {
+                        case "FinalTape":
+                            Plugin.Instance.updateCountAtLastSoundStart = Plugin.Instance.updateCounter;
+                            Plugin.Instance.lastSoundPlayed = "tapeX_3";
+                            break;
+                        case "Audio Source":
+                            if (Plugin.Instance.currentLevelIndex == 9)
+                            {
+                                Plugin.Instance.updateCountAtLastSoundStart = Plugin.Instance.updateCounter;
+                                Plugin.Instance.lastSoundPlayed = "finalspeech";
+                            }
+                            break;
+                    }
                 }
             }
 
