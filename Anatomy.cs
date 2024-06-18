@@ -3,9 +3,11 @@ using PixelCrushers.DialogueSystem;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+//using UnityEngine.Experimental.Networking;
 using static PixelCrushers.DialogueSystem.Articy.ArticyData;
 
 namespace KittyHorrorshowTranslations
@@ -18,6 +20,8 @@ namespace KittyHorrorshowTranslations
             Instance = this;
         }
 
+        public UnityEngine.Font vhsfont;
+
         public AudioClip amen_TRANS;
 
         public Texture2D input_TRANS;
@@ -28,6 +32,19 @@ namespace KittyHorrorshowTranslations
 
         public void AssetLoading()
         {
+            // Loading this font from: sharedassets1.assets
+            Plugin.Instance.PrintThisString("Data path: "+Application.dataPath);
+            
+            try
+            {
+                //string bundlePath = Path.Combine(Application.dataPath, "sharedassets1.assets").Replace("\\","/");
+                //Plugin.Instance.PrintThisString("Attempting to load bundle at the following path: "+bundlePath);
+            }
+            catch (Exception ex)
+            {
+                Plugin.Instance.PrintThisString("Error occured while loading vhsfont: " + ex.ToString());
+            }
+
             // Don't do any asset loads if the language is English or null/empty
             if (Plugin.Instance.gameLanguage == "English" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
             {
@@ -35,14 +52,14 @@ namespace KittyHorrorshowTranslations
             }
 
             // Audio
-            amen_TRANS = Plugin.Instance.GetAudio("Achy Breaky Song.mp3");
+            //amen_TRANS = Plugin.Instance.GetAudio("Achy Breaky Song.mp3");
 
             // Images
-            input_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\input.png");
-            title1_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title1.png");
-            title2_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title2.png");
-            //title3_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title3.png");
-            //title4_TRANS = Plugin.Instance.GetTexture("Anatomy\\" + Plugin.Instance.gameLanguage + "\\title4.png");
+            input_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "input.png");
+            title1_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "title1.png");
+            title2_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "title2.png");
+            //title3_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "title3.png");
+            //title4_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "title4.png");
         }
 
         public string TextReplacement(string str)

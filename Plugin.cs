@@ -276,6 +276,19 @@ namespace KittyHorrorshowTranslations
                     rainHouseImageRunDone = true;
                 }
             }
+
+            // Getting the game font?
+            if (runningGameFont == null)
+            {
+                //Logger.LogInfo("Trying to find a game font...");
+                //runningGameFont = (UnityEngine.Font)FindObjectOfType(typeof(UnityEngine.Font));
+                //runningGameFont = Resources.FindObjectsOfTypeAll(typeof(UnityEngine.Font))[0].GetComponent<UnityEngine.Font>();
+
+                if (runningGameFont == null)
+                {
+                    Logger.LogInfo("Found a game font, setting it as runningGameFont: " + runningGameFont.name);
+                }
+            }
         }
 
         public int notNeededButtonFrames;
@@ -287,6 +300,13 @@ namespace KittyHorrorshowTranslations
         {
             try
             {
+                // Creating standard button style
+                GUIStyle standardButtonStyle = GUISkin.current.button;
+                if (runningGameFont != null)
+                {
+                    //standardButtonStyle.font = runningGameFont;
+                }
+
                 // If the language has already been decided and subtitles have been decided (for games that need them), return
                 if (!string.IsNullOrEmpty(gameLanguage))
                 {
@@ -299,25 +319,25 @@ namespace KittyHorrorshowTranslations
                         switch (gameLanguage)
                         {
                             case "English":
-                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Enable subtitles?\n\nY / N"))
+                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Enable subtitles?\n\nY / N", standardButtonStyle))
                                 {
                                     // nothing
                                 }
                                 break;
                             case "French":
-                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Activer les sous-titres ?\n\nY (OUI) / N (NON)"))
+                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Activer les sous-titres ?\n\nY (OUI) / N (NON)", standardButtonStyle))
                                 {
                                     // nothing
                                 }
                                 break;
                             case "Dutch":
-                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Ondertiteling inschakelen?\n\nY (JA) / N (NEE)"))
+                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Ondertiteling inschakelen?\n\nY (JA) / N (NEE)", standardButtonStyle))
                                 {
                                     // nothing
                                 }
                                 break;
                             case "Japanese":
-                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "字幕を有効にしますか?\n\nY (はい) / N (いいえ)"))
+                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "字幕を有効にしますか?\n\nY (はい) / N (いいえ)", standardButtonStyle))
                                 {
                                     // nothing
                                 }
@@ -384,16 +404,17 @@ namespace KittyHorrorshowTranslations
                 int numLangs = languages.Length;
 
                 int buttonWidth;
+                int buttonHeight;
                 if (Array.IndexOf(languages, "Unneeded") != -1)
                 {
-                    buttonWidth = 200;
+                    buttonWidth = 500;
+                    buttonHeight = 250;
                 }
                 else
                 {
                     buttonWidth = 150;
+                    buttonHeight = 100;
                 }
-
-                int buttonHeight = 100;
 
                 int widthSpacer = (appWidth - (numLangs * buttonWidth)) / (numLangs + 1);
                 int heightSpacer = (appHeight - buttonHeight) / 2;
@@ -420,7 +441,10 @@ namespace KittyHorrorshowTranslations
                 }
                 if (Array.IndexOf(languages, "Unneeded") != -1)
                 {
-                    GUI.Button(new Rect(widthSpacer, heightSpacer, buttonWidth, buttonHeight), "No translation needed." + "\nAucune traduction nécessaire." + "\nGeen vertaling nodig." + "\n翻訳は必要ありません。");
+                    GUIStyle style = GUISkin.current.button;
+                    style.fontSize = 30;
+
+                    GUI.Button(new Rect(widthSpacer, heightSpacer, buttonWidth, buttonHeight), "No translation needed." + "\nAucune traduction nécessaire." + "\nGeen vertaling nodig." + "\n翻訳は必要ありません。", style);
 
                     notNeededButtonFrames += 1;
 
@@ -430,7 +454,7 @@ namespace KittyHorrorshowTranslations
                 // Standard buttons
                 if (englishDex != -1)
                 {
-                    if (GUI.Button(new Rect(widthSpacer + (englishDex * widthSpacer) + (englishDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "English" + "\n\n(Press " + (englishDex + 1) + ")"))
+                    if (GUI.Button(new Rect(widthSpacer + (englishDex * widthSpacer) + (englishDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "English" + "\n\n(Press " + (englishDex + 1) + ")", standardButtonStyle))
                     {
                         gameLanguage = "English";
                         AfterLanguageSelection();
@@ -438,7 +462,7 @@ namespace KittyHorrorshowTranslations
                 }
                 if (frenchDex != -1)
                 {
-                    if (GUI.Button(new Rect(widthSpacer + (frenchDex * widthSpacer) + (frenchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français" + "\n\n(Appuyez " + (frenchDex + 1) + ")"))
+                    if (GUI.Button(new Rect(widthSpacer + (frenchDex * widthSpacer) + (frenchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français" + "\n\n(Appuyez " + (frenchDex + 1) + ")", standardButtonStyle))
                     {
                         gameLanguage = "French";
                         AfterLanguageSelection();
@@ -446,7 +470,7 @@ namespace KittyHorrorshowTranslations
                 }
                 if (dutchDex != -1)
                 {
-                    if (GUI.Button(new Rect(widthSpacer + (dutchDex * widthSpacer) + (dutchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands" + "\n\n(Druk " + (dutchDex + 1) + ")"))
+                    if (GUI.Button(new Rect(widthSpacer + (dutchDex * widthSpacer) + (dutchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands" + "\n\n(Druk " + (dutchDex + 1) + ")", standardButtonStyle))
                     {
                         gameLanguage = "Dutch";
                         AfterLanguageSelection();
@@ -454,7 +478,7 @@ namespace KittyHorrorshowTranslations
                 }
                 if (japaneseDex != -1)
                 {
-                    if (GUI.Button(new Rect(widthSpacer + (japaneseDex * widthSpacer) + (japaneseDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語" + "\n\n(" + (japaneseDex + 1) + "を押す)"))
+                    if (GUI.Button(new Rect(widthSpacer + (japaneseDex * widthSpacer) + (japaneseDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語" + "\n\n(" + (japaneseDex + 1) + "を押す)", standardButtonStyle))
                     {
                         gameLanguage = "Japanese";
                         AfterLanguageSelection();
@@ -490,9 +514,9 @@ namespace KittyHorrorshowTranslations
         }
 
         // OWML code
-        public AudioClip GetAudio(string filename)
+        public AudioClip GetAudio(string mainFolder, string subFolder, string fileName)
         {
-            var path = Paths.PluginPath + "\\KittyHorrorshowTranslations\\audio\\" + filename;
+            var path = Paths.PluginPath + "\\" + "KittyHorrorshowTranslations" + "\\" + "audio" + "\\" + mainFolder + "\\" + subFolder + "\\" + fileName;
             Logger.LogInfo("Loading audio from "+path);
             using var reader = new NAudio.Wave.AudioFileReader(path);
             var sampleCount = (int)(reader.Length * 8 / reader.WaveFormat.BitsPerSample);
@@ -502,9 +526,9 @@ namespace KittyHorrorshowTranslations
             clip.SetData(outputSamples, 0);
             return clip;
         }
-        public Texture2D GetTexture(string filename)
+        public Texture2D GetTexture(string mainFolder, string subFolder, string fileName)
         {
-            var path = Paths.PluginPath + "\\KittyHorrorshowTranslations\\images\\" + filename;
+            var path = Paths.PluginPath + "\\" + "KittyHorrorshowTranslations" + "\\" + "images" + "\\" + mainFolder + "\\" + subFolder + "\\" + fileName;
             Logger.LogInfo("Loading texture from " + path);
             var data = File.ReadAllBytes(path);
             var texture = new Texture2D(2, 2);
@@ -536,9 +560,13 @@ namespace KittyHorrorshowTranslations
             }
 
             Logger.LogInfo("Language set to "+gameLanguage);
-            foreach (string font in UnityEngine.Font.GetOSInstalledFontNames())
+
+            // Fonts
+            //foreach (string font in UnityEngine.Font.GetOSInstalledFontNames()) { Logger.LogInfo("System font found: "+font); }
+            UnityEngine.Font[] fonts = FindObjectsOfType(typeof(UnityEngine.Font)) as UnityEngine.Font[];
+            foreach (var font in fonts)
             {
-                Logger.LogInfo("System font found: "+font);
+                Plugin.Instance.Logger.LogInfo("Game font found: " + font.name);
             }
 
             // Loading assets & other funcs. Language-specific assets are loaded into the _TRANS assets. This reduces switch statements later on. //
@@ -681,7 +709,7 @@ namespace KittyHorrorshowTranslations
                 Plugin.Instance.currentLevelIndex = __instance.levelIndex.Value;
 
                 // DEBUG
-                //__instance.levelIndex.Value = 7;
+                //__instance.levelIndex.Value = 5;
 
                 Plugin.Instance.Logger.LogInfo("A level was loaded. Index: " + __instance.levelIndex.ToString() + ". Number of levels loaded this session: " + Plugin.Instance.scenesLoaded.ToString());
 
@@ -769,6 +797,7 @@ namespace KittyHorrorshowTranslations
                 {
                     switch (__instance.clip.Value.name)
                     {
+                        case "tapeStart":
                         case "tapeStop":
                         case "tape1":
                         case "tape2":
@@ -793,6 +822,8 @@ namespace KittyHorrorshowTranslations
                         case "tape4_3":
                         case "tape5_3":
                         case "tapeX_3":
+                        case "amen":
+                        case "screaming_tape":
                             Plugin.Instance.updateCountAtLastSoundStart = Plugin.Instance.updateCounter;
                             Plugin.Instance.lastSoundPlayed = __instance.clip.Value.name;
                             break;

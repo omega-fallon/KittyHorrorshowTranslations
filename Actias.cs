@@ -42,31 +42,32 @@ namespace KittyHorrorshowTranslations
 
         public void AssetLoading()
         {
-            try { title = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\title.png"); } catch { }
+            Plugin.Instance.PrintThisString("Loading Actias assets...");
+            try { title = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "title.png"); } catch { }
 
-            try { message_1a = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\1a.png"); } catch {}
-            try { message_1b = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\1b.png"); } catch{}
-            try { message_1c = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\1c.png"); } catch { }
+            try { message_1a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "1a.png"); } catch { }
+            try { message_1b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "1b.png"); } catch { }
+            try { message_1c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "1c.png"); } catch { }
 
-            try { message_2a = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\2a.png"); } catch { }
-            try { message_2b = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\2b.png"); } catch { }
-            try { message_2c = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\2c.png"); } catch { }
+            try { message_2a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "2a.png"); } catch { }
+            try { message_2b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "2b.png"); } catch { }
+            try { message_2c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "2c.png"); } catch { }
 
-            try { message_3a = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\3a.png"); } catch { }
-            try { message_3b = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\3b.png"); } catch { }
-            try { message_3c = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\3c.png"); } catch { }
+            try { message_3a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "3a.png"); } catch { }
+            try { message_3b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "3b.png"); } catch { }
+            try { message_3c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "3c.png"); } catch { }
 
-            try { message_4a = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\4a.png"); } catch { }
-            try { message_4b = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\4b.png"); } catch { }
-            try { message_4c = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\4c.png"); } catch { }
+            try { message_4a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "4a.png"); } catch { }
+            try { message_4b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "4b.png"); } catch { }
+            try { message_4c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "4c.png"); } catch { }
 
-            try { message_5a = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\5a.png"); } catch { }
-            try { message_5b = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\5b.png"); } catch { }
-            try { message_5c = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\5c.png"); } catch { }
+            try { message_5a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "5a.png"); } catch { }
+            try { message_5b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "5b.png"); } catch { }
+            try { message_5c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "5c.png"); } catch { }
 
-            try { message_6a = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\6a.png"); } catch { }
-            try { message_6b = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\6b.png"); } catch { }
-            try { message_6c = Plugin.Instance.GetTexture("Actias\\" + Plugin.Instance.gameLanguage + "\\6c.png"); } catch { }
+            try { message_6a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "6a.png"); } catch { }
+            try { message_6b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "6b.png"); } catch { }
+            try { message_6c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "6c.png"); } catch { }
         }
 
         public string TextReplacement(string str)
