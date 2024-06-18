@@ -1,4 +1,5 @@
 ﻿using HutongGames.PlayMaker.Actions;
+using HutongGames.Utility;
 using PixelCrushers.DialogueSystem;
 using System;
 using System.Collections.Generic;
@@ -22,14 +23,11 @@ namespace KittyHorrorshowTranslations
 
         public UnityEngine.Font vhsfont;
 
-        public AudioClip amen_TRANS;
+        public string[] anatomyReplacedAudio;
+        public Dictionary<string, AudioClip> anatomyAudio;
 
-        public Texture2D input_TRANS;
-        public Texture2D title1_TRANS;
-        public Texture2D title2_TRANS;
-        public Texture2D title3_TRANS;
-        public Texture2D title4_TRANS;
-
+        public string[] anatomyReplacedImages;
+        public Dictionary<string, Texture2D> anatomyImages;
         public void AssetLoading()
         {
             // Loading this font from: sharedassets1.assets
@@ -52,14 +50,20 @@ namespace KittyHorrorshowTranslations
             }
 
             // Audio
-            //amen_TRANS = Plugin.Instance.GetAudio("Achy Breaky Song.mp3");
+            anatomyReplacedAudio = ["amen", "finalspeech", "tape1", "tape1_2", "tape1_3", "tape2", "tape2_2", "tape2_3", "tape3", "tape3_2", "tape3_3", "tape4", "tape4_2", "tape4_3", "tape5", "tape5_2", "tape5_3", "tape6", "tape6_2", "tape7", "tape8", "tape9", "tapeX_3"];
+            anatomyAudio = new Dictionary<string, AudioClip> { };
+            foreach (string str in anatomyReplacedAudio)
+            {
+                anatomyAudio.Add(str, Plugin.Instance.GetAudio("Anatomy", Plugin.Instance.gameLanguage, str + ".mp3"));
+            }
 
             // Images
-            input_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "input.png");
-            title1_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "title1.png");
-            title2_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "title2.png");
-            //title3_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "title3.png");
-            //title4_TRANS = Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, "title4.png");
+            anatomyReplacedImages = ["input", "title1", "title2", "title3", "title4"];
+            anatomyImages = new Dictionary<string, Texture2D> { };
+            foreach (string str in anatomyReplacedImages)
+            {
+                anatomyImages.Add(str, Plugin.Instance.GetTexture("Anatomy", Plugin.Instance.gameLanguage, str + ".png"));
+            }
         }
 
         public string TextReplacement(string str)
@@ -251,35 +255,26 @@ namespace KittyHorrorshowTranslations
 
         public UnityEngine.Object AudioReplacement(UnityEngine.Object audioClip)
         {
-            switch (audioClip.name)
+            string startingName = audioClip.name;
+            if (anatomyReplacedAudio.Contains(audioClip.name))
             {
-                case "intro_1":
-                    audioClip = amen_TRANS;
-                    break;
+                audioClip = anatomyAudio[audioClip.name];
+                audioClip.name = startingName+"_TRANSLATED";
             }
+
             return audioClip;
         }
 
         public UnityEngine.Sprite TextureReplacement(SpriteRenderer spriteRenderer)
         {
-            switch (spriteRenderer.gameObject.name)
+            int textureWidth = (int)spriteRenderer.sprite.rect.m_Width;
+            int textureHeight = (int)spriteRenderer.sprite.rect.m_Height;
+
+            if (anatomyReplacedImages.Contains(spriteRenderer.gameObject.name))
             {
-                case "input":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(input_TRANS, 800, 600);
-                    break;
-                case "title1":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title1_TRANS, 800, 600);
-                    break;
-                case "title2":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title2_TRANS, 800, 600);
-                    break;
-                case "title3":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title3_TRANS, 800, 600);
-                    break;
-                case "title4":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title4_TRANS, 800, 600);
-                    break;
+                spriteRenderer.sprite = Plugin.Instance.SpriteReplace(anatomyImages[spriteRenderer.gameObject.name], textureWidth, textureHeight);
             }
+
             return spriteRenderer.sprite;
         }
     }

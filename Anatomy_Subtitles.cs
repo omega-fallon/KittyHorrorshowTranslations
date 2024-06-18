@@ -23,6 +23,9 @@ namespace OmegaFallon.KittyHorrorshowTranslations
 
         public string lastSubtitle;
         public string currentSubtitle;
+
+        public GameObject screamingTape;
+
         public void OnGUI()
         {
             try
@@ -390,22 +393,6 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 16.35, "Amen."},
                         };
                         break;
-                    case "screaming_tape":
-                        switch (Plugin.Instance.gameLanguage) {
-                            case "English":
-                                currentSubtitle = "[distorted screaming]";
-                                break;
-                            case "French":
-                                currentSubtitle = "[cris déformés]";
-                                break;
-                            case "Dutch":
-                                currentSubtitle = "[verwrongen schreeuwen]";
-                                break;
-                            case "Japanese":
-                                currentSubtitle = "[歪んだ叫び声]";
-                                break;
-                        }
-                        break;
 
                     // Default //
                     default:
@@ -422,6 +409,26 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     {
                         currentSubtitle = subtitle.Value;
                         break;
+                    }
+                }
+
+                // Screaming tape code
+                if (Plugin.Instance.currentLevelIndex == 3 && Vector3.Distance(screamingTape.transform.position, GameObject.Find("PLAYER").transform.position) <= 5.5)
+                {
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "English":
+                            currentSubtitle = "[distorted screaming]";
+                            break;
+                        case "French":
+                            currentSubtitle = "[cris déformés]";
+                            break;
+                        case "Dutch":
+                            currentSubtitle = "[verwrongen schreeuwen]";
+                            break;
+                        case "Japanese":
+                            currentSubtitle = "[歪んだ叫び声]";
+                            break;
                     }
                 }
 

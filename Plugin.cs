@@ -13,6 +13,9 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.Drawing;
 using OmegaFallon.KittyHorrorshowTranslations;
+using System.Collections.Generic;
+using System.Linq;
+using BepInEx.Logging;
 
 namespace KittyHorrorshowTranslations
 {
@@ -514,32 +517,58 @@ namespace KittyHorrorshowTranslations
         }
 
         // OWML code
-        public AudioClip GetAudio(string mainFolder, string subFolder, string fileName)
+        public AudioClip GetAudio(string mainFolder = "", string subFolder = "", string fileName = "")
         {
-            var path = Paths.PluginPath + "\\" + "KittyHorrorshowTranslations" + "\\" + "audio" + "\\" + mainFolder + "\\" + subFolder + "\\" + fileName;
-            Logger.LogInfo("Loading audio from "+path);
-            using var reader = new NAudio.Wave.AudioFileReader(path);
-            var sampleCount = (int)(reader.Length * 8 / reader.WaveFormat.BitsPerSample);
-            var outputSamples = new float[sampleCount];
-            reader.Read(outputSamples, 0, sampleCount);
-            var clip = AudioClip.Create(path, sampleCount / reader.WaveFormat.Channels, reader.WaveFormat.Channels, reader.WaveFormat.SampleRate, false);
-            clip.SetData(outputSamples, 0);
-            return clip;
+            try
+            {
+                string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "audio", mainFolder, subFolder, fileName };
+                pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var path = String.Join("\\", pathParts);
+                Logger.LogInfo("Loading audio from " + path);
+                using var reader = new NAudio.Wave.AudioFileReader(path);
+                var sampleCount = (int)(reader.Length * 8 / reader.WaveFormat.BitsPerSample);
+                var outputSamples = new float[sampleCount];
+                reader.Read(outputSamples, 0, sampleCount);
+                var clip = AudioClip.Create(path, sampleCount / reader.WaveFormat.Channels, reader.WaveFormat.Channels, reader.WaveFormat.SampleRate, false);
+                clip.SetData(outputSamples, 0);
+                return clip;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error occured while attempting to load file " + fileName + ": " + ex.ToString());
+                return achyBreaky;
+            }
         }
-        public Texture2D GetTexture(string mainFolder, string subFolder, string fileName)
+        public Texture2D GetTexture(string mainFolder = "", string subFolder = "", string fileName = "")
         {
-            var path = Paths.PluginPath + "\\" + "KittyHorrorshowTranslations" + "\\" + "images" + "\\" + mainFolder + "\\" + subFolder + "\\" + fileName;
-            Logger.LogInfo("Loading texture from " + path);
-            var data = File.ReadAllBytes(path);
-            var texture = new Texture2D(2, 2);
-            texture.LoadImage(data);
-            return texture;
+            try
+            {
+                string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "images", mainFolder, subFolder, fileName };
+                pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var path = String.Join("\\", pathParts);
+                Logger.LogInfo("Loading texture from " + path);
+                var data = File.ReadAllBytes(path);
+                var texture = new Texture2D(2, 2);
+                texture.LoadImage(data);
+                return texture;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error occured while attempting to load file "+fileName+": "+ex.ToString());
+                return bigRed;
+            }
         }
         // End OWML code
-
+        
+        public AudioClip achyBreaky;
+        public Texture2D bigRed;
         public void Start()
         {
-            
+            achyBreaky = GetAudio("Achy Breaky Song.mp3");
+            bigRed = GetTexture("bigRed.png");
+
+            achyBreaky.name = "Achy Breaky Song";
+            bigRed.name = "Big Red Error Texture";
         }
 
         // Loading textures and audio
@@ -704,12 +733,12 @@ namespace KittyHorrorshowTranslations
             [HarmonyPatch(typeof(LoadLevelNum), nameof(LoadLevelNum.OnEnter))]
             public static void SceneLoad(LoadLevelNum __instance)
             {
+                // DEBUG
+                __instance.levelIndex.Value = 3;
+
                 // Setting variables //
                 Plugin.Instance.scenesLoaded += 1;
                 Plugin.Instance.currentLevelIndex = __instance.levelIndex.Value;
-
-                // DEBUG
-                //__instance.levelIndex.Value = 5;
 
                 Plugin.Instance.Logger.LogInfo("A level was loaded. Index: " + __instance.levelIndex.ToString() + ". Number of levels loaded this session: " + Plugin.Instance.scenesLoaded.ToString());
 
@@ -753,6 +782,15 @@ namespace KittyHorrorshowTranslations
                             {
                                 Plugin.Instance.updateCountAtLastSoundStart = Plugin.Instance.updateCounter;
                                 Plugin.Instance.lastSoundPlayed = "finalspeech";
+                            }
+                            break;
+                        case "Sound Source":
+                            if (Plugin.Instance.currentLevelIndex == 3)
+                            {
+                                Anatomy_Subtitles.Instance.screamingTape = __instance.gameObject.GameObject.Value;
+
+                                Plugin.Instance.updateCountAtLastSoundStart = Plugin.Instance.updateCounter;
+                                Plugin.Instance.lastSoundPlayed = "screaming_tape";
                             }
                             break;
                     }
@@ -836,11 +874,19 @@ namespace KittyHorrorshowTranslations
                     return;
                 }
 
-                switch (Plugin.Instance.runningGame)
+                // Do the replacements
+                try
                 {
-                    case "Anatomy":
-                        __instance.clip.Value = Anatomy.Instance.AudioReplacement(__instance.clip.Value);
-                        break;
+                    switch (Plugin.Instance.runningGame)
+                    {
+                        case "Anatomy":
+                            __instance.clip.Value = Anatomy.Instance.AudioReplacement(__instance.clip.Value);
+                            break;
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    Plugin.Instance.Logger.LogError("Error occured while doing audio replacement: "+ex.ToString());
                 }
             }
         }

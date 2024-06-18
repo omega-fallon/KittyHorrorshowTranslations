@@ -14,60 +14,22 @@ namespace KittyHorrorshowTranslations
             Instance = this;
         }
 
-        public Texture2D title;
-
-        public Texture2D message_1a;
-        public Texture2D message_1b;
-        public Texture2D message_1c;
-
-        public Texture2D message_2a;
-        public Texture2D message_2b;
-        public Texture2D message_2c;
-
-        public Texture2D message_3a;
-        public Texture2D message_3b;
-        public Texture2D message_3c;
-
-        public Texture2D message_4a;
-        public Texture2D message_4b;
-        public Texture2D message_4c;
-
-        public Texture2D message_5a;
-        public Texture2D message_5b;
-        public Texture2D message_5c;
-
-        public Texture2D message_6a;
-        public Texture2D message_6b;
-        public Texture2D message_6c;
-
+        public string[] actiasReplacedImages;
+        public Dictionary<string, Texture2D> actiasImages;
         public void AssetLoading()
         {
-            Plugin.Instance.PrintThisString("Loading Actias assets...");
-            try { title = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "title.png"); } catch { }
+            // Don't do any asset loads if the language is English or null/empty
+            if (Plugin.Instance.gameLanguage == "English" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
+            {
+                return;
+            }
 
-            try { message_1a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "1a.png"); } catch { }
-            try { message_1b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "1b.png"); } catch { }
-            try { message_1c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "1c.png"); } catch { }
-
-            try { message_2a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "2a.png"); } catch { }
-            try { message_2b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "2b.png"); } catch { }
-            try { message_2c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "2c.png"); } catch { }
-
-            try { message_3a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "3a.png"); } catch { }
-            try { message_3b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "3b.png"); } catch { }
-            try { message_3c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "3c.png"); } catch { }
-
-            try { message_4a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "4a.png"); } catch { }
-            try { message_4b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "4b.png"); } catch { }
-            try { message_4c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "4c.png"); } catch { }
-
-            try { message_5a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "5a.png"); } catch { }
-            try { message_5b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "5b.png"); } catch { }
-            try { message_5c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "5c.png"); } catch { }
-
-            try { message_6a = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "6a.png"); } catch { }
-            try { message_6b = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "6b.png"); } catch { }
-            try { message_6c = Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, "6c.png"); } catch { }
+            actiasReplacedImages = ["title", "1a", "1b", "1c", "2a", "2b", "2c", "3a", "3b", "3c", "4a", "4b", "4c", "5a", "5b", "5c", "6a", "6b", "6c"];
+            actiasImages = new Dictionary<string, Texture2D> { };
+            foreach (string str in actiasReplacedImages)
+            {
+                actiasImages.Add(str, Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, str + ".png"));
+            }
         }
 
         public string TextReplacement(string str)
@@ -94,72 +56,14 @@ namespace KittyHorrorshowTranslations
 
         public UnityEngine.Sprite TextureReplacement(SpriteRenderer spriteRenderer)
         {
-            switch (spriteRenderer.gameObject.name)
+            int textureWidth = (int)spriteRenderer.sprite.rect.m_Width;
+            int textureHeight = (int)spriteRenderer.sprite.rect.m_Height;
+
+            if (actiasReplacedImages.Contains(spriteRenderer.gameObject.name))
             {
-                case "title":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(title, 1600, 900);
-                    break;
-
-                case "1a":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_1a, 1209, 279);
-                    break;
-                case "1b":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_1b, 1797, 452);
-                    break;
-                case "1c":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_1c, 1429, 339);
-                    break;
-
-                case "2a":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_2a, 1642, 249);
-                    break;
-                case "2b":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_2b, 1129, 348);
-                    break;
-                case "2c":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_2c, 1155, 244);
-                    break;
-
-                case "3a":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_3a, 1141, 239);
-                    break;
-                case "3b":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_3b, 895, 401);
-                    break;
-                case "3c":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_3c, 1230, 401);
-                    break;
-
-                case "4a":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_4a, 762, 291);
-                    break;
-                case "4b":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_4b, 900, 296);
-                    break;
-                case "4c":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_4c, 1178, 337);
-                    break;
-
-                case "5a":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_5a, 1190, 452);
-                    break;
-                case "5b":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_5b, 1429, 270);
-                    break;
-                case "5c":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_5c, 1368, 559);
-                    break;
-
-                case "6a":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_6a, 534, 222);
-                    break;
-                case "6b":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_6b, 1034, 230);
-                    break;
-                case "6c":
-                    spriteRenderer.sprite = Plugin.Instance.SpriteReplace(message_6c, 1268, 213);
-                    break;
+                spriteRenderer.sprite = Plugin.Instance.SpriteReplace(actiasImages[spriteRenderer.gameObject.name], textureWidth, textureHeight);
             }
+
             return spriteRenderer.sprite;
         }
     }
