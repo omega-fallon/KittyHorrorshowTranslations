@@ -175,12 +175,44 @@ namespace KittyHorrorshowTranslations
 
         public void UnlockCursor()
         {
+            if (cursorErrorSkip != true)
+            {
+                try
+                {
+                    Meta_UnlockCursor();
+                }
+                catch
+                {
+                    cursorErrorSkip = true;
+                    Logger.LogInfo("Inconsequential error: UnlockCursor failed likely due to this being a 4.x game.");
+                }
+            }
+        }
+        public void LockCursor()
+        {
+            if (cursorErrorSkip != true)
+            {
+                try
+                {
+                    Meta_LockCursor();
+                }
+                catch
+                {
+                    cursorErrorSkip = true;
+                    Logger.LogInfo("Inconsequential error: LockCursor failed likely due to this being a 4.x game.");
+                }
+            }
+        }
+        public void Meta_UnlockCursor()
+        {
+            Logger.LogInfo("Cursor unlocked.");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
 
-        public void LockCursor()
+        public void Meta_LockCursor()
         {
+            Logger.LogInfo("Cursor locked.");
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
@@ -295,9 +327,13 @@ namespace KittyHorrorshowTranslations
         }
 
         public int notNeededButtonFrames;
+
         public bool cursorErrorSkip;
         public bool subtitlesDecided;
         public bool doSubtitles;
+
+        public bool readmeDecided;
+        public bool subtitlesDecidedLetGo;
 
         public void OnGUI()
         {
@@ -313,72 +349,147 @@ namespace KittyHorrorshowTranslations
                 // If the language has already been decided and subtitles have been decided (for games that need them), return
                 if (!string.IsNullOrEmpty(gameLanguage))
                 {
-                    if (subtitlesDecided)
+                    if (runningGame != "Anatomy") 
+                    {
+                        subtitlesDecided = true;
+                    }
+
+                    if (subtitlesDecided && readmeDecided)
                     {
                         return;
                     }
-                    else if (runningGame == "Anatomy")
+
+                    if (subtitlesDecided && !readmeDecided)
                     {
+                        string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "readmes", runningGame, gameLanguage};
+                        pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                        var path = String.Join("\\", pathParts);
+                        if (Directory.Exists(path))
+                        {
+                            UnlockCursor();
+
+                            string readmePrompt;
+                            string[] multiFileGames = ["Anatomy"];
+
+                            switch (gameLanguage)
+                            {
+                                case "French":
+                                    readmePrompt = "Lire les fichiers .txt\nqui accompagnent le jeu ?\n\nY (OUI) / N (NON)";
+                                    break;
+                                case "Dutch":
+                                    readmePrompt = "De bijbehorende .txt-bestanden\nvan de game lezen?\n\nY (JA) / N (NEE)";
+                                    break;
+                                case "Japanese":
+                                    readmePrompt = "ゲームに付属する.txt\nファイルを読みますか?\n\nY (はい) / N (いいえ)";
+                                    break;
+                                default:
+                                    readmePrompt = "";
+                                    break;
+                            }
+
+                            if (string.IsNullOrEmpty(readmePrompt))
+                            {
+                                // nothing
+                            }
+                            else
+                            {
+                                if (GUI.Button(new Rect((Screen.width - 200) / 2, (Screen.height - 100) / 2, 200, 100), readmePrompt, standardButtonStyle))
+                                {
+                                    readmeDecided = true;
+                                    Process.Start(path);
+
+                                    LockCursor();
+                                }
+                                else
+                                {
+                                    // Preventing holding from subtitles to count forward to this
+                                    if (!subtitlesDecidedLetGo)
+                                    {
+                                        if (!Input.GetKeyDown(KeyCode.Y) && !Input.GetKeyDown(KeyCode.N))
+                                        {
+                                            subtitlesDecidedLetGo = true;
+                                        }
+                                    }
+                                    // Keycodes aren't translated because that's not how it works in the other games
+                                    else if (Input.GetKeyDown(KeyCode.Y))
+                                    {
+                                        readmeDecided = true;
+                                        Process.Start(path);
+
+                                        LockCursor();
+                                    }
+                                    else if (Input.GetKeyDown(KeyCode.N))
+                                    {
+                                        readmeDecided = true;
+
+                                        LockCursor();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (!subtitlesDecided)
+                    {
+                        UnlockCursor();
+
+                        string subtitlePrompt;
                         switch (gameLanguage)
                         {
                             case "English":
-                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Enable subtitles?\n\nY / N", standardButtonStyle))
-                                {
-                                    // nothing
-                                }
+                                subtitlePrompt = "Enable subtitles?\n\nY / N";
                                 break;
                             case "French":
-                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Activer les sous-titres ?\n\nY (OUI) / N (NON)", standardButtonStyle))
-                                {
-                                    // nothing
-                                }
+                                subtitlePrompt = "Activer les sous-titres ?\n\nY (OUI) / N (NON)";
                                 break;
                             case "Dutch":
-                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "Ondertiteling inschakelen?\n\nY (JA) / N (NEE)", standardButtonStyle))
-                                {
-                                    // nothing
-                                }
+                                subtitlePrompt = "Ondertiteling inschakelen?\n\nY (JA) / N (NEE)";
                                 break;
                             case "Japanese":
-                                if (GUI.Button(new Rect((Screen.width - 150) / 2, (Screen.height - 100) / 2, 150, 100), "字幕を有効にしますか?\n\nY (はい) / N (いいえ)", standardButtonStyle))
-                                {
-                                    // nothing
-                                }
+                                subtitlePrompt = "字幕を有効にしますか?\n\nY (はい) / N (いいえ)";
+                                break;
+                            default:
+                                subtitlePrompt = "";
                                 break;
                         }
-                        
-                        // Keycodes aren't translated because that's not how it works in the other games
-                        if (Input.GetKeyDown(KeyCode.Y))
+
+                        if (string.IsNullOrEmpty(subtitlePrompt))
                         {
-                            subtitlesDecided = true;
-                            doSubtitles = true;
+                            // nothing
                         }
-                        else if (Input.GetKeyDown(KeyCode.N))
+                        else
                         {
-                            subtitlesDecided = true;
-                            doSubtitles = false;
+                            if (GUI.Button(new Rect((Screen.width - 200) / 2, (Screen.height - 100) / 2, 200, 100), subtitlePrompt, standardButtonStyle))
+                            {
+                                subtitlesDecided = true;
+                                doSubtitles = true;
+
+                                LockCursor();
+                            }
+                            else
+                            {
+                                // Keycodes aren't translated because that's not how it works in the other games
+                                if (Input.GetKeyDown(KeyCode.Y))
+                                {
+                                    subtitlesDecided = true;
+                                    doSubtitles = true;
+
+                                    LockCursor();
+                                }
+                                else if (Input.GetKeyDown(KeyCode.N))
+                                {
+                                    subtitlesDecided = true;
+                                    doSubtitles = false;
+
+                                    LockCursor();
+                                }
+                            }
                         }
-                        return;
                     }
-                    else
-                    {
-                        return;
-                    }
+
+                    return;
                 }
 
-                // Error dodging for 4.0 games
-                if (cursorErrorSkip != true)
-                {
-                    try
-                    {
-                        UnlockCursor();
-                    }
-                    catch
-                    {
-                        cursorErrorSkip = true;
-                        Plugin.Instance.Logger.LogInfo("Inconsequential error: UnlockCursor failed likely due to this being a 4.x game.");
-                    }
-                }
+                UnlockCursor();
 
                 // Establishing order and inclusion of languages - in final release, have this vary by game
                 string[] languages = [];
@@ -574,19 +685,7 @@ namespace KittyHorrorshowTranslations
         // Loading textures and audio
         public void AfterLanguageSelection()
         {
-            // Error dodging for 4.0 games
-            if (cursorErrorSkip != true)
-            {
-                try
-                {
-                    LockCursor();
-                }
-                catch
-                {
-                    cursorErrorSkip = true;
-                    Logger.LogInfo("Inconsequential error: LockCursor failed likely due to this being a 4.x game.");
-                }
-            }
+            LockCursor();
 
             Logger.LogInfo("Language set to "+gameLanguage);
 
@@ -734,7 +833,7 @@ namespace KittyHorrorshowTranslations
             public static void SceneLoad(LoadLevelNum __instance)
             {
                 // DEBUG
-                __instance.levelIndex.Value = 3;
+                //__instance.levelIndex.Value = 2;
 
                 // Setting variables //
                 Plugin.Instance.scenesLoaded += 1;
@@ -788,9 +887,12 @@ namespace KittyHorrorshowTranslations
                             if (Plugin.Instance.currentLevelIndex == 3)
                             {
                                 Anatomy_Subtitles.Instance.screamingTape = __instance.gameObject.GameObject.Value;
-
-                                Plugin.Instance.updateCountAtLastSoundStart = Plugin.Instance.updateCounter;
-                                Plugin.Instance.lastSoundPlayed = "screaming_tape";
+                            }
+                            break;
+                        case "title4":
+                            if (Plugin.Instance.currentLevelIndex == 3)
+                            {
+                                Anatomy_Subtitles.Instance.title4TV = __instance.gameObject.GameObject.Value;
                             }
                             break;
                     }
@@ -900,7 +1002,7 @@ namespace KittyHorrorshowTranslations
         {
             // Audio replacement
             string[] doAudioReplacement = ["CHYRZA"];
-            if (runAll || Array.IndexOf(doAudioReplacement, runningGame) != -1)
+            if (false)//runAll || Array.IndexOf(doAudioReplacement, runningGame) != -1)
             {
                 Logger.LogInfo("Beginning audio runthroughs...");
                 audioRanThrough = 0;

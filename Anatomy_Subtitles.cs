@@ -25,6 +25,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
         public string currentSubtitle;
 
         public GameObject screamingTape;
+        public GameObject title4TV;
 
         public void OnGUI()
         {
@@ -332,7 +333,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         {
                             { 1.5, "There is an important distinction that must be drawn between the words \"dissection\" and \"vivisection\"."},
                             { 7.2, "A distinction that would appear to be lost on you."},
-                            { 10.6, "Your purpose was to listen, and yet at every turn you have pried, you have prodded and you have interfered."},
+                            { 10.6, "Your purpose was to listen, and yet at every turn you have pried, you have prodded, and you have interfered."},
                             { 18.4, "Have you not been paying attention?" },
                             { 21.0, "Did it not occur to you that as an organism existing within a greater organism, your intrusion would be felt?" },
                             { 28.1, "And still you harassed."},
@@ -413,7 +414,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 }
 
                 // Screaming tape code
-                if (Plugin.Instance.currentLevelIndex == 3 && Vector3.Distance(screamingTape.transform.position, GameObject.Find("PLAYER").transform.position) <= 5.5)
+                if (Plugin.Instance.currentLevelIndex == 3 && screamingTape != null && Vector3.Distance(screamingTape.transform.position, GameObject.Find("PLAYER").transform.position) <= 5.5)
                 {
                     switch (Plugin.Instance.gameLanguage)
                     {
@@ -428,6 +429,24 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             break;
                         case "Japanese":
                             currentSubtitle = "[歪んだ叫び声]";
+                            break;
+                    }
+                }
+                else if (Plugin.Instance.currentLevelIndex == 3 && title4TV != null && Vector3.Distance(title4TV.transform.position, GameObject.Find("PLAYER").transform.position) <= 5.5)
+                {
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "English":
+                            currentSubtitle = "[static]";
+                            break;
+                        case "French":
+                            currentSubtitle = "[friture]";
+                            break;
+                        case "Dutch":
+                            currentSubtitle = "[statisch]";
+                            break;
+                        case "Japanese":
+                            currentSubtitle = "[砂嵐]";
                             break;
                     }
                 }

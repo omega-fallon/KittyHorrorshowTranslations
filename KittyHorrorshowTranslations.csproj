@@ -57,5 +57,7 @@
 	<ItemGroup>
 		<Folder Include="audio\" />
 		<Folder Include="images\" />
+		<Folder Include="fonts\" />
+		<Folder Include="readmes\" />
 	</ItemGroup>
 </Project>
