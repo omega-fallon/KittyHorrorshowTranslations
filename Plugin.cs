@@ -16,6 +16,7 @@ using OmegaFallon.KittyHorrorshowTranslations;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Logging;
+using HutongGames.PlayMaker;
 
 namespace KittyHorrorshowTranslations
 {
@@ -205,20 +206,26 @@ namespace KittyHorrorshowTranslations
         }
         public void Meta_UnlockCursor()
         {
-            Logger.LogInfo("Cursor unlocked.");
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            if (Cursor.lockState != CursorLockMode.None || Cursor.visible != true)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Logger.LogInfo("Cursor unlocked.");
+            }
         }
 
         public void Meta_LockCursor()
         {
-            Logger.LogInfo("Cursor locked.");
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            if (Cursor.lockState != CursorLockMode.Locked || Cursor.visible != false)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Logger.LogInfo("Cursor locked.");
+            }
         }
 
         public bool nineDown;
-        public bool rainHouseImageRunDone;
+        public bool titleCardHackDone;
         public int updateCounterAtLastDebugLevelLoad;
         public void Update()
         {
@@ -234,9 +241,10 @@ namespace KittyHorrorshowTranslations
             {
                 nineDown = true;
 
-                Logger.LogInfo("Running debug texture and audio replacement...");
+                Logger.LogInfo("Running debug replacements...");
                 TextureAudioReplacement(true);
-                Logger.LogInfo("Done with debug texture and audio replacement.");
+                FsmStringReplacement();
+                Logger.LogInfo("Done with debug replacements.");
             }
 
             // Debug level loading
@@ -302,13 +310,14 @@ namespace KittyHorrorshowTranslations
 
             // Hacky thing that makes texture replacements work on games with a little opening title card
             string[] titleCardGames = ["Rainhouse","Actias"];
-            if (Array.IndexOf(titleCardGames, runningGame) != -1 && rainHouseImageRunDone != true)
+            if (Array.IndexOf(titleCardGames, runningGame) != -1 && titleCardHackDone != true)
             {
+                FsmStringReplacement();
                 TextureAudioReplacement();
 
                 if (imagesRanThrough > 1)
                 {
-                    rainHouseImageRunDone = true;
+                    titleCardHackDone = true;
                 }
             }
 
@@ -697,6 +706,9 @@ namespace KittyHorrorshowTranslations
                 Plugin.Instance.Logger.LogInfo("Game font found: " + font.name);
             }
 
+            // Find and print FsmStrings
+            FsmStringReplacement();
+
             // Loading assets & other funcs. Language-specific assets are loaded into the _TRANS assets. This reduces switch statements later on. //
             switch (runningGame)
             {
@@ -824,6 +836,35 @@ namespace KittyHorrorshowTranslations
             }
         }
 
+        public void FsmStringReplacement()
+        {
+            try
+            {
+                var fsmList = Fsm.FsmList;
+                foreach (var fsm in fsmList)
+                {
+                    FsmString[] fsmStringList = fsm.Variables.StringVariables;
+                    foreach (var str in fsmStringList)
+                    {
+                        Plugin.Instance.PrintThisString("FsmString found: " + str.ToString());
+
+                        switch (runningGame)
+                        {
+                            case "Sunset":
+                                str.Value = Sunset.Instance.TextReplacement(str.Value);
+                                break;
+                        }
+
+                        str.Value = MiscGames.Instance.TextReplacement(str.Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogInfo("Exception during printing FsmStrings: " + ex.ToString());
+            }
+        }
+
         [HarmonyPatch]
         public class HutongPatches
         {
@@ -848,8 +889,10 @@ namespace KittyHorrorshowTranslations
                 }
                 else
                 {
-                    Plugin.Instance.Logger.LogInfo("Language has already been set. Running texture replacements.");
+                    Plugin.Instance.Logger.LogInfo("Language has already been set. Running replacements...");
                     Plugin.Instance.TextureAudioReplacement();
+                    Plugin.Instance.FsmStringReplacement();
+                    Plugin.Instance.Logger.LogInfo("Replacements done.");
                 }
             }
 
@@ -1001,8 +1044,8 @@ namespace KittyHorrorshowTranslations
         public void TextureAudioReplacement(bool runAll=false)
         {
             // Audio replacement
-            string[] doAudioReplacement = ["CHYRZA"];
-            if (false)//runAll || Array.IndexOf(doAudioReplacement, runningGame) != -1)
+            string[] doAudioReplacement = [""];
+            if (runAll || Array.IndexOf(doAudioReplacement, runningGame) != -1)
             {
                 Logger.LogInfo("Beginning audio runthroughs...");
                 audioRanThrough = 0;

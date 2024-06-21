@@ -413,7 +413,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     }
                 }
 
-                // Screaming tape code
+                // Sound description code
                 if (Plugin.Instance.currentLevelIndex == 3 && screamingTape != null && Vector3.Distance(screamingTape.transform.position, GameObject.Find("PLAYER").transform.position) <= 5.5)
                 {
                     switch (Plugin.Instance.gameLanguage)
