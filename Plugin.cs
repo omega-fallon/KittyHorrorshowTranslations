@@ -840,22 +840,20 @@ namespace KittyHorrorshowTranslations
         {
             try
             {
-                var fsmList = Fsm.FsmList;
-                foreach (var fsm in fsmList)
+                for (int i = 0; i <= Fsm.FsmList.Count - 1; i++)
                 {
-                    FsmString[] fsmStringList = fsm.Variables.StringVariables;
-                    foreach (var str in fsmStringList)
+                    for (int i2 = 0; i2 <= Fsm.FsmList[i].Variables.StringVariables.Length - 1; i2++)
                     {
-                        Plugin.Instance.PrintThisString("FsmString found: " + str.ToString());
+                        Plugin.Instance.PrintThisString(i+"-"+i2+"-FsmString found: " + Fsm.FsmList[i].Variables.StringVariables[i2].Value);
 
                         switch (runningGame)
                         {
                             case "Sunset":
-                                str.Value = Sunset.Instance.TextReplacement(str.Value);
+                                Fsm.FsmList[i].Variables.StringVariables[i2].Value = Sunset.Instance.TextReplacement(Fsm.FsmList[i].Variables.StringVariables[i2].Value);
                                 break;
                         }
 
-                        str.Value = MiscGames.Instance.TextReplacement(str.Value);
+                        Fsm.FsmList[i].Variables.StringVariables[i2].Value = MiscGames.Instance.TextReplacement(Fsm.FsmList[i].Variables.StringVariables[i2].Value);
                     }
                 }
             }

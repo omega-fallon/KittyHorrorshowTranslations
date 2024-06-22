@@ -22,6 +22,7 @@ namespace KittyHorrorshowTranslations
 
         public string TextReplacement(string str)
         {
+            string originalString = str;
             switch (str)
             {
                 case "With these, we shall flourish.  Our village will be the jewel of the mesa.":
@@ -33,45 +34,51 @@ namespace KittyHorrorshowTranslations
                 case "They understood our avarice, honed it into knives, and through our own hands hunted us.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = ""; break;
+                        case "French": str = "FILL IN"; break;
                     }
                     break;
                 case "My breath is being sapped.  It is hardening my thoughts, watching me die, celebrating.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = ""; break;
+                        case "French": str = "FILL IN"; break;
                     }
                     break;
                 case "Forgive me.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = ""; break;
+                        case "French": str = "Pardonne-moi."; break;
+                        case "Dutch": str = "Vergeef me."; break;
+                        case "Japanese": str = "儂を許して。"; break; // unsure of watashi here. perhaps washi, implying this is an old woman?
                     }
                     break;
                 case "They returned with another.  They howled louder when they were brought close together, as though they were calling out to one another.  Screaming, or maybe laughing.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = ""; break;
+                        case "French": str = "FILL IN"; break;
                     }
                     break;
                 case "I feel it observing me.  Its singing is ceaseless.  I wish I had never agreed to keep it.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = ""; break;
+                        case "French": str = "FILL IN"; break;
                     }
                     break;
                 case "Damn the sage.  His suspicious mewling would feed our hungry bones to the soil.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = ""; break;
+                        case "French": str = "FILL IN"; break;
                     }
                     break;
                 case "Where is papa?  Where did these walls come from?":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = ""; break;
+                        case "French": str = "FILL IN"; break;
                     }
                     break;
+            }
+            if (originalString != str)
+            {
+                Plugin.Instance.PrintThisString("Changed a string from \""+originalString+"\" to \""+str+"\"");
             }
             return str;
         }
