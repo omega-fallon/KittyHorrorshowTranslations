@@ -159,6 +159,14 @@ namespace KittyHorrorshowTranslations
                         case "Japanese": str = "FILL IN"; break;
                     }
                     break;
+                case "\"The Altar of Zo'ira\"":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "« L'Autel de Zo'ira »"; break;
+                        case "Dutch": str = "FILL IN"; break;
+                        case "Japanese": str = "FILL IN"; break;
+                    }
+                    break;
 
                 // Multi-game lines
                 case "Score:":
