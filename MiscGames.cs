@@ -201,7 +201,14 @@ namespace KittyHorrorshowTranslations
                         case "Japanese": str = "FILL IN"; break;
                     }
                     break;
-
+                case "Return?\n\nY  /  N":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Retour?\n\nY (OUI)  /  N (NON)"; break;
+                        case "Dutch": str = "FILL IN"; break;
+                        case "Japanese": str = "FILL IN"; break;
+                    }
+                    break;
                 case "Y / N":
                     switch (Plugin.Instance.gameLanguage)
                     {
@@ -216,6 +223,14 @@ namespace KittyHorrorshowTranslations
                         case "French": str = "ÉCHAPPER AU SYSTÈME ?"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
+                    }
+                    break;
+                case "Press Enter to continue":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Appuyez Entrée pour continuer"; break;
+                        case "Dutch": str = "Druk Enter om door te gaan"; break;
+                        case "Japanese": str = "続行するにはEnterキーを押してください"; break; // bad, fix this
                     }
                     break;
             }

@@ -107,6 +107,14 @@ namespace KittyHorrorshowTranslations
                             case "Japanese": __instance.overrideUseMessage = "（クリックして話す）"; break;
                         }
                         break;
+                    case "Click to read":
+                        switch (Plugin.Instance.gameLanguage)
+                        {
+                            case "French": __instance.overrideUseMessage = "Cliquez pour lire"; break;
+                            case "Dutch": __instance.overrideUseMessage = "Klik om te lezen"; break;
+                            case "Japanese": __instance.overrideUseMessage = "（クリックして読む）"; break;
+                        }
+                        break;
                 }
             }
 
@@ -208,6 +216,14 @@ namespace KittyHorrorshowTranslations
         {
             switch (name)
             {
+                case "Book":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": name = "Livre"; break;
+                        case "Dutch": name = "Boek"; break;
+                        case "Japanese": name = "本"; break;
+                    }
+                    break;
                 case "Ezekiel":
                     switch (Plugin.Instance.gameLanguage)
                     {

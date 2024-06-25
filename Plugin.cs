@@ -70,7 +70,7 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("Spine.exe")] // 
     [BepInProcess("Tin.exe")] // 5.4.3
 
-    // DOES NOT WORK under x86 or x64 - has a UnityPlayer.dll
+    // Must be in their own separate folder; has a UnityPlayer.dll
     [BepInProcess("basements.exe")] // 2017.4.2
     [BepInProcess("wormclot.exe")] // 2017.4.2
     [BepInProcess("GhostLake.exe")] // unknown
@@ -81,7 +81,7 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("Lethargy Hill.exe")] // 2019.2.0
     [BepInProcess("Tenement.exe")] // 2017.4.2
 
-    [BepInProcess("LivingRoom.exe")] // 2019.4.0
+    [BepInProcess("Living Room.exe")] // 2019.4.0
     [BepInProcess("Decommissioned City #65.exe")] // 2021.2.14
     [BepInProcess("bhk.exe")] // 
     [BepInProcess("complex.exe")] // 
@@ -92,6 +92,7 @@ namespace KittyHorrorshowTranslations
     public class Plugin : BaseUnityPlugin
     {
         public static Plugin Instance;
+        
         public void Awake()
         {
             Instance = this;
@@ -121,6 +122,7 @@ namespace KittyHorrorshowTranslations
                 case "Wraith":
                 case "Village":
                 case "Village_win":
+                case "Bhk":
                     break;
                 default:
                     try
@@ -146,6 +148,9 @@ namespace KittyHorrorshowTranslations
                     break;
                 case "CHYRZA":
                     gameObject.AddComponent<CHYRZA>();
+                    break;
+                case "Exclusion":
+                    gameObject.AddComponent<Exclusion>();
                     break;
                 case "Gloompuke":
                     Harmony.CreateAndPatchAll(typeof(Gloompuke.GloompukePatches));
@@ -367,278 +372,389 @@ namespace KittyHorrorshowTranslations
 
                     if (subtitlesDecided && readmeDecided)
                     {
-                        if (titleCardStartTime == 0)
+                        try
                         {
-                            titleCardStartTime = updateCounter;
-                        }
-
-                        string translatedTitle = runningGame;
-
-                        switch (runningGame)
-                        {
-                            case "Anatomy":
-                            case "Ccccccc":
-                                return;
-                            case "CHYRZA":
-                                switch (gameLanguage)
-                                {
-                                    case "Japanese": translatedTitle = "チいるザ"; break;
-                                }
-                                break;
-                            case "Sunset":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Crépuscule, Esprit, Acier"; break;
-                                    case "Dutch": translatedTitle = "Zonsondergang, Geest, Staal"; break;
-                                    case "Japanese": translatedTitle = "夕焼け、精神、鋼鉄"; break;
-                                }
-                                break;
-                            case "Sigilvalley":
-                            case "Sigilvalley_64bit":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Vallée des Sceaux"; break;
-                                    case "Dutch": translatedTitle = "Vallei van Sigils"; break;
-                                    case "Japanese": translatedTitle = "印章の谷"; break;
-                                }
-                                break;
-                            case "Archlake":
-                            case "Archlake_win":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Lac d'Arc"; break;
-                                    case "Dutch": translatedTitle = "Meer de Boog"; break;
-                                    case "Japanese": translatedTitle = "アーチの湖"; break;
-                                }
-                                break;
-                            case "Rainhouse":
-                            case "Rainhouse_64bit":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Pluie, Maison, Éternité"; break;
-                                    case "Dutch": translatedTitle = "Regen, Huis, Eeuwigheid"; break;
-                                    case "Japanese": translatedTitle = "雨、家、永遠"; break;
-                                }
-                                break;
-                            case "Vaporcrane":
-                            case "Vaporcrane_64bit":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Grue de Vapeur"; break;
-                                    case "Dutch": translatedTitle = "Stoomkraan"; break;
-                                    case "Japanese": translatedTitle = "蒸気の鶴"; break;
-                                }
-                                break;
-                            case "Stormsea":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Mer des Tempêtes"; break;
-                                    case "Dutch": translatedTitle = "Stormzee"; break;
-                                    case "Japanese": translatedTitle = "嵐の海"; break;
-                                }
-                                break;
-                            case "Skin":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Peau"; break;
-                                    case "Dutch": translatedTitle = "Huid"; break;
-                                    case "Japanese": translatedTitle = "肌"; break;
-                                }
-                                break;
-                            case "Aurelia":
-                                switch (gameLanguage)
-                                {
-                                    case "Japanese": translatedTitle = "アレリア"; break;
-                                }
-                                break;
-                            case "Wraithshead":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Tête de Wraith"; break;
-                                    case "Dutch": translatedTitle = "Wraith-hoofd"; break;
-                                    case "Japanese": translatedTitle = "レイスの頭"; break;
-                                }
-                                break;
-                            case "Wraith":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Wraith"; break;
-                                    case "Dutch": translatedTitle = "Wraith"; break;
-                                    case "Japanese": translatedTitle = "レイス"; break;
-                                }
-                                break;
-                            case "Pente":
-                                switch (gameLanguage)
-                                {
-                                    case "Japanese": translatedTitle = "ペンテイ"; break;
-                                }
-                                break;
-                            case "Leechbowl":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Bol de Sangsues"; break;
-                                    case "Dutch": translatedTitle = "Kom met Bloedzuigers"; break;
-                                    case "Japanese": translatedTitle = "ヒルのボウル"; break;
-                                }
-                                break;
-                            case "Grandmother":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Grand-mère"; break;
-                                    case "Dutch": translatedTitle = "Grootmoeder"; break;
-                                    case "Japanese": translatedTitle = "祖母"; break;
-                                }
-                                break;
-                            case "Cyberskull":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Crâne Cyber"; break;
-                                    case "Dutch": translatedTitle = "Cyberschedel"; break;
-                                    case "Japanese": translatedTitle = "サイバースカル"; break;
-                                }
-                                break;
-                            case "Actias":
-                                switch (gameLanguage)
-                                {
-                                    case "Japanese": translatedTitle = "アクティアス"; break;
-                                }
-                                break;
-                            case "Scarlet":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Écarlate"; break;
-                                    case "Dutch": translatedTitle = "Scharlaken"; break;
-                                    case "Japanese": translatedTitle = "スカーレット"; break;
-                                }
-                                break;
-                            case "Gloompuke":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Morositévomir"; break;
-                                    case "Dutch": translatedTitle = "Somberheidkots"; break;
-                                    case "Japanese": translatedTitle = "憂鬱吐き気"; break;
-                                }
-                                break;
-                            case "Factory":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Usine"; break;
-                                    case "Dutch": translatedTitle = "Fabriek"; break;
-                                    case "Japanese": translatedTitle = "工場"; break;
-                                }
-                                break;
-                            case "Artery":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Artère"; break;
-                                    case "Dutch": translatedTitle = "Slagader"; break;
-                                    case "Japanese": translatedTitle = "動脈"; break;
-                                }
-                                break;
-                            case "Amalia":
-                                switch (gameLanguage)
-                                {
-                                    case "Japanese": translatedTitle = "アマリア"; break;
-                                }
-                                break;
-                            case "Charon":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Charon"; break;
-                                    case "Dutch": translatedTitle = "Charon"; break;
-                                    case "Japanese": translatedTitle = "カローン"; break;
-                                }
-                                break;
-                            case "Tin":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Étain"; break;
-                                    case "Dutch": translatedTitle = "Tin"; break;
-                                    case "Japanese": translatedTitle = "スズ"; break;
-                                }
-                                break;
-                            case "Spine":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Échine"; break;
-                                    case "Dutch": translatedTitle = "Wervelkolom"; break;
-                                    case "Japanese": translatedTitle = "脊椎"; break;
-                                }
-                                break;
-                            case "Sieve":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Tamis"; break;
-                                    case "Dutch": translatedTitle = "Zeef"; break;
-                                    case "Japanese": translatedTitle = "篩"; break;
-                                }
-                                break;
-                            case "Roads":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Routes"; break;
-                                    case "Dutch": translatedTitle = "Wegen"; break;
-                                    case "Japanese": translatedTitle = "道路"; break;
-                                }
-                                break;
-                            case "Needlerust":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Rouille des Aiguilles"; break;
-                                    case "Dutch": translatedTitle = "Naaldroest"; break;
-                                    case "Japanese": translatedTitle = "針の錆"; break;
-                                }
-                                break;
-                            case "Monastery":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Monastère"; break;
-                                    case "Dutch": translatedTitle = "Klooster"; break;
-                                    case "Japanese": translatedTitle = "修道院"; break;
-                                }
-                                break;
-                            case "Erosion":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Érosion"; break;
-                                    case "Dutch": translatedTitle = "Erosie"; break;
-                                    case "Japanese": translatedTitle = "侵食"; break;
-                                }
-                                break;
-                            case "Dust":
-                                switch (gameLanguage)
-                                {
-                                    case "French": translatedTitle = "Poussière"; break;
-                                    case "Dutch": translatedTitle = "Stof"; break;
-                                    case "Japanese": translatedTitle = "埃"; break;
-                                }
-                                break;
-                        }
-
-                        if (updateCounter - titleCardStartTime < 5*60) 
-                        {
-                            float width = (float)(Screen.width * 0.75);
-                            float height = (float)(Screen.height * 0.5);
-                            float x = (float)((Screen.width - width) / 2);
-                            float y = (float)((Screen.height - height) / 2);
-
-                            GUIStyle style = GUISkin.current.label;
-                            style.fontSize = 60;
-                            style.fontStyle = UnityEngine.FontStyle.Italic;
-                            style.alignment = TextAnchor.UpperCenter;
-
-                            switch (gameLanguage)
+                            if (titleCardStartTime == 0)
                             {
-                                case "French":
-                                    GUI.Label(new Rect(x, y, width, height), new GUIContent("« " + translatedTitle + " »" + "\nde Kitty Horrorshow"), style);
+                                titleCardStartTime = updateCounter;
+                            }
+
+                            string translatedTitle = runningGame;
+
+                            switch (runningGame)
+                            {
+                                case "Anatomy":
+                                case "Ccccccc":
+                                    return;
+                                case "CHYRZA":
+                                    switch (gameLanguage)
+                                    {
+                                        case "Japanese": translatedTitle = "チいるザ"; break;
+                                    }
                                     break;
-                                case "Dutch":
-                                    GUI.Label(new Rect(x, y, width, height), new GUIContent("\"" + translatedTitle + "\"" + "\nvan Kitty Horrorshow"), style);
+                                case "Sunset":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Crépuscule, Esprit, Acier"; break;
+                                        case "Dutch": translatedTitle = "Zonsondergang, Geest, Staal"; break;
+                                        case "Japanese": translatedTitle = "夕焼け、精神、鋼鉄"; break;
+                                    }
                                     break;
-                                case "Japanese":
-                                    GUI.Label(new Rect(x, y, width, height), new GUIContent("キティ・ハラショ" + "の" + "\n「" + translatedTitle + "」"), style);
+                                case "Sigilvalley":
+                                case "Sigilvalley_64bit":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Vallée des Sceaux"; break;
+                                        case "Dutch": translatedTitle = "Vallei van Sigils"; break;
+                                        case "Japanese": translatedTitle = "印章の谷"; break;
+                                    }
+                                    break;
+                                case "Archlake":
+                                case "Archlake_win":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Lac d'Arc"; break;
+                                        case "Dutch": translatedTitle = "Meer de Boog"; break;
+                                        case "Japanese": translatedTitle = "アーチの湖"; break;
+                                    }
+                                    break;
+                                case "Rainhouse":
+                                case "Rainhouse_64bit":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Pluie, Maison, Éternité"; break;
+                                        case "Dutch": translatedTitle = "Regen, Huis, Eeuwigheid"; break;
+                                        case "Japanese": translatedTitle = "雨、家、永遠"; break;
+                                    }
+                                    break;
+                                case "Vaporcrane":
+                                case "Vaporcrane_64bit":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Grue de Vapeur"; break;
+                                        case "Dutch": translatedTitle = "Stoomkraan"; break;
+                                        case "Japanese": translatedTitle = "蒸気の鶴"; break;
+                                    }
+                                    break;
+                                case "Stormsea":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Mer des Tempêtes"; break;
+                                        case "Dutch": translatedTitle = "Stormzee"; break;
+                                        case "Japanese": translatedTitle = "嵐の海"; break;
+                                    }
+                                    break;
+                                case "Skin":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Peau"; break;
+                                        case "Dutch": translatedTitle = "Huid"; break;
+                                        case "Japanese": translatedTitle = "肌"; break;
+                                    }
+                                    break;
+                                case "Aurelia":
+                                    switch (gameLanguage)
+                                    {
+                                        case "Japanese": translatedTitle = "アレリア"; break;
+                                    }
+                                    break;
+                                case "Wraithshead":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Tête de Wraith"; break;
+                                        case "Dutch": translatedTitle = "Wraith-hoofd"; break;
+                                        case "Japanese": translatedTitle = "レイスの頭"; break;
+                                    }
+                                    break;
+                                case "Wraith":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Wraith"; break;
+                                        case "Dutch": translatedTitle = "Wraith"; break;
+                                        case "Japanese": translatedTitle = "レイス"; break;
+                                    }
+                                    break;
+                                case "Pente":
+                                    switch (gameLanguage)
+                                    {
+                                        case "Japanese": translatedTitle = "ペンテイ"; break;
+                                    }
+                                    break;
+                                case "Leechbowl":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Bol de Sangsues"; break;
+                                        case "Dutch": translatedTitle = "Kom met Bloedzuigers"; break;
+                                        case "Japanese": translatedTitle = "ヒルのボウル"; break;
+                                    }
+                                    break;
+                                case "Grandmother":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Grand-mère"; break;
+                                        case "Dutch": translatedTitle = "Grootmoeder"; break;
+                                        case "Japanese": translatedTitle = "祖母"; break;
+                                    }
+                                    break;
+                                case "Cyberskull":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Crâne Cyber"; break;
+                                        case "Dutch": translatedTitle = "Cyberschedel"; break;
+                                        case "Japanese": translatedTitle = "サイバースカル"; break;
+                                    }
+                                    break;
+                                case "Actias":
+                                    switch (gameLanguage)
+                                    {
+                                        case "Japanese": translatedTitle = "アクティアス"; break;
+                                    }
+                                    break;
+                                case "Scarlet":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Écarlate"; break;
+                                        case "Dutch": translatedTitle = "Scharlaken"; break;
+                                        case "Japanese": translatedTitle = "スカーレット"; break;
+                                    }
+                                    break;
+                                case "Gloompuke":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Morositévomir"; break;
+                                        case "Dutch": translatedTitle = "Somberheidkots"; break;
+                                        case "Japanese": translatedTitle = "憂鬱吐き気"; break;
+                                    }
+                                    break;
+                                case "Factory":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Usine"; break;
+                                        case "Dutch": translatedTitle = "Fabriek"; break;
+                                        case "Japanese": translatedTitle = "工場"; break;
+                                    }
+                                    break;
+                                case "Artery":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Artère"; break;
+                                        case "Dutch": translatedTitle = "Slagader"; break;
+                                        case "Japanese": translatedTitle = "動脈"; break;
+                                    }
+                                    break;
+                                case "Amalia":
+                                    switch (gameLanguage)
+                                    {
+                                        case "Japanese": translatedTitle = "アマリア"; break;
+                                    }
+                                    break;
+                                case "Charon":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Charon"; break;
+                                        case "Dutch": translatedTitle = "Charon"; break;
+                                        case "Japanese": translatedTitle = "カローン"; break;
+                                    }
+                                    break;
+                                case "Tin":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Étain"; break;
+                                        case "Dutch": translatedTitle = "Tin"; break;
+                                        case "Japanese": translatedTitle = "スズ"; break;
+                                    }
+                                    break;
+                                case "Spine":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Échine"; break;
+                                        case "Dutch": translatedTitle = "Wervelkolom"; break;
+                                        case "Japanese": translatedTitle = "脊椎"; break;
+                                    }
+                                    break;
+                                case "Sieve":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Tamis"; break;
+                                        case "Dutch": translatedTitle = "Zeef"; break;
+                                        case "Japanese": translatedTitle = "篩"; break;
+                                    }
+                                    break;
+                                case "Roads":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Routes"; break;
+                                        case "Dutch": translatedTitle = "Wegen"; break;
+                                        case "Japanese": translatedTitle = "道路"; break;
+                                    }
+                                    break;
+                                case "Needlerust":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Rouille des Aiguilles"; break;
+                                        case "Dutch": translatedTitle = "Naaldroest"; break;
+                                        case "Japanese": translatedTitle = "針の錆"; break;
+                                    }
+                                    break;
+                                case "Monastery":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Monastère"; break;
+                                        case "Dutch": translatedTitle = "Klooster"; break;
+                                        case "Japanese": translatedTitle = "修道院"; break;
+                                    }
+                                    break;
+                                case "Erosion":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Érosion"; break;
+                                        case "Dutch": translatedTitle = "Erosie"; break;
+                                        case "Japanese": translatedTitle = "侵食"; break;
+                                    }
+                                    break;
+                                case "Dust":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Poussière"; break;
+                                        case "Dutch": translatedTitle = "Stof"; break;
+                                        case "Japanese": translatedTitle = "埃"; break;
+                                    }
+                                    break;
+                                case "Basements":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Sous-sols"; break;
+                                        case "Dutch": translatedTitle = "Kelders"; break;
+                                        case "Japanese": translatedTitle = "地下3階"; break;
+                                    }
+                                    break;
+                                case "Wormclot":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Château de Vercaillot"; break;
+                                        case "Dutch": translatedTitle = "Kasteel Wormstolsel"; break;
+                                        case "Japanese": translatedTitle = "虫血栓城"; break;
+                                    }
+                                    break;
+                                case "GhostLake":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Lac Fantôme"; break;
+                                        case "Dutch": translatedTitle = "Spookmeer"; break;
+                                        case "Japanese": translatedTitle = "幽霊の湖"; break;
+                                    }
+                                    break;
+                                case "Seven":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Sept Jours"; break;
+                                        case "Dutch": translatedTitle = "Zeven Dagen"; break;
+                                        case "Japanese": translatedTitle = "七日間"; break;
+                                    }
+                                    break;
+                                case "Exclusion":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Zone d'Exclusion"; break;
+                                        case "Dutch": translatedTitle = "Sperrgebiet"; break;
+                                        case "Japanese": translatedTitle = "立入禁止区域"; break;
+                                    }
+                                    break;
+                                case "Grandmother's Garden":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Le Jardin de Grand-mère"; break;
+                                        case "Dutch": translatedTitle = "Grootmoeders Tuin"; break;
+                                        case "Japanese": translatedTitle = "おばあちゃんの庭"; break;
+                                    }
+                                    break;
+                                case "Lethargy Hill":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Colline de la Léthargie"; break;
+                                        case "Dutch": translatedTitle = "Lethargie Heuvel"; break;
+                                        case "Japanese": translatedTitle = "無気力の丘"; break;
+                                    }
+                                    break;
+                                case "Tenement":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Immeuble"; break;
+                                        case "Dutch": translatedTitle = "Huurkazerne"; break;
+                                        case "Japanese": translatedTitle = "長屋"; break;
+                                    }
+                                    break;
+                                case "Bhk":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Clé du Cœur Brisé"; break;
+                                        case "Dutch": translatedTitle = "Gebroken Hart Sleutel"; break;
+                                        case "Japanese": translatedTitle = "壊れた心の鍵"; break;
+                                    }
+                                    break;
+                                case "Complex":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Complexe"; break;
+                                        case "Dutch": translatedTitle = "Complex"; break;
+                                        case "Japanese": translatedTitle = "複合"; break;
+                                    }
+                                    break;
+                                case "Decommissioned City #65":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Ville Déclassée #65"; break;
+                                        case "Dutch": translatedTitle = "Ontmantelde Stad #65"; break;
+                                        case "Japanese": translatedTitle = "廃止された都市 #65"; break;
+                                    }
+                                    break;
+                                case "Living Room":
+                                    switch (gameLanguage)
+                                    {
+                                        case "French": translatedTitle = "Le Salon"; break;
+                                        case "Dutch": translatedTitle = "Woonkamer"; break;
+                                        case "Japanese": translatedTitle = "居間"; break;
+                                    }
+                                    break;
+                                case "Zerega":
+                                    switch (gameLanguage)
+                                    {
+                                        case "Japanese": translatedTitle = "ゾレガ"; break;
+                                    }
                                     break;
                             }
+
+                            if (updateCounter - titleCardStartTime < 5 * 60)
+                            {
+                                float width = (float)(Screen.width * 0.75);
+                                float height = (float)(Screen.height * 0.5);
+                                float x = (float)((Screen.width - width) / 2);
+                                float y = (float)((Screen.height - height) / 2);
+
+                                GUIStyle style = GUISkin.current.label;
+                                style.fontSize = 60;
+                                //style.fontStyle = UnityEngine.FontStyle.Italic;
+                                style.alignment = TextAnchor.UpperCenter;
+
+                                if ((runningGame == "Rainhouse" || runningGame == "Rainhouse_64bit") && imagesRanThrough == 1) { style.m_Normal.textColor = UnityEngine.Color.red; }
+
+                                switch (gameLanguage)
+                                {
+                                    case "French":
+                                        GUI.Label(new Rect(x, y, width, height), new GUIContent("« " + translatedTitle + " »" + "\nde Kitty Horrorshow"), style);
+                                        break;
+                                    case "Dutch":
+                                        GUI.Label(new Rect(x, y, width, height), new GUIContent("\"" + translatedTitle + "\"" + "\nvan Kitty Horrorshow"), style);
+                                        break;
+                                    case "Japanese":
+                                        GUI.Label(new Rect(x, y, width, height), new GUIContent("キティ・ハラショ" + "の" + "\n「" + translatedTitle + "」"), style);
+                                        break;
+                                }
+                            }
+                        }
+                        catch (Exception ex) 
+                        {
+                            Logger.LogInfo("Exception when trying to print titlecard: "+ex.ToString());
                         }
 
                         return;
@@ -649,12 +765,19 @@ namespace KittyHorrorshowTranslations
                         string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "readmes", runningGame, gameLanguage};
                         pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                         var path = String.Join("\\", pathParts);
+
+                        if (!Directory.Exists(path))
+                        {
+                            string[] pathParts2 = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "readmes", runningGame, gameLanguage };
+                            pathParts2 = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                            path = String.Join("\\", pathParts2);
+                        }
+
                         if (Directory.Exists(path))
                         {
                             UnlockCursor();
 
                             string readmePrompt;
-                            string[] multiFileGames = ["Anatomy"];
 
                             switch (gameLanguage)
                             {
@@ -934,10 +1057,27 @@ namespace KittyHorrorshowTranslations
                 clip.SetData(outputSamples, 0);
                 return clip;
             }
-            catch (Exception ex)
+            catch
             {
-                Logger.LogError("Error occured while attempting to load file " + fileName + ": " + ex.ToString());
-                return achyBreaky;
+                try
+                {
+                    string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "audio", mainFolder, subFolder, fileName };
+                    pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                    var path = String.Join("\\", pathParts);
+                    Logger.LogInfo("Loading audio from " + path);
+                    using var reader = new NAudio.Wave.AudioFileReader(path);
+                    var sampleCount = (int)(reader.Length * 8 / reader.WaveFormat.BitsPerSample);
+                    var outputSamples = new float[sampleCount];
+                    reader.Read(outputSamples, 0, sampleCount);
+                    var clip = AudioClip.Create(path, sampleCount / reader.WaveFormat.Channels, reader.WaveFormat.Channels, reader.WaveFormat.SampleRate, false);
+                    clip.SetData(outputSamples, 0);
+                    return clip;
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError("Error occured while attempting to load file " + fileName + ": " + ex.ToString());
+                    return achyBreaky;
+                }
             }
         }
         public Texture2D GetTexture(string mainFolder = "", string subFolder = "", string fileName = "")
@@ -953,10 +1093,24 @@ namespace KittyHorrorshowTranslations
                 texture.LoadImage(data);
                 return texture;
             }
-            catch (Exception ex)
+            catch
             {
-                Logger.LogError("Error occured while attempting to load file "+fileName+": "+ex.ToString());
-                return bigRed;
+                try
+                {
+                    string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "images", mainFolder, subFolder, fileName };
+                    pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                    var path = String.Join("\\", pathParts);
+                    Logger.LogInfo("Loading texture from " + path);
+                    var data = File.ReadAllBytes(path);
+                    var texture = new Texture2D(2, 2);
+                    texture.LoadImage(data);
+                    return texture;
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError("Error occured while attempting to load file " + fileName + ": " + ex.ToString());
+                    return bigRed;
+                }
             }
         }
         // End OWML code
@@ -988,7 +1142,18 @@ namespace KittyHorrorshowTranslations
             }
 
             // Find and print FsmStrings
-            FsmStringReplacement();
+            switch (runningGame)
+            {
+                case "CHYRZA":
+                case "Wraith":
+                case "Village":
+                case "Village_win":
+                case "Bhk":
+                    break;
+                default:
+                    FsmStringReplacement();
+                    break;
+            }
 
             // Loading assets & other funcs. Language-specific assets are loaded into the _TRANS assets. This reduces switch statements later on. //
             switch (runningGame)
@@ -1203,8 +1368,46 @@ namespace KittyHorrorshowTranslations
                     Plugin.Instance.Logger.LogInfo("A GameObject was deactivated: " + __instance.gameObject.GameObject.ToString());
                 }
 
+                // Exclusion stuff
+                if (Plugin.Instance.runningGame == "Exclusion" && __instance.activate.Value)
+                {
+                    switch (__instance.gameObject.GameObject.ToString())
+                    {
+                        case "Press Enter to continue":
+                            Exclusion.Instance.pressEnter = __instance.gameObject.GameObject.Value;
+                            break;
+                        case "Escape":
+                            Exclusion.Instance.escape = __instance.gameObject.GameObject.Value;
+                            break;
+
+                        case "Temple (Whole) Text":
+                            Exclusion.Instance.templeWholeText = __instance.gameObject.GameObject.Value;
+                            break;
+                        case "Plaza Text":
+                            Exclusion.Instance.plazaText = __instance.gameObject.GameObject.Value;
+                            break;
+                        case "Overlook Text":
+                            Exclusion.Instance.overlookText = __instance.gameObject.GameObject.Value;
+                            break;
+                        case "Tower (Inner) Text":
+                            Exclusion.Instance.towerInnerText = __instance.gameObject.GameObject.Value;
+                            break;
+                        case "Tower (Outer) Text":
+                            Exclusion.Instance.towerOuterText = __instance.gameObject.GameObject.Value;
+                            break;
+                        case "Henge Text":
+                            Exclusion.Instance.hengeText = __instance.gameObject.GameObject.Value;
+                            break;
+                        case "Inner Chamber Text":
+                            Exclusion.Instance.innerChamberText = __instance.gameObject.GameObject.Value;
+                            break;
+                        case "Orchard Text":
+                            Exclusion.Instance.orchardText = __instance.gameObject.GameObject.Value;
+                            break;
+                    }
+                }
                 // For some reason, these two tapes do not use Hutong's "PlaySound" so we're doing this hacky workaround. It works, and that's what matters.
-                if (Plugin.Instance.runningGame == "Anatomy" && __instance.activate.Value)
+                else if (Plugin.Instance.runningGame == "Anatomy" && __instance.activate.Value)
                 {
                     switch (__instance.gameObject.GameObject.ToString())
                     {

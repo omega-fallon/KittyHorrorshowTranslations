@@ -13,7 +13,26 @@
 			https://nuget.samboy.dev/v3/index.json
 		</RestoreAdditionalProjectSources>
 		<RootNamespace>OmegaFallon.KittyHorrorshowTranslations</RootNamespace>
+
+		<OutputPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\BepInEx\plugins\KittyHorrorshowTranslations\</OutputPath>
+		<UnityDLLOutputPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project - NEW ERA\BepInEx\plugins\KittyHorrorshowTranslations\net35\</UnityDLLOutputPath>
 	</PropertyGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('$(OutputPath)')">
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\NAudio-Unity.dll&quot; &quot;$(OutputPath)&quot;" />
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\audio\&quot; &quot;$(OutputPath)audio\&quot;" />
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\images\&quot; &quot;$(OutputPath)images\&quot;" />
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\fonts\&quot; &quot;$(OutputPath)fonts\&quot;" />
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\readmes\&quot; &quot;$(OutputPath)readmes\&quot;" />
+
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\NAudio-Unity.dll&quot; &quot;$(UnityDLLOutputPath)&quot;" />
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\audio\&quot; &quot;$(UnityDLLOutputPath)audio\&quot;" />
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\images\&quot; &quot;$(UnityDLLOutputPath)images\&quot;" />
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\fonts\&quot; &quot;$(UnityDLLOutputPath)fonts\&quot;" />
+		<Exec Command="xcopy /y /s &quot;C:\Users\brigh\Desktop\KittyHorrorshowTranslations\readmes\&quot; &quot;$(UnityDLLOutputPath)readmes\&quot;" />
+
+		<Exec Command="xcopy /y &quot;$(OutputPath)&quot; &quot;$(UnityDLLOutputPath)&quot;" />
+	</Target>
 
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
@@ -45,7 +64,7 @@
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="NAudio">
-			<HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\BepInEx\plugins\KittyHorrorshowTranslations\NAudio-Unity.dll</HintPath>
+			<HintPath>C:\Users\brigh\Desktop\KittyHorrorshowTranslations\NAudio-Unity.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
