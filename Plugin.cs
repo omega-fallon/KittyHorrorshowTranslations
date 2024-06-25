@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Logging;
 using HutongGames.PlayMaker;
+using static PixelCrushers.DialogueSystem.Articy.ArticyData;
 
 namespace KittyHorrorshowTranslations
 {
@@ -135,8 +136,9 @@ namespace KittyHorrorshowTranslations
                     }
                     break;
             }
-            
+
             // Add .cs files and Harmony patches for individual games
+            gameObject.AddComponent<OmegaFallon.KittyHorrorshowTranslations.GUI>();
             switch (runningGame)
             {
                 case "Actias":
@@ -145,6 +147,9 @@ namespace KittyHorrorshowTranslations
                 case "Anatomy":
                     gameObject.AddComponent<Anatomy>();
                     gameObject.AddComponent<Anatomy_Subtitles>();
+                    break;
+                case "Basements":
+                    gameObject.AddComponent<Basements>();
                     break;
                 case "CHYRZA":
                     gameObject.AddComponent<CHYRZA>();
@@ -162,8 +167,17 @@ namespace KittyHorrorshowTranslations
                 case "Leechbowl":
                     gameObject.AddComponent<Leechbowl>();
                     break;
+                case "Living Room":
+                    gameObject.AddComponent<Living_Room>();
+                    break;
                 case "Sunset":
                     gameObject.AddComponent<Sunset>();
+                    break;
+                case "Tenement":
+                    gameObject.AddComponent<Tenement>();
+                    break;
+                case "Wormclot":
+                    gameObject.AddComponent<Wormclot>();
                     break;
             }
 
@@ -177,11 +191,10 @@ namespace KittyHorrorshowTranslations
 
         public string runningGame;
         public string gameLanguage = "";
-        public bool guiDimensionsPrinted;
 
         public void UnlockCursor()
         {
-            if (cursorErrorSkip != true)
+            if (OmegaFallon.KittyHorrorshowTranslations.GUI.Instance.cursorErrorSkip != true)
             {
                 try
                 {
@@ -189,14 +202,14 @@ namespace KittyHorrorshowTranslations
                 }
                 catch
                 {
-                    cursorErrorSkip = true;
+                    OmegaFallon.KittyHorrorshowTranslations.GUI.Instance.cursorErrorSkip = true;
                     Logger.LogInfo("Inconsequential error: UnlockCursor failed likely due to this being a 4.x game.");
                 }
             }
         }
         public void LockCursor()
         {
-            if (cursorErrorSkip != true)
+            if (OmegaFallon.KittyHorrorshowTranslations.GUI.Instance.cursorErrorSkip != true)
             {
                 try
                 {
@@ -204,7 +217,7 @@ namespace KittyHorrorshowTranslations
                 }
                 catch
                 {
-                    cursorErrorSkip = true;
+                    OmegaFallon.KittyHorrorshowTranslations.GUI.Instance.cursorErrorSkip = true;
                     Logger.LogInfo("Inconsequential error: LockCursor failed likely due to this being a 4.x game.");
                 }
             }
@@ -340,706 +353,6 @@ namespace KittyHorrorshowTranslations
             }
         }
 
-        public int notNeededButtonFrames;
-
-        public bool cursorErrorSkip;
-        public bool subtitlesDecided;
-        public bool doSubtitles;
-
-        public bool readmeDecided;
-        public bool subtitlesDecidedLetGo;
-
-        public int titleCardStartTime;
-
-        public void OnGUI()
-        {
-            try
-            {
-                // Creating standard button style
-                GUIStyle standardButtonStyle = GUISkin.current.button;
-                if (runningGameFont != null)
-                {
-                    //standardButtonStyle.font = runningGameFont;
-                }
-
-                // If the language has already been decided and subtitles have been decided (for games that need them), return
-                if (!string.IsNullOrEmpty(gameLanguage))
-                {
-                    if (runningGame != "Anatomy") 
-                    {
-                        subtitlesDecided = true;
-                    }
-
-                    if (subtitlesDecided && readmeDecided)
-                    {
-                        try
-                        {
-                            if (titleCardStartTime == 0)
-                            {
-                                titleCardStartTime = updateCounter;
-                            }
-
-                            string translatedTitle = runningGame;
-
-                            switch (runningGame)
-                            {
-                                case "Anatomy":
-                                case "Ccccccc":
-                                    return;
-                                case "CHYRZA":
-                                    switch (gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "チいるザ"; break;
-                                    }
-                                    break;
-                                case "Sunset":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Crépuscule, Esprit, Acier"; break;
-                                        case "Dutch": translatedTitle = "Zonsondergang, Geest, Staal"; break;
-                                        case "Japanese": translatedTitle = "夕焼け、精神、鋼鉄"; break;
-                                    }
-                                    break;
-                                case "Sigilvalley":
-                                case "Sigilvalley_64bit":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Vallée des Sceaux"; break;
-                                        case "Dutch": translatedTitle = "Vallei van Sigils"; break;
-                                        case "Japanese": translatedTitle = "印章の谷"; break;
-                                    }
-                                    break;
-                                case "Archlake":
-                                case "Archlake_win":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Lac d'Arc"; break;
-                                        case "Dutch": translatedTitle = "Meer de Boog"; break;
-                                        case "Japanese": translatedTitle = "アーチの湖"; break;
-                                    }
-                                    break;
-                                case "Rainhouse":
-                                case "Rainhouse_64bit":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Pluie, Maison, Éternité"; break;
-                                        case "Dutch": translatedTitle = "Regen, Huis, Eeuwigheid"; break;
-                                        case "Japanese": translatedTitle = "雨、家、永遠"; break;
-                                    }
-                                    break;
-                                case "Vaporcrane":
-                                case "Vaporcrane_64bit":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Grue de Vapeur"; break;
-                                        case "Dutch": translatedTitle = "Stoomkraan"; break;
-                                        case "Japanese": translatedTitle = "蒸気の鶴"; break;
-                                    }
-                                    break;
-                                case "Stormsea":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Mer des Tempêtes"; break;
-                                        case "Dutch": translatedTitle = "Stormzee"; break;
-                                        case "Japanese": translatedTitle = "嵐の海"; break;
-                                    }
-                                    break;
-                                case "Skin":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Peau"; break;
-                                        case "Dutch": translatedTitle = "Huid"; break;
-                                        case "Japanese": translatedTitle = "肌"; break;
-                                    }
-                                    break;
-                                case "Aurelia":
-                                    switch (gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "アレリア"; break;
-                                    }
-                                    break;
-                                case "Wraithshead":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Tête de Wraith"; break;
-                                        case "Dutch": translatedTitle = "Wraith-hoofd"; break;
-                                        case "Japanese": translatedTitle = "レイスの頭"; break;
-                                    }
-                                    break;
-                                case "Wraith":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Wraith"; break;
-                                        case "Dutch": translatedTitle = "Wraith"; break;
-                                        case "Japanese": translatedTitle = "レイス"; break;
-                                    }
-                                    break;
-                                case "Pente":
-                                    switch (gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "ペンテイ"; break;
-                                    }
-                                    break;
-                                case "Leechbowl":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Bol de Sangsues"; break;
-                                        case "Dutch": translatedTitle = "Kom met Bloedzuigers"; break;
-                                        case "Japanese": translatedTitle = "ヒルのボウル"; break;
-                                    }
-                                    break;
-                                case "Grandmother":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Grand-mère"; break;
-                                        case "Dutch": translatedTitle = "Grootmoeder"; break;
-                                        case "Japanese": translatedTitle = "祖母"; break;
-                                    }
-                                    break;
-                                case "Cyberskull":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Crâne Cyber"; break;
-                                        case "Dutch": translatedTitle = "Cyberschedel"; break;
-                                        case "Japanese": translatedTitle = "サイバースカル"; break;
-                                    }
-                                    break;
-                                case "Actias":
-                                    switch (gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "アクティアス"; break;
-                                    }
-                                    break;
-                                case "Scarlet":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Écarlate"; break;
-                                        case "Dutch": translatedTitle = "Scharlaken"; break;
-                                        case "Japanese": translatedTitle = "スカーレット"; break;
-                                    }
-                                    break;
-                                case "Gloompuke":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Morositévomir"; break;
-                                        case "Dutch": translatedTitle = "Somberheidkots"; break;
-                                        case "Japanese": translatedTitle = "憂鬱吐き気"; break;
-                                    }
-                                    break;
-                                case "Factory":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Usine"; break;
-                                        case "Dutch": translatedTitle = "Fabriek"; break;
-                                        case "Japanese": translatedTitle = "工場"; break;
-                                    }
-                                    break;
-                                case "Artery":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Artère"; break;
-                                        case "Dutch": translatedTitle = "Slagader"; break;
-                                        case "Japanese": translatedTitle = "動脈"; break;
-                                    }
-                                    break;
-                                case "Amalia":
-                                    switch (gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "アマリア"; break;
-                                    }
-                                    break;
-                                case "Charon":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Charon"; break;
-                                        case "Dutch": translatedTitle = "Charon"; break;
-                                        case "Japanese": translatedTitle = "カローン"; break;
-                                    }
-                                    break;
-                                case "Tin":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Étain"; break;
-                                        case "Dutch": translatedTitle = "Tin"; break;
-                                        case "Japanese": translatedTitle = "スズ"; break;
-                                    }
-                                    break;
-                                case "Spine":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Échine"; break;
-                                        case "Dutch": translatedTitle = "Wervelkolom"; break;
-                                        case "Japanese": translatedTitle = "脊椎"; break;
-                                    }
-                                    break;
-                                case "Sieve":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Tamis"; break;
-                                        case "Dutch": translatedTitle = "Zeef"; break;
-                                        case "Japanese": translatedTitle = "篩"; break;
-                                    }
-                                    break;
-                                case "Roads":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Routes"; break;
-                                        case "Dutch": translatedTitle = "Wegen"; break;
-                                        case "Japanese": translatedTitle = "道路"; break;
-                                    }
-                                    break;
-                                case "Needlerust":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Rouille des Aiguilles"; break;
-                                        case "Dutch": translatedTitle = "Naaldroest"; break;
-                                        case "Japanese": translatedTitle = "針の錆"; break;
-                                    }
-                                    break;
-                                case "Monastery":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Monastère"; break;
-                                        case "Dutch": translatedTitle = "Klooster"; break;
-                                        case "Japanese": translatedTitle = "修道院"; break;
-                                    }
-                                    break;
-                                case "Erosion":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Érosion"; break;
-                                        case "Dutch": translatedTitle = "Erosie"; break;
-                                        case "Japanese": translatedTitle = "侵食"; break;
-                                    }
-                                    break;
-                                case "Dust":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Poussière"; break;
-                                        case "Dutch": translatedTitle = "Stof"; break;
-                                        case "Japanese": translatedTitle = "埃"; break;
-                                    }
-                                    break;
-                                case "Basements":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Sous-sols"; break;
-                                        case "Dutch": translatedTitle = "Kelders"; break;
-                                        case "Japanese": translatedTitle = "地下3階"; break;
-                                    }
-                                    break;
-                                case "Wormclot":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Château de Vercaillot"; break;
-                                        case "Dutch": translatedTitle = "Kasteel Wormstolsel"; break;
-                                        case "Japanese": translatedTitle = "虫血栓城"; break;
-                                    }
-                                    break;
-                                case "GhostLake":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Lac Fantôme"; break;
-                                        case "Dutch": translatedTitle = "Spookmeer"; break;
-                                        case "Japanese": translatedTitle = "幽霊の湖"; break;
-                                    }
-                                    break;
-                                case "Seven":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Sept Jours"; break;
-                                        case "Dutch": translatedTitle = "Zeven Dagen"; break;
-                                        case "Japanese": translatedTitle = "七日間"; break;
-                                    }
-                                    break;
-                                case "Exclusion":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Zone d'Exclusion"; break;
-                                        case "Dutch": translatedTitle = "Sperrgebiet"; break;
-                                        case "Japanese": translatedTitle = "立入禁止区域"; break;
-                                    }
-                                    break;
-                                case "Grandmother's Garden":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Le Jardin de Grand-mère"; break;
-                                        case "Dutch": translatedTitle = "Grootmoeders Tuin"; break;
-                                        case "Japanese": translatedTitle = "おばあちゃんの庭"; break;
-                                    }
-                                    break;
-                                case "Lethargy Hill":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Colline de la Léthargie"; break;
-                                        case "Dutch": translatedTitle = "Lethargie Heuvel"; break;
-                                        case "Japanese": translatedTitle = "無気力の丘"; break;
-                                    }
-                                    break;
-                                case "Tenement":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Immeuble"; break;
-                                        case "Dutch": translatedTitle = "Huurkazerne"; break;
-                                        case "Japanese": translatedTitle = "長屋"; break;
-                                    }
-                                    break;
-                                case "Bhk":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Clé du Cœur Brisé"; break;
-                                        case "Dutch": translatedTitle = "Gebroken Hart Sleutel"; break;
-                                        case "Japanese": translatedTitle = "壊れた心の鍵"; break;
-                                    }
-                                    break;
-                                case "Complex":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Complexe"; break;
-                                        case "Dutch": translatedTitle = "Complex"; break;
-                                        case "Japanese": translatedTitle = "複合"; break;
-                                    }
-                                    break;
-                                case "Decommissioned City #65":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Ville Déclassée #65"; break;
-                                        case "Dutch": translatedTitle = "Ontmantelde Stad #65"; break;
-                                        case "Japanese": translatedTitle = "廃止された都市 #65"; break;
-                                    }
-                                    break;
-                                case "Living Room":
-                                    switch (gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Le Salon"; break;
-                                        case "Dutch": translatedTitle = "Woonkamer"; break;
-                                        case "Japanese": translatedTitle = "居間"; break;
-                                    }
-                                    break;
-                                case "Zerega":
-                                    switch (gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "ゾレガ"; break;
-                                    }
-                                    break;
-                            }
-
-                            if (updateCounter - titleCardStartTime < 5 * 60)
-                            {
-                                float width = (float)(Screen.width * 0.75);
-                                float height = (float)(Screen.height * 0.5);
-                                float x = (float)((Screen.width - width) / 2);
-                                float y = (float)((Screen.height - height) / 2);
-
-                                GUIStyle style = GUISkin.current.label;
-                                style.fontSize = 60;
-                                //style.fontStyle = UnityEngine.FontStyle.Italic;
-                                style.alignment = TextAnchor.UpperCenter;
-
-                                if ((runningGame == "Rainhouse" || runningGame == "Rainhouse_64bit") && imagesRanThrough == 1) { style.m_Normal.textColor = UnityEngine.Color.red; }
-
-                                switch (gameLanguage)
-                                {
-                                    case "French":
-                                        GUI.Label(new Rect(x, y, width, height), new GUIContent("« " + translatedTitle + " »" + "\nde Kitty Horrorshow"), style);
-                                        break;
-                                    case "Dutch":
-                                        GUI.Label(new Rect(x, y, width, height), new GUIContent("\"" + translatedTitle + "\"" + "\nvan Kitty Horrorshow"), style);
-                                        break;
-                                    case "Japanese":
-                                        GUI.Label(new Rect(x, y, width, height), new GUIContent("キティ・ハラショ" + "の" + "\n「" + translatedTitle + "」"), style);
-                                        break;
-                                }
-                            }
-                        }
-                        catch (Exception ex) 
-                        {
-                            Logger.LogInfo("Exception when trying to print titlecard: "+ex.ToString());
-                        }
-
-                        return;
-                    }
-
-                    if (subtitlesDecided && !readmeDecided)
-                    {
-                        string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "readmes", runningGame, gameLanguage};
-                        pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                        var path = String.Join("\\", pathParts);
-
-                        if (!Directory.Exists(path))
-                        {
-                            string[] pathParts2 = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "readmes", runningGame, gameLanguage };
-                            pathParts2 = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                            path = String.Join("\\", pathParts2);
-                        }
-
-                        if (Directory.Exists(path))
-                        {
-                            UnlockCursor();
-
-                            string readmePrompt;
-
-                            switch (gameLanguage)
-                            {
-                                case "French":
-                                    readmePrompt = "Lire les fichiers .txt\nqui accompagnent le jeu ?\n\nY (OUI) / N (NON)";
-                                    break;
-                                case "Dutch":
-                                    readmePrompt = "De bijbehorende .txt-bestanden\nvan de game lezen?\n\nY (JA) / N (NEE)";
-                                    break;
-                                case "Japanese":
-                                    readmePrompt = "ゲームに付属する.txt\nファイルを読みますか?\n\nY (はい) / N (いいえ)";
-                                    break;
-                                default:
-                                    readmePrompt = "";
-                                    break;
-                            }
-
-                            if (string.IsNullOrEmpty(readmePrompt))
-                            {
-                                // nothing
-                            }
-                            else
-                            {
-                                if (GUI.Button(new Rect((Screen.width - 200) / 2, (Screen.height - 100) / 2, 200, 100), readmePrompt, standardButtonStyle))
-                                {
-                                    readmeDecided = true;
-                                    Process.Start(path);
-
-                                    LockCursor();
-                                }
-                                else
-                                {
-                                    // Preventing holding from subtitles to count forward to this
-                                    if (!subtitlesDecidedLetGo)
-                                    {
-                                        if (!Input.GetKeyDown(KeyCode.Y) && !Input.GetKeyDown(KeyCode.N))
-                                        {
-                                            subtitlesDecidedLetGo = true;
-                                        }
-                                    }
-                                    // Keycodes aren't translated because that's not how it works in the other games
-                                    else if (Input.GetKeyDown(KeyCode.Y))
-                                    {
-                                        readmeDecided = true;
-                                        Process.Start(path);
-
-                                        LockCursor();
-                                    }
-                                    else if (Input.GetKeyDown(KeyCode.N))
-                                    {
-                                        readmeDecided = true;
-
-                                        LockCursor();
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            readmeDecided = true;
-                            LockCursor();
-                        }
-                    }
-                    else if (!subtitlesDecided)
-                    {
-                        UnlockCursor();
-
-                        string subtitlePrompt;
-                        switch (gameLanguage)
-                        {
-                            case "English":
-                                subtitlePrompt = "Enable subtitles?\n\nY / N";
-                                break;
-                            case "French":
-                                subtitlePrompt = "Activer les sous-titres ?\n\nY (OUI) / N (NON)";
-                                break;
-                            case "Dutch":
-                                subtitlePrompt = "Ondertiteling inschakelen?\n\nY (JA) / N (NEE)";
-                                break;
-                            case "Japanese":
-                                subtitlePrompt = "字幕を有効にしますか?\n\nY (はい) / N (いいえ)";
-                                break;
-                            default:
-                                subtitlePrompt = "";
-                                break;
-                        }
-
-                        if (string.IsNullOrEmpty(subtitlePrompt))
-                        {
-                            // nothing
-                        }
-                        else
-                        {
-                            if (GUI.Button(new Rect((Screen.width - 200) / 2, (Screen.height - 100) / 2, 200, 100), subtitlePrompt, standardButtonStyle))
-                            {
-                                subtitlesDecided = true;
-                                doSubtitles = true;
-
-                                LockCursor();
-                            }
-                            else
-                            {
-                                // Keycodes aren't translated because that's not how it works in the other games
-                                if (Input.GetKeyDown(KeyCode.Y))
-                                {
-                                    subtitlesDecided = true;
-                                    doSubtitles = true;
-
-                                    LockCursor();
-                                }
-                                else if (Input.GetKeyDown(KeyCode.N))
-                                {
-                                    subtitlesDecided = true;
-                                    doSubtitles = false;
-
-                                    LockCursor();
-                                }
-                            }
-                        }
-                    }
-
-                    return;
-                }
-
-                UnlockCursor();
-
-                // Establishing order and inclusion of languages - in final release, have this vary by game
-                string[] languages = [];
-                switch (runningGame)
-                {
-                    case "Sigilvalley":
-                    case "Sigilvalley_64bit":
-                    case "Vaporcrane":
-                    case "Vaporcrane_win":
-                        languages = ["Unneeded"];
-                        break;
-                    default:
-                        languages = ["English", "French", "Dutch", "Japanese"];
-                        break;
-                }
-
-                int englishDex = Array.IndexOf(languages, "English");
-                int frenchDex = Array.IndexOf(languages, "French");
-                int dutchDex = Array.IndexOf(languages, "Dutch");
-                int japaneseDex = Array.IndexOf(languages, "Japanese");
-
-                // Math for button spacing
-                int appWidth = Screen.width;
-                int appHeight = Screen.height;
-
-                int numLangs = languages.Length;
-
-                int buttonWidth;
-                int buttonHeight;
-                if (Array.IndexOf(languages, "Unneeded") != -1)
-                {
-                    buttonWidth = 500;
-                    buttonHeight = 250;
-                }
-                else
-                {
-                    buttonWidth = 150;
-                    buttonHeight = 100;
-                }
-
-                int widthSpacer = (appWidth - (numLangs * buttonWidth)) / (numLangs + 1);
-                int heightSpacer = (appHeight - buttonHeight) / 2;
-
-                // Write code here to catch buttons overlapping if we ever get enough languages for that to happen
-                if (widthSpacer < 0)
-                {
-
-                }
-
-                // Printing dimensions
-                if (!guiDimensionsPrinted)
-                {
-                    guiDimensionsPrinted = true;
-                    Plugin.Instance.Logger.LogInfo("Window dimensions: " + appWidth.ToString() + " " + appHeight.ToString());
-                    Plugin.Instance.Logger.LogInfo("Button spacing values: " + widthSpacer.ToString() + " " + heightSpacer.ToString());
-                }
-
-                // No translation needed popup
-                if (notNeededButtonFrames > 10*60)
-                {
-                    gameLanguage = "English";
-                    return;
-                }
-                if (Array.IndexOf(languages, "Unneeded") != -1)
-                {
-                    GUIStyle style = GUISkin.current.button;
-                    style.fontSize = 30;
-
-                    GUI.Button(new Rect(widthSpacer, heightSpacer, buttonWidth, buttonHeight), "No translation needed." + "\nAucune traduction nécessaire." + "\nGeen vertaling nodig." + "\n翻訳は必要ありません。", style);
-
-                    notNeededButtonFrames += 1;
-
-                    return;
-                }
-
-                // Standard buttons
-                if (englishDex != -1)
-                {
-                    if (GUI.Button(new Rect(widthSpacer + (englishDex * widthSpacer) + (englishDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "English" + "\n\n(Press " + (englishDex + 1) + ")", standardButtonStyle))
-                    {
-                        gameLanguage = "English";
-                        AfterLanguageSelection();
-                    }
-                }
-                if (frenchDex != -1)
-                {
-                    if (GUI.Button(new Rect(widthSpacer + (frenchDex * widthSpacer) + (frenchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Français" + "\n\n(Appuyez " + (frenchDex + 1) + ")", standardButtonStyle))
-                    {
-                        gameLanguage = "French";
-                        AfterLanguageSelection();
-                    }
-                }
-                if (dutchDex != -1)
-                {
-                    if (GUI.Button(new Rect(widthSpacer + (dutchDex * widthSpacer) + (dutchDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "Nederlands" + "\n\n(Druk " + (dutchDex + 1) + ")", standardButtonStyle))
-                    {
-                        gameLanguage = "Dutch";
-                        AfterLanguageSelection();
-                    }
-                }
-                if (japaneseDex != -1)
-                {
-                    if (GUI.Button(new Rect(widthSpacer + (japaneseDex * widthSpacer) + (japaneseDex * buttonWidth), heightSpacer, buttonWidth, buttonHeight), "日本語" + "\n\n(" + (japaneseDex + 1) + "を押す)", standardButtonStyle))
-                    {
-                        gameLanguage = "Japanese";
-                        AfterLanguageSelection();
-                    }
-                }
-
-                // Allowing keypresses as alternative
-                if ((Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) && numLangs >= 1 && !string.IsNullOrEmpty(languages[0]))
-                {
-                    gameLanguage = languages[0];
-                    AfterLanguageSelection();
-                }
-                if ((Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) && numLangs >= 2 && !string.IsNullOrEmpty(languages[1]))
-                {
-                    gameLanguage = languages[1];
-                    AfterLanguageSelection();
-                }
-                if ((Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)) && numLangs >= 3 && !string.IsNullOrEmpty(languages[2]))
-                {
-                    gameLanguage = languages[2];
-                    AfterLanguageSelection();
-                }
-                if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4)) && numLangs >= 4 && !string.IsNullOrEmpty(languages[3]))
-                {
-                    gameLanguage = languages[3];
-                    AfterLanguageSelection();
-                }
-            }
-            catch (Exception ex) 
-            {
-                Plugin.Instance.Logger.LogInfo("OnGUI exception: "+ex.ToString());
-            }
-        }
-
         // OWML code
         public AudioClip GetAudio(string mainFolder = "", string subFolder = "", string fileName = "")
         {
@@ -1169,8 +482,6 @@ namespace KittyHorrorshowTranslations
                 case "Gloompuke":
                     Gloompuke.Instance.EditObjectNames();
                     break;
-                case "Sunset":
-                    break;
             }
 
             // Do texture replacements //
@@ -1211,8 +522,8 @@ namespace KittyHorrorshowTranslations
 
             // Text replacement
             [HarmonyPrefix]
-            [HarmonyPatch(typeof(GUI), nameof(GUI.Label), new System.Type[] { typeof(Rect), typeof(GUIContent), typeof(GUIStyle) })]
-            public static void GUILabel_Prefix(GUI __instance, Rect position, GUIContent content, GUIStyle style)
+            [HarmonyPatch(typeof(UnityEngine.GUI), nameof(UnityEngine.GUI.Label), new System.Type[] { typeof(Rect), typeof(GUIContent), typeof(GUIStyle) })]
+            public static void GUILabel_Prefix(UnityEngine.GUI __instance, Rect position, GUIContent content, GUIStyle style)
             {
                 if (content.m_Text != Plugin.Instance.lastText)
                 {
@@ -1368,46 +679,9 @@ namespace KittyHorrorshowTranslations
                     Plugin.Instance.Logger.LogInfo("A GameObject was deactivated: " + __instance.gameObject.GameObject.ToString());
                 }
 
-                // Exclusion stuff
-                if (Plugin.Instance.runningGame == "Exclusion" && __instance.activate.Value)
-                {
-                    switch (__instance.gameObject.GameObject.ToString())
-                    {
-                        case "Press Enter to continue":
-                            Exclusion.Instance.pressEnter = __instance.gameObject.GameObject.Value;
-                            break;
-                        case "Escape":
-                            Exclusion.Instance.escape = __instance.gameObject.GameObject.Value;
-                            break;
-
-                        case "Temple (Whole) Text":
-                            Exclusion.Instance.templeWholeText = __instance.gameObject.GameObject.Value;
-                            break;
-                        case "Plaza Text":
-                            Exclusion.Instance.plazaText = __instance.gameObject.GameObject.Value;
-                            break;
-                        case "Overlook Text":
-                            Exclusion.Instance.overlookText = __instance.gameObject.GameObject.Value;
-                            break;
-                        case "Tower (Inner) Text":
-                            Exclusion.Instance.towerInnerText = __instance.gameObject.GameObject.Value;
-                            break;
-                        case "Tower (Outer) Text":
-                            Exclusion.Instance.towerOuterText = __instance.gameObject.GameObject.Value;
-                            break;
-                        case "Henge Text":
-                            Exclusion.Instance.hengeText = __instance.gameObject.GameObject.Value;
-                            break;
-                        case "Inner Chamber Text":
-                            Exclusion.Instance.innerChamberText = __instance.gameObject.GameObject.Value;
-                            break;
-                        case "Orchard Text":
-                            Exclusion.Instance.orchardText = __instance.gameObject.GameObject.Value;
-                            break;
-                    }
-                }
+                
                 // For some reason, these two tapes do not use Hutong's "PlaySound" so we're doing this hacky workaround. It works, and that's what matters.
-                else if (Plugin.Instance.runningGame == "Anatomy" && __instance.activate.Value)
+                if (Plugin.Instance.runningGame == "Anatomy" && __instance.activate.Value)
                 {
                     switch (__instance.gameObject.GameObject.ToString())
                     {

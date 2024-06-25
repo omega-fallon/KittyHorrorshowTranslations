@@ -31,7 +31,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
         {
             try
             {
-                if (Plugin.Instance.doSubtitles == false)
+                if (GUI.Instance.doSubtitles == false)
                 {
                     return;
                 }
@@ -495,7 +495,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     }
 
                     // Write the subtitle
-                    GUI.Label(new Rect(x, y, width, height), new GUIContent(currentSubtitle), style);
+                    UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent(currentSubtitle), style);
                 }
 
                 // Debug subtitle frame counter //
@@ -540,7 +540,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
 
                     if (!string.IsNullOrEmpty(str))
                     {
-                        GUI.DoLabel(new Rect(x: 480, y: 648, width: 960, height: 324), new GUIContent(str), (IntPtr)78015920);
+                        UnityEngine.GUI.DoLabel(new Rect(x: 480, y: 648, width: 960, height: 324), new GUIContent(str), (IntPtr)78015920);
                     }
                 }
             }
