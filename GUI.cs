@@ -69,350 +69,13 @@ namespace OmegaFallon.KittyHorrorshowTranslations
 
                             string translatedTitle = Plugin.Instance.runningGame;
 
-                            switch (Plugin.Instance.runningGame)
-                            {
-                                case "Anatomy":
-                                case "Ccccccc":
-                                    return;
-                                case "CHYRZA":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "チいるザ"; break;
-                                    }
-                                    break;
-                                case "Sunset":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Crépuscule, Esprit, Acier"; break;
-                                        case "Dutch": translatedTitle = "Zonsondergang, Geest, Staal"; break;
-                                        case "Japanese": translatedTitle = "夕焼け、精神、鋼鉄"; break;
-                                    }
-                                    break;
-                                case "Sigilvalley":
-                                case "Sigilvalley_64bit":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Vallée des Sceaux"; break;
-                                        case "Dutch": translatedTitle = "Vallei van Sigils"; break;
-                                        case "Japanese": translatedTitle = "印章の谷"; break;
-                                    }
-                                    break;
-                                case "Archlake":
-                                case "Archlake_win":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Lac d'Arc"; break;
-                                        case "Dutch": translatedTitle = "Meer de Boog"; break;
-                                        case "Japanese": translatedTitle = "アーチの湖"; break;
-                                    }
-                                    break;
-                                case "Rainhouse":
-                                case "Rainhouse_64bit":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Pluie, Maison, Éternité"; break;
-                                        case "Dutch": translatedTitle = "Regen, Huis, Eeuwigheid"; break;
-                                        case "Japanese": translatedTitle = "雨、家、永遠"; break;
-                                    }
-                                    break;
-                                case "Vaporcrane":
-                                case "Vaporcrane_64bit":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Grue de Vapeur"; break;
-                                        case "Dutch": translatedTitle = "Stoomkraan"; break;
-                                        case "Japanese": translatedTitle = "蒸気の鶴"; break;
-                                    }
-                                    break;
-                                case "Stormsea":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Mer des Tempêtes"; break;
-                                        case "Dutch": translatedTitle = "Stormzee"; break;
-                                        case "Japanese": translatedTitle = "嵐の海"; break;
-                                    }
-                                    break;
-                                case "Skin":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Peau"; break;
-                                        case "Dutch": translatedTitle = "Huid"; break;
-                                        case "Japanese": translatedTitle = "肌"; break;
-                                    }
-                                    break;
-                                case "Aurelia":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "アレリア"; break;
-                                    }
-                                    break;
-                                case "Wraithshead":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Tête de Wraith"; break;
-                                        case "Dutch": translatedTitle = "Wraith-hoofd"; break;
-                                        case "Japanese": translatedTitle = "レイスの頭"; break;
-                                    }
-                                    break;
-                                case "Wraith":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Wraith"; break;
-                                        case "Dutch": translatedTitle = "Wraith"; break;
-                                        case "Japanese": translatedTitle = "レイス"; break;
-                                    }
-                                    break;
-                                case "Pente":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "ペンテイ"; break;
-                                    }
-                                    break;
-                                case "Leechbowl":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Bol de Sangsues"; break;
-                                        case "Dutch": translatedTitle = "Kom met Bloedzuigers"; break;
-                                        case "Japanese": translatedTitle = "ヒルのボウル"; break;
-                                    }
-                                    break;
-                                case "Grandmother":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Grand-mère"; break;
-                                        case "Dutch": translatedTitle = "Grootmoeder"; break;
-                                        case "Japanese": translatedTitle = "祖母"; break;
-                                    }
-                                    break;
-                                case "Cyberskull":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Crâne Cyber"; break;
-                                        case "Dutch": translatedTitle = "Cyberschedel"; break;
-                                        case "Japanese": translatedTitle = "サイバースカル"; break;
-                                    }
-                                    break;
-                                case "Actias":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "アクティアス"; break;
-                                    }
-                                    break;
-                                case "Scarlet":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Écarlate"; break;
-                                        case "Dutch": translatedTitle = "Scharlaken"; break;
-                                        case "Japanese": translatedTitle = "スカーレット"; break;
-                                    }
-                                    break;
-                                case "Gloompuke":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Morositévomir"; break;
-                                        case "Dutch": translatedTitle = "Somberheidkots"; break;
-                                        case "Japanese": translatedTitle = "憂鬱吐き気"; break;
-                                    }
-                                    break;
-                                case "Factory":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Usine"; break;
-                                        case "Dutch": translatedTitle = "Fabriek"; break;
-                                        case "Japanese": translatedTitle = "工場"; break;
-                                    }
-                                    break;
-                                case "Artery":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Artère"; break;
-                                        case "Dutch": translatedTitle = "Slagader"; break;
-                                        case "Japanese": translatedTitle = "動脈"; break;
-                                    }
-                                    break;
-                                case "Amalia":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "アマリア"; break;
-                                    }
-                                    break;
-                                case "Charon":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Charon"; break;
-                                        case "Dutch": translatedTitle = "Charon"; break;
-                                        case "Japanese": translatedTitle = "カローン"; break;
-                                    }
-                                    break;
-                                case "Tin":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Étain"; break;
-                                        case "Dutch": translatedTitle = "Tin"; break;
-                                        case "Japanese": translatedTitle = "スズ"; break;
-                                    }
-                                    break;
-                                case "Spine":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Échine"; break;
-                                        case "Dutch": translatedTitle = "Wervelkolom"; break;
-                                        case "Japanese": translatedTitle = "脊椎"; break;
-                                    }
-                                    break;
-                                case "Sieve":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Tamis"; break;
-                                        case "Dutch": translatedTitle = "Zeef"; break;
-                                        case "Japanese": translatedTitle = "篩"; break;
-                                    }
-                                    break;
-                                case "Roads":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Routes"; break;
-                                        case "Dutch": translatedTitle = "Wegen"; break;
-                                        case "Japanese": translatedTitle = "道路"; break;
-                                    }
-                                    break;
-                                case "Needlerust":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Rouille des Aiguilles"; break;
-                                        case "Dutch": translatedTitle = "Naaldroest"; break;
-                                        case "Japanese": translatedTitle = "針の錆"; break;
-                                    }
-                                    break;
-                                case "Monastery":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Monastère"; break;
-                                        case "Dutch": translatedTitle = "Klooster"; break;
-                                        case "Japanese": translatedTitle = "修道院"; break;
-                                    }
-                                    break;
-                                case "Erosion":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Érosion"; break;
-                                        case "Dutch": translatedTitle = "Erosie"; break;
-                                        case "Japanese": translatedTitle = "侵食"; break;
-                                    }
-                                    break;
-                                case "Dust":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Poussière"; break;
-                                        case "Dutch": translatedTitle = "Stof"; break;
-                                        case "Japanese": translatedTitle = "埃"; break;
-                                    }
-                                    break;
-                                case "Basements":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Sous-sols"; break;
-                                        case "Dutch": translatedTitle = "Kelders"; break;
-                                        case "Japanese": translatedTitle = "地下3階"; break;
-                                    }
-                                    break;
-                                case "Wormclot":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Château de Vercaillot"; break;
-                                        case "Dutch": translatedTitle = "Kasteel Wormstolsel"; break;
-                                        case "Japanese": translatedTitle = "虫血栓城"; break;
-                                    }
-                                    break;
-                                case "GhostLake":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Lac Fantôme"; break;
-                                        case "Dutch": translatedTitle = "Spookmeer"; break;
-                                        case "Japanese": translatedTitle = "幽霊の湖"; break;
-                                    }
-                                    break;
-                                case "Seven":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Sept Jours"; break;
-                                        case "Dutch": translatedTitle = "Zeven Dagen"; break;
-                                        case "Japanese": translatedTitle = "七日間"; break;
-                                    }
-                                    break;
-                                case "Exclusion":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Zone d'Exclusion"; break;
-                                        case "Dutch": translatedTitle = "Sperrgebiet"; break;
-                                        case "Japanese": translatedTitle = "立入禁止区域"; break;
-                                    }
-                                    break;
-                                case "Grandmother's Garden":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Le Jardin de Grand-mère"; break;
-                                        case "Dutch": translatedTitle = "Grootmoeders Tuin"; break;
-                                        case "Japanese": translatedTitle = "おばあちゃんの庭"; break;
-                                    }
-                                    break;
-                                case "Lethargy Hill":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Colline de la Léthargie"; break;
-                                        case "Dutch": translatedTitle = "Lethargie Heuvel"; break;
-                                        case "Japanese": translatedTitle = "無気力の丘"; break;
-                                    }
-                                    break;
-                                case "Tenement":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Immeuble"; break;
-                                        case "Dutch": translatedTitle = "Huurkazerne"; break;
-                                        case "Japanese": translatedTitle = "長屋"; break;
-                                    }
-                                    break;
-                                case "Bhk":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Clé du Cœur Brisé"; break;
-                                        case "Dutch": translatedTitle = "Gebroken Hart Sleutel"; break;
-                                        case "Japanese": translatedTitle = "壊れた心の鍵"; break;
-                                    }
-                                    break;
-                                case "Complex":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Complexe"; break;
-                                        case "Dutch": translatedTitle = "Complex"; break;
-                                        case "Japanese": translatedTitle = "複合"; break;
-                                    }
-                                    break;
-                                case "Decommissioned City #65":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Ville Déclassée #65"; break;
-                                        case "Dutch": translatedTitle = "Ontmantelde Stad #65"; break;
-                                        case "Japanese": translatedTitle = "廃止された都市 #65"; break;
-                                    }
-                                    break;
-                                case "Living Room":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "French": translatedTitle = "Le Salon"; break;
-                                        case "Dutch": translatedTitle = "Woonkamer"; break;
-                                        case "Japanese": translatedTitle = "居間"; break;
-                                    }
-                                    break;
-                                case "Zerega":
-                                    switch (Plugin.Instance.gameLanguage)
-                                    {
-                                        case "Japanese": translatedTitle = "ゾレガ"; break;
-                                    }
-                                    break;
-                            }
+                            translatedTitle = TranslatedTitles(translatedTitle);
 
-                            if (Plugin.Instance.updateCounter - titleCardStartTime < 5 * 60)
+                            if (new string[] { "Anatomy" }.Contains(Plugin.Instance.runningGame))
+                            {
+                                // Do nothing; game already has a built-in title card
+                            }
+                            else if (Plugin.Instance.updateCounter - titleCardStartTime < 5 * 60)
                             {
                                 float width = (float)(Screen.width * 0.75);
                                 float height = (float)(Screen.height * 0.5);
@@ -473,9 +136,9 @@ namespace OmegaFallon.KittyHorrorshowTranslations
 
                             switch (Plugin.Instance.gameLanguage)
                             {
-                                case "French": readmePrompt = "Lire les fichiers .txt\nqui accompagnent le jeu ?\n\nY (OUI) / N (NON)"; break;
-                                case "Dutch": readmePrompt = "De bijbehorende .txt-bestanden\nvan de game lezen?\n\nY (JA) / N (NEE)"; break;
-                                case "Japanese": readmePrompt = "ゲームに付属する.txt\nファイルを読みますか?\n\nY (はい) / N (いいえ)"; break;
+                                case "French": readmePrompt = "Lire les fichiers .txt\nqui accompagnent le jeu ?\n\n" + MiscGames.Instance.YesNo(); break;
+                                case "Dutch": readmePrompt = "De bijbehorende .txt-bestanden\nvan de game lezen?\n\n" + MiscGames.Instance.YesNo(); break;
+                                case "Japanese": readmePrompt = "ゲームに付属する.txt\nファイルを読みますか?\n\n" + MiscGames.Instance.YesNo(); break;
                                 default: readmePrompt = "ERROR, THIS TEXT MUST BE FILLED IN"; break;
                             }
 
@@ -532,10 +195,10 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         string subtitlePrompt;
                         switch (Plugin.Instance.gameLanguage)
                         {
-                            case "English": subtitlePrompt = "Enable subtitles?\n\nY / N"; break;
-                            case "French": subtitlePrompt = "Activer les sous-titres ?\n\nY (OUI) / N (NON)"; break;
-                            case "Dutch": subtitlePrompt = "Ondertiteling inschakelen?\n\nY (JA) / N (NEE)"; break;
-                            case "Japanese": subtitlePrompt = "字幕を有効にしますか?\n\nY (はい) / N (いいえ)"; break;
+                            case "English": subtitlePrompt = "Enable subtitles?\n\n" + MiscGames.Instance.YesNo(); break;
+                            case "French": subtitlePrompt = "Activer les sous-titres ?\n\n" + MiscGames.Instance.YesNo(); break;
+                            case "Dutch": subtitlePrompt = "Ondertiteling inschakelen?\n\n" + MiscGames.Instance.YesNo(); break;
+                            case "Japanese": subtitlePrompt = "字幕を有効にしますか?\n\n" + MiscGames.Instance.YesNo(); break;
                             default: subtitlePrompt = "ERROR, THIS TEXT MUST BE FILLED IN"; break;
                         }
 
@@ -582,12 +245,12 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 string[] availableLanguagesForThisGame = [];
                 switch (Plugin.Instance.runningGame)
                 {
-                    case "Sigilvalley":
-                    case "Sigilvalley_64bit":
-                    case "Vaporcrane":
-                    case "Vaporcrane_win":
-                        availableLanguagesForThisGame = ["Unneeded"];
-                        break;
+                    //case "Sigilvalley":
+                    //case "Sigilvalley_64bit":
+                    //case "Vaporcrane":
+                    //case "Vaporcrane_win":
+                    //    availableLanguagesForThisGame = ["Unneeded"];
+                    //    break;
                     default:
                         availableLanguagesForThisGame = ["English", "French", "Dutch", "Japanese", "German", "Italian", "Spanish"];
                         break;
@@ -655,7 +318,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 }
 
                 // Sort language list except for English and establish lang dictionary
-                Array.Sort(availableLanguagesForThisGame);
+                Array.Sort(availableLanguagesForThisGame, 1, availableLanguagesForThisGame.Length-1);
 
                 List<Language> languageList =
                 [
@@ -692,7 +355,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             }
                         }
                         // Second row
-                        if (lang.index > 3)
+                        else
                         {
                             if (UnityEngine.GUI.Button(new Rect(widthSpacer2 + ((lang.index-4) * widthSpacer2) + ((lang.index-4) * buttonWidth), heightSpacer + buttonHeight + heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
                             {
@@ -721,5 +384,417 @@ namespace OmegaFallon.KittyHorrorshowTranslations
             }
         }
 
+        public string TranslatedTitles(string str)
+        {
+            switch (str)
+            {
+                case "ANATOMY":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "ANATOMIE"; break;
+                        case "Dutch": str = "ANATOMIE"; break;
+                        case "Japanese": str = "解剖学"; break;
+                    }
+                    break;
+                case "Ccccccc":
+                case "000000FF0000":
+                    str = "000000FF0000";
+                    break;
+                case "CHYRZA":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "Japanese": str = "チいるザ"; break;
+                    }
+                    break;
+                case "Sunset":
+                case "Sunset, Spirit, Steel":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Crépuscule, Esprit, Acier"; break;
+                        case "Dutch": str = "Zonsondergang, Geest, Staal"; break;
+                        case "Japanese": str = "夕焼け、精神、鋼鉄"; break;
+                    }
+                    break;
+                case "SUNSET SPIRIT STEEL":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "CRÉPUSCULE ESPRIT ACIER"; break;
+                        case "Dutch": str = "ZONSONDERGANG GEEST STAAL"; break;
+                        case "Japanese": str = "夕焼け、精神、鋼鉄"; break;
+                    }
+                    break;
+                case "Sigilvalley":
+                case "Sigilvalley_64bit":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Vallée des Sceaux"; break;
+                        case "Dutch": str = "Vallei van Sigils"; break;
+                        case "Japanese": str = "印章の谷"; break;
+                    }
+                    break;
+                case "Archlake":
+                case "Archlake_win":
+                case "Arch Lake":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Lac d'Arc"; break;
+                        case "Dutch": str = "Meer de Boog"; break;
+                        case "Japanese": str = "アーチの湖"; break;
+                    }
+                    break;
+                case "Rainhouse":
+                case "Rainhouse_64bit":
+                case "Rain, House, Eternity":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Pluie, Maison, Éternité"; break;
+                        case "Dutch": str = "Regen, Huis, Eeuwigheid"; break;
+                        case "Japanese": str = "雨、家、永遠"; break;
+                    }
+                    break;
+                case "Vaporcrane":
+                case "Vaporcrane_win":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Grue de Vapeur"; break;
+                        case "Dutch": str = "Stoomkraan"; break;
+                        case "Japanese": str = "蒸気の鶴"; break;
+                    }
+                    break;
+                case "VAPORCRANE":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "GRUE DE VAPEUR"; break;
+                        case "Dutch": str = "STOOMKRAAN"; break;
+                        case "Japanese": str = "蒸気の鶴"; break;
+                    }
+                    break;
+                case "Stormsea":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Mer des Tempêtes"; break;
+                        case "Dutch": str = "Stormzee"; break;
+                        case "Japanese": str = "嵐の海"; break;
+                    }
+                    break;
+                case "Skin":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Peau"; break;
+                        case "Dutch": str = "Huid"; break;
+                        case "Japanese": str = "肌"; break;
+                    }
+                    break;
+                case "BLOOD CITY":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "CITÉ DU SANG"; break;
+                        case "Dutch": str = "BLOED STAD"; break;
+                        case "Japanese": str = "血の街"; break;
+                    }
+                    break;
+                case "Aurelia":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "Japanese": str = "アレリア"; break;
+                    }
+                    break;
+                case "Wraithshead":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Tête de Wraith"; break;
+                        case "Dutch": str = "Wraith-hoofd"; break;
+                        case "Japanese": str = "レイスの頭"; break;
+                    }
+                    break;
+                case "Wraithshead Gardens":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Les Jardins de la Tête de Wraith"; break;
+                        case "Dutch": str = "Wraith-hoofd-tuinen"; break;
+                        case "Japanese": str = "レイスの頭の庭園"; break;
+                    }
+                    break;
+                case "Wraith":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Wraith"; break;
+                        case "Dutch": str = "Wraith"; break;
+                        case "Japanese": str = "レイス"; break;
+                    }
+                    break;
+                case "Pente":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "Japanese": str = "ペンテイ"; break;
+                    }
+                    break;
+                case "Leechbowl":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Bol de Sangsues"; break;
+                        case "Dutch": str = "Kom met Bloedzuigers"; break;
+                        case "Japanese": str = "ヒルのボウル"; break;
+                    }
+                    break;
+                case "Grandmother":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Grand-mère"; break;
+                        case "Dutch": str = "Grootmoeder"; break;
+                        case "Japanese": str = "祖母"; break;
+                    }
+                    break;
+                case "Cyberskull":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Crâne Cyber"; break;
+                        case "Dutch": str = "Cyberschedel"; break;
+                        case "Japanese": str = "サイバースカル"; break;
+                    }
+                    break;
+                case "CYBERSKULL":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "CRÂNE CYBER"; break;
+                        case "Dutch": str = "CYBERSCHEDEL"; break;
+                        case "Japanese": str = "サイバースカル"; break;
+                    }
+                    break;
+                case "Actias":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "Japanese": str = "アクティアス"; break;
+                    }
+                    break;
+                case "Scarlet":
+                case "Scarlet Bough":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Branche Écarlate"; break;
+                        case "Dutch": str = "Scharlaken Tak"; break;
+                        case "Japanese": str = "スカーレット枝"; break;
+                    }
+                    break;
+                case "GES_Final":
+                case "Garden, Eternity, Shape":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Jardin, Éternité, Forme"; break;
+                        case "Dutch": str = "Tuin, Eeuwigheid, Vorm"; break;
+                        case "Japanese": str = "庭、永遠、形"; break;
+                    }
+                    break;
+                case "Gloompuke":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Morositévomir"; break;
+                        case "Dutch": str = "Somberheidkots"; break;
+                        case "Japanese": str = "憂鬱吐き気"; break;
+                    }
+                    break;
+                case "Factory":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Usine"; break;
+                        case "Dutch": str = "Fabriek"; break;
+                        case "Japanese": str = "工場"; break;
+                    }
+                    break;
+                case "Artery":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Artère"; break;
+                        case "Dutch": str = "Slagader"; break;
+                        case "Japanese": str = "動脈"; break;
+                    }
+                    break;
+                case "Amalia":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "Japanese": str = "アマリア"; break;
+                    }
+                    break;
+                case "Charon":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Charon"; break;
+                        case "Dutch": str = "Charon"; break;
+                        case "Japanese": str = "カローン"; break;
+                    }
+                    break;
+                case "Tin":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Étain"; break;
+                        case "Dutch": str = "Tin"; break;
+                        case "Japanese": str = "スズ"; break;
+                    }
+                    break;
+                case "Spine":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Échine"; break;
+                        case "Dutch": str = "Wervelkolom"; break;
+                        case "Japanese": str = "脊椎"; break;
+                    }
+                    break;
+                case "Sieve":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Tamis"; break;
+                        case "Dutch": str = "Zeef"; break;
+                        case "Japanese": str = "篩"; break;
+                    }
+                    break;
+                case "Roads":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Routes"; break;
+                        case "Dutch": str = "Wegen"; break;
+                        case "Japanese": str = "道路"; break;
+                    }
+                    break;
+                case "Needlerust":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Rouille des Aiguilles"; break;
+                        case "Dutch": str = "Naaldroest"; break;
+                        case "Japanese": str = "針の錆"; break;
+                    }
+                    break;
+                case "Monastery":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Monastère"; break;
+                        case "Dutch": str = "Klooster"; break;
+                        case "Japanese": str = "修道院"; break;
+                    }
+                    break;
+                case "Erosion":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Érosion"; break;
+                        case "Dutch": str = "Erosie"; break;
+                        case "Japanese": str = "侵食"; break;
+                    }
+                    break;
+                case "Dust":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Poussière"; break;
+                        case "Dutch": str = "Stof"; break;
+                        case "Japanese": str = "埃"; break;
+                    }
+                    break;
+                case "Basements":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Sous-sols"; break;
+                        case "Dutch": str = "Kelders"; break;
+                        case "Japanese": str = "地下3階"; break;
+                    }
+                    break;
+                case "Wormclot":
+                case "Castle Wormclot":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Château de Vercaillot"; break;
+                        case "Dutch": str = "Kasteel Wormstolsel"; break;
+                        case "Japanese": str = "虫血栓城"; break;
+                    }
+                    break;
+                case "GhostLake":
+                case "Ghost Lake":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Lac Fantôme"; break;
+                        case "Dutch": str = "Spookmeer"; break;
+                        case "Japanese": str = "幽霊の湖"; break;
+                    }
+                    break;
+                case "Seven":
+                case "Seven Days":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Sept Jours"; break;
+                        case "Dutch": str = "Zeven Dagen"; break;
+                        case "Japanese": str = "七日間"; break;
+                    }
+                    break;
+                case "Exclusion":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Zone d'Exclusion"; break;
+                        case "Dutch": str = "Sperrgebiet"; break;
+                        case "Japanese": str = "立入禁止区域"; break;
+                    }
+                    break;
+                case "Grandmother's Garden":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Le Jardin de Grand-mère"; break;
+                        case "Dutch": str = "Grootmoeders Tuin"; break;
+                        case "Japanese": str = "おばあちゃんの庭"; break;
+                    }
+                    break;
+                case "Lethargy Hill":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Colline de la Léthargie"; break;
+                        case "Dutch": str = "Lethargie Heuvel"; break;
+                        case "Japanese": str = "無気力の丘"; break;
+                    }
+                    break;
+                case "Tenement":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Immeuble"; break;
+                        case "Dutch": str = "Huurkazerne"; break;
+                        case "Japanese": str = "長屋"; break;
+                    }
+                    break;
+                case "Broken Heart Key":
+                case "Bhk":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Clé du Cœur Brisé"; break;
+                        case "Dutch": str = "Gebroken Hart Sleutel"; break;
+                        case "Japanese": str = "壊れた心の鍵"; break;
+                    }
+                    break;
+                case "Complex":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Complexe"; break;
+                        case "Dutch": str = "Complex"; break;
+                        case "Japanese": str = "複合"; break;
+                    }
+                    break;
+                case "Decommissioned City #65":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Ville Déclassée #65"; break;
+                        case "Dutch": str = "Ontmantelde Stad #65"; break;
+                        case "Japanese": str = "廃止された都市 #65"; break;
+                    }
+                    break;
+                case "Living Room":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "Le Salon"; break;
+                        case "Dutch": str = "Woonkamer"; break;
+                        case "Japanese": str = "居間"; break;
+                    }
+                    break;
+                case "Zerega":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "Japanese": str = "ゾレガ"; break;
+                    }
+                    break;
+            }
+            return str;
+        }
     }
 }

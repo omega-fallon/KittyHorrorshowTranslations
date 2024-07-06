@@ -24,8 +24,15 @@ namespace KittyHorrorshowTranslations
             {
                 try
                 {
+                    string old = text.text;
+                    
                     text.text = Wormclot.Instance.TextReplacement(text.text);
                     text.text = MiscGames.Instance.TextReplacement(text.text);
+
+                    if (old != text.text)
+                    {
+                        Plugin.Instance.PrintThisString("Changed a text string from \"" + old.Replace("\n","\\n") + "\" to \"" + text.text.Replace("\n", "\\n") + "\"");
+                    }
                 }
                 catch
                 {

@@ -18,6 +18,7 @@ using System.Linq;
 using BepInEx.Logging;
 using HutongGames.PlayMaker;
 using static PixelCrushers.DialogueSystem.Articy.ArticyData;
+using System.Runtime.InteropServices;
 
 namespace KittyHorrorshowTranslations
 {
@@ -93,7 +94,9 @@ namespace KittyHorrorshowTranslations
     public class Plugin : BaseUnityPlugin
     {
         public static Plugin Instance;
-        
+
+        public string runningGame_windowTitle;
+
         public void Awake()
         {
             Instance = this;
@@ -105,6 +108,61 @@ namespace KittyHorrorshowTranslations
             runningGame = Paths.ProcessName;
             runningGame = char.ToUpper(runningGame[0]) + runningGame.Substring(1);
             Logger.LogInfo("Current running game is " + runningGame);
+
+            runningGame_windowTitle = runningGame;
+            switch (runningGame_windowTitle)
+            {
+                case "Sigilvalley":
+                case "Sigilvalley_64bit":
+                    runningGame_windowTitle = "Sigil Valley";
+                    break;
+                case "Bhk":
+                    runningGame_windowTitle = "Broken Heart Key";
+                    break;
+                case "Seven":
+                    runningGame_windowTitle = "Seven Days";
+                    break;
+                case "GhostLake":
+                    runningGame_windowTitle = "Ghost Lake";
+                    break;
+                case "Wormclot":
+                    runningGame_windowTitle = "Castle Wormclot";
+                    break;
+                case "Rainhouse":
+                case "Rainhouse_64bit":
+                    runningGame_windowTitle = "Rain, House, Eternity";
+                    break;
+                case "Sunset":
+                    runningGame_windowTitle = "SUNSET SPIRIT STEEL";
+                    break;
+                case "Archlake":
+                case "Archlake_win":
+                case "ArchLake":
+                    runningGame_windowTitle = "Arch Lake";
+                    break;
+                case "Vaporcrane":
+                case "Vaporcrane_win":
+                    runningGame_windowTitle = "VAPORCRANE";
+                    break;
+                case "Skin":
+                    runningGame_windowTitle = "BLOOD CITY";
+                    break;
+                case "Wraithshead":
+                    runningGame_windowTitle = "Wraithshead Gardens";
+                    break;
+                case "Cyberskull":
+                    runningGame_windowTitle = "CYBERSKULL";
+                    break;
+                case "Scarlet":
+                    runningGame_windowTitle = "Scarlet Bough";
+                    break;
+                case "GES_Final":
+                    runningGame_windowTitle = "Garden, Eternity, Shape";
+                    break;
+                case "Anatomy":
+                    runningGame_windowTitle = "ANATOMY";
+                    break;
+            }
 
             // Unity patches
             try
@@ -439,12 +497,22 @@ namespace KittyHorrorshowTranslations
             bigRed.name = "Big Red Error Texture";
         }
 
+        [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Unicode)]
+        public static extern bool SetWindowText(System.IntPtr hwnd, System.String lpString);
+        [DllImport("user32.dll", EntryPoint = "FindWindow", CharSet = CharSet.Unicode)]
+        public static extern System.IntPtr FindWindow(System.String className, System.String windowName);
+
         // Loading textures and audio
         public void AfterLanguageSelection()
         {
             LockCursor();
 
             Logger.LogInfo("Language set to "+gameLanguage);
+
+            // Window name
+            Logger.LogInfo(runningGame_windowTitle);
+            var windowPtr = FindWindow(null, runningGame_windowTitle);
+            SetWindowText(windowPtr, OmegaFallon.KittyHorrorshowTranslations.GUI.Instance.TranslatedTitles(runningGame_windowTitle));
 
             // Fonts
             //foreach (string font in UnityEngine.Font.GetOSInstalledFontNames()) { Logger.LogInfo("System font found: "+font); }
@@ -480,7 +548,7 @@ namespace KittyHorrorshowTranslations
                 case "CHYRZA":
                     break;
                 case "Gloompuke":
-                    Gloompuke.Instance.EditObjectNames();
+                    Gloompuke.Instance.TextSearch();
                     break;
             }
 
@@ -525,7 +593,7 @@ namespace KittyHorrorshowTranslations
             [HarmonyPatch(typeof(UnityEngine.GUI), nameof(UnityEngine.GUI.Label), new System.Type[] { typeof(Rect), typeof(GUIContent), typeof(GUIStyle) })]
             public static void GUILabel_Prefix(UnityEngine.GUI __instance, Rect position, GUIContent content, GUIStyle style)
             {
-                if (content.m_Text != Plugin.Instance.lastText)
+                if (content.m_Text != Plugin.Instance.lastText && Plugin.Instance.runningGame != "Gloompuke")
                 {
                     Plugin.Instance.lastText = content.m_Text;
                     Plugin.Instance.Logger.LogInfo("GUI.Label rect: " + position);
@@ -585,6 +653,9 @@ namespace KittyHorrorshowTranslations
                         break;
                     case "Leechbowl":
                         content.m_Text = Leechbowl.Instance.TextReplacement(content.m_Text);
+                        break;
+                    case "Gloompuke":
+                        //content.m_Text = Gloompuke.Instance.NameTranslation(content.m_Text);
                         break;
                 }
 

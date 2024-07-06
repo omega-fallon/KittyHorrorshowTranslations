@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using static PixelCrushers.DialogueSystem.Articy.ArticyData;
+using UnityEngine.UI;
+using System.Diagnostics;
 
 namespace KittyHorrorshowTranslations
 {
@@ -18,29 +20,41 @@ namespace KittyHorrorshowTranslations
             Instance = this;
         }
 
-        public void EditObjectNames()
+        public void Update()
         {
-            foreach (GameObject obj in Resources.FindObjectsOfTypeAll<GameObject>())
+            if (Plugin.Instance.gameLanguage != "English" && !String.IsNullOrEmpty(Plugin.Instance.gameLanguage))
             {
-                string translatedName = obj.name;
+                TextSearch();
+            }
+        }
 
-                // Vivian is weird
-                if (translatedName.Contains("Vivian") || translatedName.Contains("vivian"))
+        public void TextSearch()
+        {
+            foreach (DialogueDatabase database in (DialogueDatabase[])FindObjectsOfTypeAll(typeof(DialogueDatabase)))
+            {
+                foreach (Actor actor in database.actors)
                 {
-                    translatedName = "Vivian";
+                    string old = actor.Name;
+                    actor.Name = NameTranslation(actor.Name);
+                    if (old != actor.Name)
+                    {
+                        Plugin.Instance.PrintThisString("Changed an actor's name from " + old + " to " + actor.Name);
+                    }
                 }
+            }
 
-                // Standard translated name
-                translatedName = Gloompuke.Instance.NameTranslation(translatedName);
-
-                if (translatedName != obj.name)
+            foreach (Transform transform in (Transform[])FindObjectsOfTypeAll(typeof(Transform)))
+            {
+                string old = transform.name;
+                transform.name = NameTranslation(transform.name);
+                if (old != transform.name)
                 {
-                    Plugin.Instance.PrintThisString("Changed name of object "+ obj.name + " to " + translatedName);
-                    obj.name = translatedName;
+                    Plugin.Instance.PrintThisString("Changed a transform's name from " + old + " to " + transform.name);
                 }
             }
         }
 
+        public string lastDialogue;
         public List<string> seenNames = new List<string>();
         [HarmonyPatch]
         public class GloompukePatches
@@ -68,23 +82,31 @@ namespace KittyHorrorshowTranslations
             //}
 
             // Override actor name
-            [HarmonyPrefix]
-            [HarmonyPatch(typeof(PixelCrushers.DialogueSystem.OverrideActorName), nameof(PixelCrushers.DialogueSystem.OverrideActorName.GetName))]
-            public static bool OverrideActorName_Patch(OverrideActorName __instance, ref string __result)
-            {
-                if (__instance.overrideName.Contains("[lua") || __instance.overrideName.Contains("[var"))
-                {
-                    Plugin.Instance.PrintThisString("OverrideActorName is: " + __instance.overrideName);
-                    __result = FormattedText.Parse(Gloompuke.Instance.NameTranslation(__instance.overrideName), DialogueManager.MasterDatabase.emphasisSettings).text;
-                }
-                else
-                {
-                    Plugin.Instance.PrintThisString("OverrideActorName is: " + __instance.overrideName);
-                    __result = Gloompuke.Instance.NameTranslation(__instance.overrideName);
-                }
+            //[HarmonyPrefix]
+            //[HarmonyPatch(typeof(PixelCrushers.DialogueSystem.OverrideActorName), nameof(PixelCrushers.DialogueSystem.OverrideActorName.GetName))]
+            //public static bool OverrideActorName_Patch(OverrideActorName __instance, ref string __result)
+            //{
+            //    if (__instance.overrideName.Contains("[lua") || __instance.overrideName.Contains("[var"))
+            //    {
+            //        Plugin.Instance.PrintThisString("OverrideActorName is: " + __instance.overrideName);
+            //        __result = FormattedText.Parse(Gloompuke.Instance.NameTranslation(__instance.overrideName), DialogueManager.MasterDatabase.emphasisSettings).text;
+            //    }
+            //    else
+            //    {
+            //        Plugin.Instance.PrintThisString("OverrideActorName is: " + __instance.overrideName);
+            //        __result = Gloompuke.Instance.NameTranslation(__instance.overrideName);
+            //    }
 
-                return false;
-            }
+            //    return false;
+            //}
+
+            //[HarmonyPrefix]
+            //[HarmonyPatch(typeof(UnityEngine.SceneManagement.SceneManager), nameof(UnityEngine.SceneManagement.SceneManager.LoadScene), typeof(int))]
+            //public static void LoadScene_Patch(int index)
+            //{
+            //    Plugin.Instance.PrintThisString("Scene loaded with index " + index);
+            //    Gloompuke.Instance.TextSearch();
+            //}
 
             // Promity popup overriding
             [HarmonyPrefix]
@@ -93,8 +115,6 @@ namespace KittyHorrorshowTranslations
             {
                 Plugin.Instance.PrintThisString("overrideName is: " + __instance.overrideName);
                 Plugin.Instance.PrintThisString("overrideUseMessage is: " + __instance.overrideUseMessage);
-
-                Gloompuke.Instance.EditObjectNames();
 
                 __instance.overrideName = Gloompuke.Instance.NameTranslation(__instance.overrideName);
                 switch (__instance.overrideUseMessage)
@@ -115,6 +135,14 @@ namespace KittyHorrorshowTranslations
                             case "Japanese": __instance.overrideUseMessage = "（クリックして読む）"; break;
                         }
                         break;
+                    case "Click to examine":
+                        switch (Plugin.Instance.gameLanguage)
+                        {
+                            case "French": __instance.overrideUseMessage = "Cliquez pour examiner"; break;
+                            case "Dutch": __instance.overrideUseMessage = "Klik om te onderzoeken"; break;
+                            case "Japanese": __instance.overrideUseMessage = "（クリックして診る）"; break;
+                        }
+                        break;
                 }
             }
 
@@ -125,12 +153,25 @@ namespace KittyHorrorshowTranslations
             {
                 __result = Field.FieldValue(Field.AssignedField(__instance.fields, Localization.Language) ?? Field.Lookup(__instance.fields, "Dialogue Text"));
 
-                Plugin.Instance.PrintThisString("Dialogue is: " + __result);
-                Plugin.Instance.PrintThisString("Current conversant is: " + DialogueManager.Instance.CurrentConversant);
+                if (__result != Gloompuke.Instance.lastDialogue)
+                {
+                    Gloompuke.Instance.lastDialogue = __result;
+                    Plugin.Instance.PrintThisString("Dialogue is: " + __result);
+                    DialogueManager.Instance.CurrentConversant.name = Gloompuke.Instance.NameTranslation(DialogueManager.Instance.CurrentConversant.name);
+                    Plugin.Instance.PrintThisString("Current conversant is: " + DialogueManager.Instance.CurrentConversant);
+                }
 
                 switch (__result)
                 {
                     // Gregory
+                    case "Ho there, traveler!  Welcome to the island of Bloodmonsterghost!":
+                        switch (Plugin.Instance.gameLanguage)
+                        {
+                            case "French": __result = "Salut, voyageur !  Bienvenue sur l'île de Sangmonstrefantôme !"; break;
+                            case "Dutch": __result = "FILL IN"; break;
+                            case "Japanese": __result = "FILL IN"; break;
+                        }
+                        break;
                     case "What can I do ya for?":
                         switch (Plugin.Instance.gameLanguage)
                         {
@@ -206,6 +247,16 @@ namespace KittyHorrorshowTranslations
                             case "Japanese": __result = "じゃあ"; break;
                         }
                         break;
+
+                    // Misc.
+                    default:
+                        switch (Plugin.Instance.gameLanguage)
+                        {
+                            case "French": __result = __result.Replace("boof", "ouaf"); break;
+                            case "Dutch": __result = __result.Replace("boof", "woef"); break;
+                            case "Japanese": __result = __result.Replace("boof", "ワン"); break;
+                        }
+                        break;
                 }
 
                 return false;
@@ -224,6 +275,15 @@ namespace KittyHorrorshowTranslations
                         case "Japanese": name = "本"; break;
                     }
                     break;
+                case "Door":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": name = "Porte"; break;
+                        case "Dutch": name = "Deur"; break;
+                        case "Japanese": name = "ドア"; break;
+                    }
+                    break;
+
                 case "Ezekiel":
                     switch (Plugin.Instance.gameLanguage)
                     {
@@ -278,6 +338,13 @@ namespace KittyHorrorshowTranslations
                         case "Japanese": name = "ウルスラ"; break;
                     }
                     break;
+                case "Vivian Monday":
+                case "Vivian Tuesday":
+                case "Vivian Wednesday":
+                case "Vivian Thursday":
+                case "Vivian Friday":
+                case "Vivian Saturday":
+                case "Vivian Sunday":
                 case "Vivian":
                     switch (Plugin.Instance.gameLanguage)
                     {
@@ -340,6 +407,14 @@ namespace KittyHorrorshowTranslations
                         case "French": name = "Uther"; break;
                         case "Dutch": name = "Uther"; break;
                         case "Japanese": name = "ユーサー"; break;
+                    }
+                    break;
+                case "Megabone":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": name = "Mégabone"; break;
+                        case "Dutch": name = "FILL IN"; break;
+                        case "Japanese": name = "FILL IN"; break;
                     }
                     break;
             }

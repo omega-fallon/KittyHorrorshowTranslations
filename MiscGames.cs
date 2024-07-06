@@ -14,6 +14,32 @@ namespace KittyHorrorshowTranslations
             Instance = this;
         }
 
+        public string YesNo(int spaces = 1)
+        {
+            string yes = "YES";
+            string no = "NO";
+            
+            if (Plugin.Instance.gameLanguage == "English") 
+            {
+                return "Y" + new String(' ', spaces) + "/" + new String(' ', spaces) + "N";
+            }
+
+            switch (Plugin.Instance.gameLanguage)
+            {
+                case "Dutch": yes = "JA"; no = "NEE"; break;
+                case "French": yes = "OUI"; no = "NON"; break;
+                case "German": yes = "JA"; no = "NEIN"; break;
+                case "Italian": yes = "SÌ"; no = "NO"; break;
+                case "Japanese": yes = "はい"; no = "いいえ"; break;
+                case "Polish": yes = "TAK"; no = "NIE"; break;
+                case "Portuguese": yes = "SIM"; no = "NÃO"; break;
+                case "Russian": yes = "ДА"; no = "НЕТ"; break;
+                case "Spanish": yes = "SÍ"; no = "NO"; break;
+            }
+
+            return "Y" + " (" + yes + ")" + new String(' ', spaces) + "/" + new String(' ', spaces) + "N" + " (" + no + ")";
+        }
+
         public string TextReplacement(string str)
         {
             switch (str)
@@ -196,26 +222,27 @@ namespace KittyHorrorshowTranslations
                 case "Leave?  (  Y  /  N  )":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Sortir ?  (  Y (OUI)  /  N (NON)  )"; break;
+                        case "French": str = "Sortir ?"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
                     }
+
+                    str += "  (  " + YesNo(2) + "  )";
+
                     break;
                 case "Return?\n\nY  /  N":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Retour?\n\nY (OUI)  /  N (NON)"; break;
+                        case "French": str = "Retour?"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
                     }
+
+                    str += "\n\n" + YesNo(2);
+
                     break;
                 case "Y / N":
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "French": str = "Y (OUI) / N (NON)"; break;
-                        case "Dutch": str = "Y (JA) / N (NEE)"; break;
-                        case "Japanese": str = "Y (はい) / N (いいえ)"; break;
-                    }
+                    str = YesNo();
                     break;
                 case "ESCAPE TO OS?":
                     switch (Plugin.Instance.gameLanguage)
