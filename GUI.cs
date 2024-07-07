@@ -1,6 +1,8 @@
 ﻿using BepInEx;
+using HarmonyLib;
 using KittyHorrorshowTranslations;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -103,6 +105,11 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                                         break;
                                     case "Japanese":
                                         UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent("キティ・ハラショ" + "の" + "\n「" + translatedTitle + "」"), style);
+                                        break;
+                                    case "English":
+                                        break;
+                                    default:
+                                        UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent("\"" + translatedTitle + "\""+"\nKitty Horrorshow"), style);
                                         break;
                                 }
                             }
@@ -245,15 +252,50 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 string[] availableLanguagesForThisGame = [];
                 switch (Plugin.Instance.runningGame)
                 {
-                    //case "Sigilvalley":
-                    //case "Sigilvalley_64bit":
-                    //case "Vaporcrane":
-                    //case "Vaporcrane_win":
-                    //    availableLanguagesForThisGame = ["Unneeded"];
-                    //    break;
+                    case "Sigilvalley":
+                    case "Sigilvalley_64bit":
+                    case "Vaporcrane":
+                    case "Vaporcrane_win":
+                        availableLanguagesForThisGame = ["All"];
+                        break;
                     default:
                         availableLanguagesForThisGame = ["English", "French", "Dutch", "Japanese", "German", "Italian", "Spanish"];
                         break;
+                }
+
+                // List of languages
+                List<Language> languageList =
+                [
+                    new Language() { name = "English", localName = "English", prompt = "(Press NUMBER)" },
+
+                    // Other langs
+                    new Language() { name = "Arabic", localName = "عربي", prompt = "(اضغط على NUMBER)" },
+                    new Language() { name = "Catalan", localName = "Català", prompt = "(Premeu NUMBER)" },
+                    new Language() { name = "Chinese (Simplified)", localName = "简体中文", prompt = "（按下NUMBER）" },
+                    new Language() { name = "Chinese (Traditional)", localName = "繁體中文", prompt = "（按下NUMBER）" },
+                    new Language() { name = "Dutch", localName = "Nederlands", prompt = "(Druk op NUMBER)" },
+                    new Language() { name = "French", localName = "Français", prompt = "(Appuyez sur NUMBER)" },
+                    new Language() { name = "German", localName = "Deutsch", prompt = "(Drücke NUMBER)" },
+                    new Language() { name = "Italian", localName = "Italiano", prompt = "(Premi NUMBER)" },
+                    new Language() { name = "Japanese", localName = "日本語", prompt = "(NUMBERを押す)" },
+                    new Language() { name = "Korean", localName = "한국인", prompt = "(NUMBER를 눌러)" },
+                    new Language() { name = "Polish", localName = "Polski", prompt = "(Naciśnij NUMBER)"},
+                    new Language() { name = "Portuguese", localName = "Português", prompt = "(Pressione NUMBER)"},
+                    new Language() { name = "Russian", localName = "Русский", prompt = "(Нажмите NUMBER)"},
+                    new Language() { name = "Spanish", localName = "Español", prompt = "(Presiona NUMBER)" },
+                    new Language() { name = "Turkish", localName = "Türkçe", prompt = "(NUMBER basın)" },
+                    new Language() { name = "Ukrainian", localName = "Українська", prompt = "(Натисніть NUMBER)"},
+                ];
+
+                // "All" shorthand
+                if (Array.IndexOf(availableLanguagesForThisGame, "All") != -1)
+                {
+                    List<string> tempLangList = new List<string>();
+                    foreach (Language lang in languageList)
+                    {
+                        tempLangList.Add(lang.name);
+                    }
+                    availableLanguagesForThisGame = tempLangList.ToArray();
                 }
 
                 // Math for button spacing
@@ -261,12 +303,6 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 int appHeight = Screen.height;
 
                 int numLangs = availableLanguagesForThisGame.Length;
-                int numColumns = 1;
-
-                if (numLangs > 4)
-                {
-                    numColumns = 2;
-                }
 
                 int buttonWidth;
                 int buttonHeight;
@@ -283,12 +319,39 @@ namespace OmegaFallon.KittyHorrorshowTranslations
 
                 int widthSpacer = (appWidth - (numLangs * buttonWidth)) / (numLangs + 1);
                 int widthSpacer2 = widthSpacer;
+                int widthSpacer3 = widthSpacer;
+
+                int maxLangsPerColumn = (int)Math.Floor((double)((appWidth*0.75) / buttonWidth));
+                int numColumns = 1;
+                for (int i = 1; i < 10; i++)
+                {
+                    if (numLangs > maxLangsPerColumn*i)
+                    {
+                        numColumns = i + 1;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                //Plugin.Instance.PrintThisString("maxLangsPerColumn & numColumns: " + maxLangsPerColumn + " " + numColumns);
+
                 int heightSpacer = (appHeight - (numColumns * buttonHeight)) / (numColumns + 1);
 
-                if (numLangs > 4)
+                switch (numColumns)
                 {
-                    widthSpacer = (appWidth - (4 * buttonWidth)) / (4 + 1);
-                    widthSpacer2 = (appWidth - ((numLangs - 4) * buttonWidth)) / (numLangs - 4 + 1);
+                    case 1:
+                        break;
+                    case 2:
+                        widthSpacer = (appWidth - (maxLangsPerColumn * buttonWidth)) / (maxLangsPerColumn + 1);
+                        widthSpacer2 = (appWidth - ((numLangs - maxLangsPerColumn) * buttonWidth)) / (numLangs - maxLangsPerColumn + 1);
+                        break;
+                    case 3:
+                        widthSpacer = (appWidth - (maxLangsPerColumn * buttonWidth)) / (maxLangsPerColumn + 1);
+                        widthSpacer2 = (appWidth - (maxLangsPerColumn * buttonWidth)) / (maxLangsPerColumn + 1);
+                        widthSpacer3 = (appWidth - ((numLangs - (maxLangsPerColumn*2)) * buttonWidth)) / (numLangs - (maxLangsPerColumn*2) + 1);
+                        break;
                 }
 
                 // No translation needed popup
@@ -320,23 +383,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 // Sort language list except for English and establish lang dictionary
                 Array.Sort(availableLanguagesForThisGame, 1, availableLanguagesForThisGame.Length-1);
 
-                List<Language> languageList =
-                [
-                    new Language() { name = "English", localName = "English", prompt = "(Press NUMBER)" },
-
-                    // Other langs
-                    new Language() { name = "Dutch", localName = "Nederlands", prompt = "(Druk NUMBER)" },
-                    new Language() { name = "French", localName = "Français", prompt = "(Appuyez NUMBER)" },
-                    new Language() { name = "German", localName = "Deutsch", prompt = "(Drücke NUMBER)" },
-                    new Language() { name = "Italian", localName = "Italiano", prompt = "(Premi NUMBER)" },
-                    new Language() { name = "Japanese", localName = "日本語", prompt = "(NUMBERを押す)" },
-                    new Language() { name = "Polish", localName = "Polski", prompt = "(Naciśnij NUMBER)"},
-                    new Language() { name = "Portuguese", localName = "Português", prompt = "(Pressione NUMBER)"},
-                    new Language() { name = "Russian", localName = "Русский", prompt = "(Нажмите NUMBER)"},
-                    new Language() { name = "Spanish", localName = "Español", prompt = "(Presiona NUMBER)" },
-                ];
-
                 // Standard buttons
+
                 foreach (Language lang in languageList)
                 {
                     lang.index = Array.IndexOf(availableLanguagesForThisGame, lang.name);
@@ -345,7 +393,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     if (lang.index != -1)
                     {
                         // First row
-                        if (lang.index <= 3)
+                        if (lang.index <= maxLangsPerColumn-1)
                         {
                             if (UnityEngine.GUI.Button(new Rect(widthSpacer + (lang.index * widthSpacer) + (lang.index * buttonWidth), heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
                             {
@@ -355,9 +403,18 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             }
                         }
                         // Second row
+                        else if (lang.index <= (maxLangsPerColumn*2)-1)
+                        {
+                            if (UnityEngine.GUI.Button(new Rect(widthSpacer2 + ((lang.index- maxLangsPerColumn) * widthSpacer2) + ((lang.index- maxLangsPerColumn) * buttonWidth), heightSpacer + buttonHeight + heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
+                            {
+                                Plugin.Instance.gameLanguage = lang.name;
+                                Plugin.Instance.AfterLanguageSelection();
+                                return;
+                            }
+                        }
                         else
                         {
-                            if (UnityEngine.GUI.Button(new Rect(widthSpacer2 + ((lang.index-4) * widthSpacer2) + ((lang.index-4) * buttonWidth), heightSpacer + buttonHeight + heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
+                            if (UnityEngine.GUI.Button(new Rect(widthSpacer3 + ((lang.index - (maxLangsPerColumn*2)) * widthSpacer3) + ((lang.index - (maxLangsPerColumn*2)) * buttonWidth), heightSpacer + buttonHeight + heightSpacer + buttonHeight + heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
                             {
                                 Plugin.Instance.gameLanguage = lang.name;
                                 Plugin.Instance.AfterLanguageSelection();
