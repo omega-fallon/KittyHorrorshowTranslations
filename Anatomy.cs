@@ -76,6 +76,8 @@ namespace KittyHorrorshowTranslations
                     {
                         case "French": str = "IL Y A UNE CASSETTE DANS LA SALLE À MANGER"; break;
                         case "Dutch": str = "ER IS EEN CASSETTE IN DE EETKAMER"; break;
+                        case "Chinese (Simplified)": str = "饭厅里有一把盒带子"; break;
+                        case "Chinese (Traditional)": str = "飯廳裡有一把盒帶子"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -93,6 +95,8 @@ namespace KittyHorrorshowTranslations
                     {
                         case "French": str = "IL Y A UNE CASSETTE DANS LA SALLE DE BAINS EN BAS"; break;
                         case "Dutch": str = "ER IS EEN CASSETTE IN DE BENEDEN BADKAMER"; break;
+                        case "Chinese (Simplified)": str = "楼下浴室里有一把盒带子"; break;
+                        case "Chinese (Traditional)": str = "樓下浴室裡有一把盒帶子"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -110,6 +114,8 @@ namespace KittyHorrorshowTranslations
                     {
                         case "French": str = "IL Y A UNE CASSETTE DANS LE GARAGE"; break;
                         case "Dutch": str = "ER IS EEN CASSETTE IN DE GARAGE"; break;
+                        case "Chinese (Simplified)": str = "车库里有一把盒带子"; break;
+                        case "Chinese (Traditional)": str = "車庫裡有一把盒帶子"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -127,6 +133,8 @@ namespace KittyHorrorshowTranslations
                     {
                         case "French": str = "IL Y A UNE CASSETTE DANS LE SALON"; break;
                         case "Dutch": str = "ER IS EEN CASSETTE IN DE WOONKAMER"; break;
+                        case "Chinese (Simplified)": str = "客厅里有一把盒带子"; break;
+                        case "Chinese (Traditional)": str = "客廳裡有一把盒帶子"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -178,6 +186,8 @@ namespace KittyHorrorshowTranslations
                     {
                         case "French": str = "IL Y A UNE CASSETTE DANS LE SOUS-SOL"; break;
                         case "Dutch": str = "ER IS EEN CASSETTE IN DE KELDER"; break;
+                        case "Chinese (Simplified)": str = "地下室里有一把盒带子"; break;
+                        case "Chinese (Traditional)": str = "地下室裡有一把盒帶子"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {
@@ -195,6 +205,8 @@ namespace KittyHorrorshowTranslations
                     {
                         case "French": str = "IL Y A UNE CASSETTE DANS LA CHAMBRE PRINCIPALE"; break;
                         case "Dutch": str = "ER IS EEN CASSETTE IN DE HOOFDSLAAPKAMER"; break;
+                        case "Chinese (Simplified)": str = "主卧室里有一把盒带子"; break;
+                        case "Chinese (Traditional)": str = "主臥室裡有一把盒帶子"; break;
                         case "Japanese":
                             if (Plugin.Instance.currentLevelIndex > 1)
                             {

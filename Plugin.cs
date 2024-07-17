@@ -97,6 +97,8 @@ namespace KittyHorrorshowTranslations
 
         public string runningGame_windowTitle;
 
+        public string[] noHutong = ["CHYRZA", "Wraith", "Village", "Village_win", "Bhk"];
+
         public void Awake()
         {
             Instance = this;
@@ -161,6 +163,13 @@ namespace KittyHorrorshowTranslations
                     break;
                 case "Anatomy":
                     runningGame_windowTitle = "ANATOMY";
+                    break;
+                case "Village":
+                case "Village_win":
+                    runningGame_windowTitle = "Village";
+                    break;
+                case "Artery":
+                    runningGame_windowTitle = "Artery Heights";
                     break;
             }
 
@@ -396,19 +405,6 @@ namespace KittyHorrorshowTranslations
                     titleCardHackDone = true;
                 }
             }
-
-            // Getting the game font?
-            if (runningGameFont == null)
-            {
-                //Logger.LogInfo("Trying to find a game font...");
-                //runningGameFont = (UnityEngine.Font)FindObjectOfType(typeof(UnityEngine.Font));
-                //runningGameFont = Resources.FindObjectsOfTypeAll(typeof(UnityEngine.Font))[0].GetComponent<UnityEngine.Font>();
-
-                if (runningGameFont == null)
-                {
-                    Logger.LogInfo("Found a game font, setting it as runningGameFont: " + runningGameFont.name);
-                }
-            }
         }
 
         // OWML code
@@ -604,11 +600,12 @@ namespace KittyHorrorshowTranslations
                     Plugin.Instance.Logger.LogInfo("GUI.Label font size: " + style.fontSize);
                     Plugin.Instance.Logger.LogInfo("GUI.Label IntPtr: " + style.m_Ptr);
 
-                    if (Plugin.Instance.runningGameStyleGot != true && !string.IsNullOrEmpty(content.m_Text))
+                    if ((Plugin.Instance.runningGameStyleGot != true && !string.IsNullOrEmpty(content.m_Text)) || style.font.name != Plugin.Instance.runningGameFont.name)
                     {
                         Plugin.Instance.runningGameStyleGot = true;
                         Plugin.Instance.runningGameStyle = style;
                         Plugin.Instance.runningGameFont = style.font;
+                        Plugin.Instance.PrintThisString("GUILabel patch font name: " + style.font.name);
                     }
                 }
 
@@ -714,7 +711,7 @@ namespace KittyHorrorshowTranslations
             public static void SceneLoad(LoadLevelNum __instance)
             {
                 // DEBUG
-                //__instance.levelIndex.Value = 2;
+                __instance.levelIndex.Value = 2;
 
                 // Setting variables //
                 Plugin.Instance.scenesLoaded += 1;
@@ -734,6 +731,15 @@ namespace KittyHorrorshowTranslations
                     Plugin.Instance.FsmStringReplacement();
                     Plugin.Instance.Logger.LogInfo("Replacements done.");
                 }
+            }
+
+            // SetGUISkin
+            [HarmonyPostfix]
+            [HarmonyPatch(typeof(SetGUISkin),nameof(SetGUISkin.OnGUI))]
+            public static void SetGUISkin_Patch(SetGUISkin __instance)
+            {
+                Plugin.Instance.runningGameFont = __instance.skin.font;
+                Plugin.Instance.PrintThisString("SetGUISkin patch: "+ Plugin.Instance.runningGameFont.name);
             }
 
             // GameObject activation

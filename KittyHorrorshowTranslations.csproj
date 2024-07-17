@@ -38,7 +38,6 @@
 		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
 		<PackageReference Include="BepInEx.Core" Version="5.*" />
 		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
-		<PackageReference Include="UnityEditor" Version="5.3.5" />
 		<PackageReference Include="UnityEngine.Modules" Version="5.3.5" IncludeAssets="compile" />
 		<Reference Include="Assembly-CSharp">
 			<HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\sunset_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -66,6 +65,10 @@
 		</Reference>
 		<Reference Include="UnityEngine">
 			<HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\Gloompuke_Data\Managed\UnityEngine.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>C:\Users\brigh\Saved Games\Kitty Horrorshow\!Kitty Horrorshow Translation Project\sunset_Data\Managed\UnityEngine.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="NAudio">

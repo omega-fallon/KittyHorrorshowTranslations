@@ -179,7 +179,10 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         break;
                     //case "tape3_2":
                     case "tape4_2":
-                        // silence
+                        switch (Plugin.Instance.gameLanguage)
+                        {
+                            case "English": currentSubtitle = "[tape static]"; break;
+                        }
                         break;
                     case "tape6_2":
                         subtitleTimestampsGlobal = new Dictionary<double, string>
@@ -418,36 +421,24 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 {
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "English":
-                            currentSubtitle = "[distorted screaming]";
-                            break;
-                        case "French":
-                            currentSubtitle = "[cris déformés]";
-                            break;
-                        case "Dutch":
-                            currentSubtitle = "[verwrongen schreeuwen]";
-                            break;
-                        case "Japanese":
-                            currentSubtitle = "[歪んだ叫び声]";
-                            break;
+                        case "English": currentSubtitle = "[distorted screaming]"; break;
+                        case "French": currentSubtitle = "[cris déformés]"; break;
+                        case "Dutch": currentSubtitle = "[verwrongen schreeuwen]"; break;
+                        case "Japanese": currentSubtitle = "[歪んだ叫び声]"; break;
+                        case "Chinese (Simplified)": currentSubtitle = "[扭曲的尖叫声]"; break;
+                        case "Chinese (Traditional)": currentSubtitle = "[扭曲的尖叫聲]"; break;
                     }
                 }
                 else if (Plugin.Instance.currentLevelIndex == 3 && title4TV != null && Vector3.Distance(title4TV.transform.position, GameObject.Find("PLAYER").transform.position) <= 5.5)
                 {
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "English":
-                            currentSubtitle = "[static]";
-                            break;
-                        case "French":
-                            currentSubtitle = "[friture]";
-                            break;
-                        case "Dutch":
-                            currentSubtitle = "[statisch]";
-                            break;
-                        case "Japanese":
-                            currentSubtitle = "[砂嵐]";
-                            break;
+                        case "English": currentSubtitle = "[static]"; break;
+                        case "French": currentSubtitle = "[friture]"; break;
+                        case "Dutch": currentSubtitle = "[statisch]"; break;
+                        case "Japanese": currentSubtitle = "[砂嵐]"; break;
+                        case "Chinese (Simplified)": currentSubtitle = "[噪声]"; break;
+                        case "Chinese (Traditional)": currentSubtitle = "[噪聲]"; break;
                     }
                 }
 
@@ -458,7 +449,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     var style = GUISkin.current.label;
                     style.fontSize = 30;
                     style.fontStyle = UnityEngine.FontStyle.Italic;
-                    style.font = Anatomy.Instance.vhsfont;
+                    style.font = Plugin.Instance.runningGameFont;
 
                     float x;
                     float y;
@@ -472,7 +463,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         currentSubtitle = currentSubtitle.ToUpper();
 
                         width = (float)(Screen.width * 0.75);
-                        height = (float)(Screen.height);
+                        height = (float)(Screen.height * 0.75);
                         x = (float)((Screen.width - width) / 2);
                         y = (float)((Screen.height - height) / 2);
                     }
@@ -488,6 +479,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     }
                     else
                     {
+                        style.m_Normal.textColor = Color.white;
+
                         width = (float)(Screen.width * 0.5);
                         height = (float)(Screen.height);
                         x = (float)(Screen.width * 0.25);

@@ -41,15 +41,77 @@ namespace OmegaFallon.KittyHorrorshowTranslations
         public int titleCardStartTime;
         public bool guiDimensionsPrinted;
 
+        public Font comicSans = UnityEngine.Font.CreateDynamicFontFromOSFont(["Comic Sans MS"], 60);
+        public Font timesNewRoman = UnityEngine.Font.CreateDynamicFontFromOSFont(["Times New Roman"], 60);
+
+        public Font japaneseSerif = UnityEngine.Font.CreateDynamicFontFromOSFont(["MS Mincho", "MS PMincho"], 60);
+        public Font koreanSerif = UnityEngine.Font.CreateDynamicFontFromOSFont(["Batang", "BatangChe", "Gungsuh", "GungsuhChe"], 60);
+
+        public void Start()
+        {
+            
+        }
+
+        public void HutongOutsource()
+        {
+            try
+            {
+                if (Plugin.Instance.runningGameFont == null || (Plugin.Instance.runningGameFont.name != PlayMakerGUI.GUISkin.font.name))
+                {
+                    Plugin.Instance.runningGameFont = PlayMakerGUI.GUISkin.font;
+                    Plugin.Instance.PrintThisString("Game font name is: " + Plugin.Instance.runningGameFont.name);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Plugin.Instance.runningGameFont == null || (Plugin.Instance.runningGameFont.name != GUISkin.current.font.name))
+                {
+                    Plugin.Instance.runningGameFont = UnityEngine.GUI.skin.font;
+                    Plugin.Instance.PrintThisString("Game font could not be found: " + ex.ToString());
+                }
+            }
+        }
+
         public void OnGUI()
         {
             try
             {
+                switch (Plugin.Instance.runningGame)
+                {
+                    case "Grandmother":
+                        
+                        break;
+                }
+
+                if (Plugin.Instance.runningGameFont != null && Plugin.Instance.runningGameFont.name != "Arial")
+                {
+                    // do nothing
+                }
+                else if (Plugin.Instance.noHutong.Contains(Plugin.Instance.runningGame))
+                {
+                    Plugin.Instance.runningGameFont = GUISkin.current.font;
+                    Plugin.Instance.PrintThisString("No Hutong so cannot get game font.");
+                }
+                else
+                {
+                    HutongOutsource();
+                }
+                
+
                 // Creating standard button style
                 GUIStyle standardButtonStyle = GUISkin.current.button;
-                if (Plugin.Instance.runningGameFont != null)
+
+                // For rainhouse specifically, introduce a pause before showing the menu
+                switch (Plugin.Instance.runningGame)
                 {
-                    //standardButtonStyle.font = runningGameFont;
+                    case "Rainhouse":
+                    case "Rainhouse_64bit":
+                    case "Actias":
+                        if (Plugin.Instance.imagesRanThrough == 1 || Plugin.Instance.imagesRanThrough == 0)
+                        {
+                            return;
+                        }
+                        break;
                 }
 
                 // If the language has already been decided and subtitles have been decided (for games that need them), return
@@ -88,29 +150,40 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                                 style.fontSize = 60;
                                 //style.fontStyle = UnityEngine.FontStyle.Italic;
                                 style.alignment = TextAnchor.UpperCenter;
+                                style.font = Plugin.Instance.runningGameFont;
 
-                                // Rainhouse legibility
-                                if ((Plugin.Instance.runningGame == "Rainhouse" || Plugin.Instance.runningGame == "Rainhouse_64bit") && Plugin.Instance.imagesRanThrough == 1) 
-                                { 
-                                    style.m_Normal.textColor = UnityEngine.Color.red;
-                                }
-
+                                string titleCardText;
                                 switch (Plugin.Instance.gameLanguage)
                                 {
-                                    case "French":
-                                        UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent("« " + translatedTitle + " »" + "\nde Kitty Horrorshow"), style);
+                                    case "Chinese (Simplified)":
+                                    case "Chinese (Traditional)":
+                                        titleCardText = "基蒂·哈拉肖" + "的" + "\n《" + translatedTitle + "》";
                                         break;
                                     case "Dutch":
-                                        UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent("\"" + translatedTitle + "\"" + "\nvan Kitty Horrorshow"), style);
+                                        titleCardText = "\"" + translatedTitle + "\"" + "\nvan Kitty Horrorshow";
+                                        break;
+                                    case "French":
+                                        titleCardText = "« " + translatedTitle + " »" + "\nde Kitty Horrorshow";
                                         break;
                                     case "Japanese":
-                                        UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent("キティ・ハラショ" + "の" + "\n「" + translatedTitle + "」"), style);
+                                        titleCardText = "キティ・ハラショー" + "の" + "\n「" + translatedTitle + "」";
+                                        break;
+                                    case "Korean":
+                                        titleCardText = "키티 하라쇼" + "\n'" + translatedTitle + "'";
+                                        break;
+                                    case "Polish":
+                                        titleCardText = "„" + translatedTitle + "”" + "\nKitty Horrorshow";
                                         break;
                                     case "English":
+                                        titleCardText = "";
                                         break;
                                     default:
-                                        UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent("\"" + translatedTitle + "\""+"\nKitty Horrorshow"), style);
+                                        titleCardText = "\"" + translatedTitle + "\"" + "\nKitty Horrorshow";
                                         break;
+                                }
+                                if (!string.IsNullOrEmpty(titleCardText))
+                                {
+                                    UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent(titleCardText), style);
                                 }
                             }
                         }
@@ -125,16 +198,53 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     if (subtitlesDecided && !readmeDecided)
                     {
                         string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "readmes", Plugin.Instance.runningGame, Plugin.Instance.gameLanguage };
-                        pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                        var path = String.Join("\\", pathParts);
+                        string[] pathParts2 = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "readmes", Plugin.Instance.runningGame, Plugin.Instance.gameLanguage };
 
-                        if (!Directory.Exists(path))
+                        string[][] listsOfPathParts = { pathParts, pathParts2 };
+                        string path = "";
+
+                        foreach (string[] pathPartList in listsOfPathParts)
                         {
-                            string[] pathParts2 = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "readmes", Plugin.Instance.runningGame, Plugin.Instance.gameLanguage };
-                            pathParts2 = pathParts2.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                            path = String.Join("\\", pathParts2);
-                        }
+                            switch (Plugin.Instance.runningGame)
+                            {
+                                case "Grandmother":
+                                case "Leechbowl":
+                                case "Pente":
+                                    pathPartList[Array.IndexOf(pathPartList, Plugin.Instance.runningGame)] = "Haunted Cities Vol. 1";
+                                    break;
+                                case "Gloompuke":
+                                case "Monastery":
+                                case "Roads":
+                                case "Scarlet Bough":
+                                case "Scarlet":
+                                    pathPartList[Array.IndexOf(pathPartList, Plugin.Instance.runningGame)] = "Haunted Cities Vol. 2";
+                                    break;
+                                case "Basements":
+                                case "Castle Wormclot":
+                                case "Wormclot":
+                                case "Ghost Lake":
+                                case "GhostLake":
+                                case "Seven Days":
+                                case "Seven":
+                                    pathPartList[Array.IndexOf(pathPartList, Plugin.Instance.runningGame)] = "Haunted Cities Vol. 3";
+                                    break;
+                                case "Exclusion Zone":
+                                case "Exclusion":
+                                case "Grandmother's Garden":
+                                case "Lethargy Hill":
+                                case "Tenement":
+                                    pathPartList[Array.IndexOf(pathPartList, Plugin.Instance.runningGame)] = "Haunted Cities Vol. 4";
+                                    break;
+                            }
 
+                            path = String.Join("\\", pathPartList.Where(x => !string.IsNullOrEmpty(x)).ToArray());
+
+                            if (!Directory.Exists(path))
+                            {
+                                break;
+                            }
+                        }
+                        
                         if (Directory.Exists(path))
                         {
                             Plugin.Instance.UnlockCursor();
@@ -256,10 +366,12 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     case "Sigilvalley_64bit":
                     case "Vaporcrane":
                     case "Vaporcrane_win":
+                    case "Village":
+                    case "Village_win":
                         availableLanguagesForThisGame = ["All"];
                         break;
                     default:
-                        availableLanguagesForThisGame = ["English", "French", "Dutch", "Japanese", "German", "Italian", "Spanish"];
+                        availableLanguagesForThisGame = ["English", "French", "Dutch", "Japanese", "Chinese (Simplified)", "Chinese (Traditional)"];
                         break;
                 }
 
@@ -269,22 +381,25 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     new Language() { name = "English", localName = "English", prompt = "(Press NUMBER)" },
 
                     // Other langs
-                    new Language() { name = "Arabic", localName = "عربي", prompt = "(اضغط على NUMBER)" },
-                    new Language() { name = "Catalan", localName = "Català", prompt = "(Premeu NUMBER)" },
+                    //new Language() { name = "Arabic", localName = "عربي", prompt = "(اضغط على NUMBER)" },
+                    //new Language() { name = "Bengali", localName = "বাংলা", prompt = "(NUMBER টিপুন)" },
+                    //new Language() { name = "Catalan", localName = "Català", prompt = "(Premeu NUMBER)" },
                     new Language() { name = "Chinese (Simplified)", localName = "简体中文", prompt = "（按下NUMBER）" },
                     new Language() { name = "Chinese (Traditional)", localName = "繁體中文", prompt = "（按下NUMBER）" },
                     new Language() { name = "Dutch", localName = "Nederlands", prompt = "(Druk op NUMBER)" },
                     new Language() { name = "French", localName = "Français", prompt = "(Appuyez sur NUMBER)" },
-                    new Language() { name = "German", localName = "Deutsch", prompt = "(Drücke NUMBER)" },
-                    new Language() { name = "Italian", localName = "Italiano", prompt = "(Premi NUMBER)" },
+                    //new Language() { name = "German", localName = "Deutsch", prompt = "(Drücke NUMBER)" },
+                    //new Language() { name = "Greek", localName = "Ελληνικά", prompt = "(XXX NUMBER)" },
+                    //new Language() { name = "Hindi", localName = "हिन्दी", prompt = "(NUMBER दबाएँ)" },
+                    //new Language() { name = "Italian", localName = "Italiano", prompt = "(Premi NUMBER)" },
                     new Language() { name = "Japanese", localName = "日本語", prompt = "(NUMBERを押す)" },
-                    new Language() { name = "Korean", localName = "한국인", prompt = "(NUMBER를 눌러)" },
-                    new Language() { name = "Polish", localName = "Polski", prompt = "(Naciśnij NUMBER)"},
-                    new Language() { name = "Portuguese", localName = "Português", prompt = "(Pressione NUMBER)"},
-                    new Language() { name = "Russian", localName = "Русский", prompt = "(Нажмите NUMBER)"},
-                    new Language() { name = "Spanish", localName = "Español", prompt = "(Presiona NUMBER)" },
-                    new Language() { name = "Turkish", localName = "Türkçe", prompt = "(NUMBER basın)" },
-                    new Language() { name = "Ukrainian", localName = "Українська", prompt = "(Натисніть NUMBER)"},
+                    //new Language() { name = "Korean", localName = "한국인", prompt = "(NUMBER를 눌러)" },
+                    //new Language() { name = "Polish", localName = "Polski", prompt = "(Naciśnij NUMBER)"},
+                    //new Language() { name = "Portuguese", localName = "Português", prompt = "(Pressione NUMBER)"},
+                    //new Language() { name = "Russian", localName = "Русский", prompt = "(Нажмите NUMBER)"},
+                    //new Language() { name = "Spanish", localName = "Español", prompt = "(Presiona NUMBER)" },
+                    //new Language() { name = "Turkish", localName = "Türkçe", prompt = "(NUMBER basın)" },
+                    //new Language() { name = "Ukrainian", localName = "Українська", prompt = "(Натисніть NUMBER)"},
                 ];
 
                 // "All" shorthand
@@ -381,17 +496,33 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 }
 
                 // Sort language list except for English and establish lang dictionary
+                foreach (Language lang in languageList)
+                {
+                    for (int i = 0; i < availableLanguagesForThisGame.Length; i++)
+                    {
+                        availableLanguagesForThisGame[i] = availableLanguagesForThisGame[i].Replace(lang.name, lang.localName);
+                    }
+                }
                 Array.Sort(availableLanguagesForThisGame, 1, availableLanguagesForThisGame.Length-1);
+                foreach (Language lang in languageList)
+                {
+                    for (int i = 0; i < availableLanguagesForThisGame.Length; i++)
+                    {
+                        availableLanguagesForThisGame[i] = availableLanguagesForThisGame[i].Replace(lang.localName, lang.name);
+                    }
+                }
 
                 // Standard buttons
+                string[] promptButtons = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "Z", "X", "C", "V", "B", "N", "M", "L", "K"];
+                KeyCode[] promptKeyCodes = [KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0, KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N, KeyCode.M, KeyCode.L, KeyCode.K];
 
                 foreach (Language lang in languageList)
                 {
                     lang.index = Array.IndexOf(availableLanguagesForThisGame, lang.name);
-                    lang.prompt = lang.prompt.Replace("NUMBER",(lang.index+1).ToString());
-
+                    
                     if (lang.index != -1)
                     {
+                        lang.prompt = lang.prompt.Replace("NUMBER", promptButtons[lang.index]);
                         // First row
                         if (lang.index <= maxLangsPerColumn-1)
                         {
@@ -412,6 +543,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                                 return;
                             }
                         }
+                        // Third row
                         else
                         {
                             if (UnityEngine.GUI.Button(new Rect(widthSpacer3 + ((lang.index - (maxLangsPerColumn*2)) * widthSpacer3) + ((lang.index - (maxLangsPerColumn*2)) * buttonWidth), heightSpacer + buttonHeight + heightSpacer + buttonHeight + heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
@@ -425,13 +557,20 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 }
 
                 // Allowing keypresses as alternative
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < numLangs+1; i++)
                 {
-                    if ((Input.GetKeyDown(KeyCode.Keypad1+i) || Input.GetKeyDown(KeyCode.Alpha1+i)) && numLangs >= i+1 && !string.IsNullOrEmpty(availableLanguagesForThisGame[i]))
+                    try
                     {
-                        Plugin.Instance.gameLanguage = availableLanguagesForThisGame[i];
-                        Plugin.Instance.AfterLanguageSelection();
-                        return;
+                        if (Input.GetKeyDown(promptKeyCodes[i]) && numLangs >= i + 1 && !string.IsNullOrEmpty(availableLanguagesForThisGame[i]))
+                        {
+                            Plugin.Instance.gameLanguage = availableLanguagesForThisGame[i];
+                            Plugin.Instance.AfterLanguageSelection();
+                            return;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Plugin.Instance.PrintThisString("OnGUI keypresses exception: " + ex.ToString());
                     }
                 }
             }
@@ -472,6 +611,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         case "Japanese": str = "夕焼け、精神、鋼鉄"; break;
                     }
                     break;
+                case "SUNSET":
                 case "SUNSET SPIRIT STEEL":
                     switch (Plugin.Instance.gameLanguage)
                     {
@@ -480,13 +620,24 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         case "Japanese": str = "夕焼け、精神、鋼鉄"; break;
                     }
                     break;
+                case "Sigil Valley":
                 case "Sigilvalley":
                 case "Sigilvalley_64bit":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Vallée des Sceaux"; break;
+                        case "Arabic": str = "وادي سيجيل"; break;
+                        case "Catalan": str = "Vall dels Sigils"; break;
+                        case "Chinese (Simplified)": str = "印记谷"; break;
+                        case "Chinese (Traditional)": str = "印記谷"; break;
                         case "Dutch": str = "Vallei van Sigils"; break;
+                        case "French": str = "Vallée des Sceaux"; break;
+                        case "German": str = "Tal der Siegel"; break;
+                        case "Italian": str = "Valle dei Sigilli"; break;
                         case "Japanese": str = "印章の谷"; break;
+                        case "Korean": str = "인장의 계곡"; break;
+                        case "Portuguese": str = "Vale dos Sigilos"; break;
+                        case "Spanish": str = "Valle de los Sellos"; break;
+                        case "Polish": str = "Dolina Pieczęci"; break;
                     }
                     break;
                 case "Archlake":
@@ -659,11 +810,12 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     }
                     break;
                 case "Artery":
+                case "Artery Heights":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Artère"; break;
-                        case "Dutch": str = "Slagader"; break;
-                        case "Japanese": str = "動脈"; break;
+                        case "French": str = "Hauteurs d'Artère"; break;
+                        case "Dutch": str = "Slagader Toppunten"; break;
+                        case "Japanese": str = "ハイツの動脈"; break;
                     }
                     break;
                 case "Amalia":
@@ -848,6 +1000,27 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "Japanese": str = "ゾレガ"; break;
+                    }
+                    break;
+                case "Village":
+                case "Village_win":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "Arabic": str = "قرية"; break;
+                        case "Bulgarian": str = "Cело"; break;
+                        case "Catalan": str = "Poble"; break;
+                        case "Chinese (Simplified)": str = "村"; break;
+                        case "Chinese (Traditional)": str = "村"; break;
+                        case "French": str = "Village"; break;
+                        case "German": str = "Dorf"; break;
+                        case "Hebrew": str = "כפר"; break;
+                        case "Hindi": str = "गाँव"; break;
+                        case "Italian": str = "Villaggio"; break;
+                        case "Japanese": str = "村落"; break;
+                        case "Korean": str = "마을"; break;
+                        case "Portuguese": str = "Aldeia"; break;
+                        case "Russian": str = "Село"; break;
+                        case "Spanish": str = "Pueblo"; break;
                     }
                     break;
             }
