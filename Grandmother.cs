@@ -27,7 +27,7 @@ namespace KittyHorrorshowTranslations
                 case "Enter house":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Entrez dans la maison"; break;
+                        case "French": str = "Entrer dans la maison"; break;
                         case "Dutch": str = "Huis binnengaan"; break;
                         case "Japanese": str = "家に入る"; break;
                     }
@@ -35,7 +35,7 @@ namespace KittyHorrorshowTranslations
                 case "Exit house":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Sortez de la maison"; break;
+                        case "French": str = "Sortir de la maison"; break;
                         case "Dutch": str = "Verlaat huis"; break;
                         case "Japanese": str = "家を出る"; break;
                     }
@@ -43,7 +43,7 @@ namespace KittyHorrorshowTranslations
                 case "Turn off television":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Éteignez la télévision"; break;
+                        case "French": str = "Éteindre la télévision"; break;
                         case "Dutch": str = "Zet televisie uit"; break;
                         case "Japanese": str = "テレビを消す"; break;
                     }
@@ -51,7 +51,7 @@ namespace KittyHorrorshowTranslations
                 case "Turn on television":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Allumez la télévision"; break;
+                        case "French": str = "Allume la télevision"; break;
                         case "Dutch": str = "Zet televisie aan"; break;
                         case "Japanese": str = "テレビをつける"; break;
                     }
@@ -59,7 +59,7 @@ namespace KittyHorrorshowTranslations
                 case "Read book":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Lisez le livre"; break;
+                        case "French": str = "Lis le livre"; break;
                         case "Dutch": str = "Lees boek"; break;
                         case "Japanese": str = "本を読む"; break;
                     }
@@ -67,7 +67,7 @@ namespace KittyHorrorshowTranslations
                 case "Take knife":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Prenez le couteau"; break;
+                        case "French": str = "Prends le couteau"; break;
                         case "Dutch": str = "Neem mes"; break;
                         case "Japanese": str = "ナイフを取る"; break;
                     }
@@ -77,7 +77,7 @@ namespace KittyHorrorshowTranslations
                 case "Enter barn":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Entrez dans la grange"; break;
+                        case "French": str = "Entrer dans la grange"; break;
                         case "Dutch": str = "Ga schuur binnen"; break;
                         case "Japanese": str = "納屋に入る"; break;
                     }
@@ -85,7 +85,7 @@ namespace KittyHorrorshowTranslations
                 case "Exit barn":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Sortez de la grange"; break;
+                        case "French": str = "Sortir de la grange"; break;
                         case "Dutch": str = "Verlaat schuur"; break;
                         case "Japanese": str = "納屋を出る"; break;
                     }
@@ -95,7 +95,7 @@ namespace KittyHorrorshowTranslations
                 case "Enter mausoleum":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Entrez dans le mausolée"; break;
+                        case "French": str = "Entrer dans le mausolée"; break;
                         case "Dutch": str = "Ga mausoleum binnen"; break;
                         case "Japanese": str = "霊廟に入る"; break;
                     }
@@ -103,7 +103,7 @@ namespace KittyHorrorshowTranslations
                 case "Leave mausoleum":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Sortez de le mausolée"; break;
+                        case "French": str = "Sortir du mausolée"; break;
                         case "Dutch": str = "Verlaat mausoleum"; break;
                         case "Japanese": str = "霊廟を出る"; break;
                     }
@@ -129,7 +129,7 @@ namespace KittyHorrorshowTranslations
                 case "Kill murderer":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Tuez le meurtrier"; break;
+                        case "French": str = "Tuer le meurtrier"; break;
                         case "Dutch": str = "Dood de moordenaar"; break;
                         case "Japanese": str = "殺人犯を殺せ"; break;
                     }
@@ -137,7 +137,7 @@ namespace KittyHorrorshowTranslations
                 case "Kill blasphemer":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Tuez le blasphémateur"; break;
+                        case "French": str = "Tuer le blasphémateur"; break;
                         case "Dutch": str = "Dood de godslasteraar"; break;
                         case "Japanese": str = "冒涜者を殺せ"; break;
                     }
@@ -145,7 +145,7 @@ namespace KittyHorrorshowTranslations
                 case "Kill lecher":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Tuez le pervers"; break;
+                        case "French": str = "Tuer le pervers"; break;
                         case "Dutch": str = "Dood de geilaard"; break;
                         case "Japanese": str = "好色家を殺せ"; break;
                     }
@@ -171,7 +171,7 @@ namespace KittyHorrorshowTranslations
                 case "Enter terminus":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Entrez dans le terminus"; break;
+                        case "French": str = "Entrer dans le terminus"; break;
                         case "Dutch": str = "Terminus binnengaan"; break;
                         case "Japanese": str = "終点に入る"; break;
                     }
@@ -208,9 +208,9 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            openPage = "Vous ouvrez sur une page aléatoire :  ";
+                            openPage = "Vous ouvrez sur une page au hasard :  ";
                             sheSays = "Elle dit : ";
-                            pressSpace = "  (Appuyez Espace pour continuer)";
+                            pressSpace = "  (Appuyer sur Espace pour continuer)";
 
                             book1 = "FILL IN";
                             book2 = "FILL IN";

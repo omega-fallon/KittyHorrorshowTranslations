@@ -1,78 +1,52 @@
 ﻿using KittyHorrorshowTranslations;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
 namespace OmegaFallon.KittyHorrorshowTranslations
 {
-    public class Anatomy_Subtitles : MonoBehaviour
+    public class Subtitles_Anatomy : MonoBehaviour
     {
-        public static Anatomy_Subtitles Instance;
+        public static Subtitles_Anatomy Instance;
         public void Awake()
         {
             Instance = this;
         }
 
-        public void Start()
+        public Dictionary<double, string> ReturnSubtitles(string str)
         {
-            
-        }
-
-        public string lastSubtitle;
-        public string currentSubtitle;
-
-        public GameObject screamingTape;
-        public GameObject title4TV;
-
-        public void OnGUI()
-        {
-            try
+            switch (str)
             {
-                if (GUI.Instance.doSubtitles == false)
-                {
-                    return;
-                }
-
-                // Setting current subtitle //
-                float audioTimeInSeconds = (float)(Plugin.Instance.updateCounter - Plugin.Instance.updateCountAtLastSoundStart) / 60;
-                Dictionary<double, string> subtitleTimestampsGlobal = new Dictionary<double, string>();
-
-                switch (Plugin.Instance.lastSoundPlayed)
-                {
-                    // First House //
-                    case "tape1":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                // First House //
+                case "tape1":
+                    return new Dictionary<double, string>
                         {
                             { 3.135, "In the psychology of the modern, civilized human being, it is difficult to overstate the significance of the house." },
-                            { 10.00, "Since as early as the neolithic era, humankind has defined itself by its buildings."},
+                            { 10.00, "Since as early as the Neolithic era, humankind has defined itself by its buildings."},
                             { 15.00, "Buildings for worship, buildings for socializing, buildings for protection, even buildings for the commemoration of the dead."},
                             { 22.85, "But of all the structures that mankind has invented for itself, there is little doubt that the house is that which it relies upon most completely for its continued survival."}
                         };
-                        break;
-                    case "tape2":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape2":
+                    return new Dictionary<double, string>
                         {
                             { 1.66, "The house is one of the key elements that separates modern humanity from its more primitive antecedents."},
                             { 7.6, "No other creature goes to such lengths to create lasting, permanent shelter for itself, nor regards such shelters with such reverence and import."},
                             { 16.7, "Why do human beings of our modern age foster this tremendous sympathy toward their homes?"},
                             { 22.1, "There are many reasons, of course, but perhaps it is due in some small part to seeing them as a reflection of ourselves."},
                         };
-                        break;
-                    case "tape3":
-                    case "tape3_2":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape3":
+                case "tape3_2":
+                    return new Dictionary<double, string>
                         {
                             { 1.7, "The anatomy of the house is such that this analogy is less superficial than at first it may seem."},
                             { 8.0, "To carry it further, if we were to dissect a house as we might a human cadaver,"},
                             { 12.7, "we would find ourselves able to isolate and describe its various appendages and their functions in a decidedly anatomical fashion."},
                             { 21.0, "There is even a fair number of direct comparisons to be drawn between those organs of a house and those of a human body."},
                         };
-                        break;
-                    case "tape4":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape4":
+                    return new Dictionary<double, string>
                         {
                             { 1.55, "For example, let us examine the living room." },
                             { 4.6, "Often the dominant space of a house's ground level,"},
@@ -84,10 +58,9 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 29.8, "The comparison is only strengthened when we consider also that the living room is most commonly the room to contain the fireplace,"},
                             { 36.1, "making it additionally a locus of actual, physical heat." },
                         };
-                        break;
-                    case "tape5":
-                    case "tape5_2":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape5":
+                case "tape5_2":
+                    Dictionary<double, string> subtitleTimestampsGlobal = new Dictionary<double, string>
                         {
                             { 2.0, "It is easy to think of the kitchen and dining room as the stomach or digestive system of a house, though this comparison is tenuous."},
                             { 9.93, "A contrast: the function and analog of a bathroom should be immediately obvious."},
@@ -96,12 +69,11 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 28.2, "The windows of a house serve much the same purpose as eyes, and anyone who has ever rounded a bend or a long drive and come suddenly face to face with a tall, dark manor"},
                             { 38.0, "will tell you that it is difficult to shake the impression that the house, through its lightless windows, is a creature capable of vision and intelligence." }
                         };
-                        
-                        if (Plugin.Instance.lastSoundPlayed == "tape5_2") { subtitleTimestampsGlobal.Add(38.846, "the house is a creature capable of"); }
 
-                        break;
-                    case "tape6":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                    if (Plugin.Instance.lastSoundPlayed == "tape5_2") { subtitleTimestampsGlobal.Add(38.846, "the house is a creature capable of"); }
+                    return subtitleTimestampsGlobal;
+                case "tape6":
+                    return new Dictionary<double, string>
                         {
                             { 2.2, "The bedroom is perhaps the room that most eludes direct comparison in this fashion." },
                             { 7.7, "At a stretch, and allowing for a bit of poetic sympathy, it might be said that the bedroom is not unlike the human mind,"},
@@ -109,9 +81,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 18.0, "In the bedroom, dreams are dreamt, passions are ignited, epiphanies are experienced in cold sweat at early hours."},
                             { 26.4, "In the bedroom is where people invariably spend the majority of their time, though comparatively little of it whilst conscious."},
                         };
-                        break;
-                    case "tape7":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape7":
+                    return new Dictionary<double, string>
                         {
                             { 2.48, "And yet this analogy is an incomplete one."},
                             { 5.1, "Though obviously the mind is an exceedingly complex thing,"},
@@ -125,9 +96,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 39.2, "It is a place we spend our childhoods filling with monsters that will lay for years in patient silence."},
                             { 46.0, "It is a place that, barring some specific errand, we seldom ever want to go."},
                         };
-                        break;
-                    case "tape8":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape8":
+                    return new Dictionary<double, string>
                         {
                             { 2.1, "Of course this comparison, though appropriate, is a very heavy-handed one," },
                             { 6.9, "and often the basement is little more than a storage space, littered with the corpses of spiders and wood lice."},
@@ -137,9 +107,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 22.6, "that place of dreams,"},
                             { 24.6, "which is actually the most frightening of all."},
                         };
-                        break;
-                    case "tape9":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape9":
+                    return new Dictionary<double, string>
                         {
                             { 1.4, "It is here, in the bedroom, that we are at our most vulnerable."},
                             { 6.9, "Each night we shut our senses to the world for hours at a time,"},
@@ -155,37 +124,31 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 49.4, "and spend each night hoping"},
                             { 51.6, "that it will not bite down."},
                         };
-                        break;
 
-                    // Second House //
-                    case "tape1_2":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                // Second House //
+                case "tape1_2":
+                    return new Dictionary<double, string>
                         {
                             { 3.135, "In the psychology of the modern, civilized human being, it is difficult to overstate the significance of the house." },
-                            { 10.00, "Since as early as the neolithic era, humankind has defined itself by its buildings."},
+                            { 10.00, "Since as early as the Neolithic era, humankind has defined itself by its buildings."},
                             { 13.1, "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
                             { 13.845, "the dead."},
                             { 15.2, "But of all the structures that mankind has invented for itself, there is little doubt that the house is that which it relies upon most completely for its continued survival."},
                         };
-                        break;
-                    case "tape2_2":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape2_2":
+                    return new Dictionary<double, string>
                         {
                             { 1.66, "Tue acgqe vs hbq mf ghx yqw eyefszrs ghth ecpnrthqq mbdxfz fuzagwfw feof wfq mbrx ddgmvtbjq yngevspcngs."},
                             { 7.6, "Nb omvqp ceethgpe toxg fm shca zqlgghl ha arrams xysgigu, bcrzagszr sueehqp fbr bhecls, nhf dcgnrwg escu sasxrees pwff shca fqteeegqq ynq ifdapt."},
                             { 16.7, "Why do human beings of our modern age foster this tremendous sympathy toward their homes?"},
                             { 20.477, "sympathy sympathy sympathy"},
                         };
-                        break;
-                    //case "tape3_2":
-                    case "tape4_2":
-                        switch (Plugin.Instance.gameLanguage)
-                        {
-                            case "English": currentSubtitle = "[tape static]"; break;
-                        }
-                        break;
-                    case "tape6_2":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                //case "tape3_2":
+                case "tape4_2":
+                    //see below
+                    break;
+                case "tape6_2":
+                    return new Dictionary<double, string>
                         {
                             { 2.2, "The bedroom is perhaps the room that most eludes direct comparison in this fashion." },
                             { 7.7, "At a stretch, and allowing for a bit of poetic sympathy, it might be said that the bedroom is not unlike the human mind,"},
@@ -212,11 +175,10 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 104.00, "The teeth continue growing on me until there is nothing left of me but teeth, and gums, and sinew."},
                             { 115.3, "The basement is dark."},
                         };
-                        break;
 
-                    // Third House //
-                    case "tape1_3":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                // Third House //
+                case "tape1_3":
+                    return new Dictionary<double, string>
                         {
                             {0.0, "Ï+È+ÓƒÄ\fƒáüƒâüV;Ñ}\u000f‹EøPSè\u009dÿÿÿ‹]üë"},
                             {0.5, "ó\u000f\u0011]äó\u000f\u0010]¸\u000f(øó\u000fYûó\u000f\u0011}Ä\u000f(ûó\u000f"},
@@ -242,9 +204,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             {11.0, "VÿÐƒÄ\b‹ÏèdòÜÿ_^]Â\u0004 ÌÌÌÌÌÌÌÌÌÌÌÌÌÌU‹ìSV‹u\bWj ‹ù‹"},
                             {11.5, "This program cannot be run in DOS mode."},
                         };
-                        break;
-                    case "tape2_3":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape2_3":
+                    return new Dictionary<double, string>
                         {
                             {0.0, "å_[]Ã‹U\u001cRP‹E\fPÁã\u0004\u0003ÙSSQèkòÿÿƒÄ\u0018_[]ÃÌÌÌÌU‹ìƒì\u001cS‹"},
                             {0.5, "‰uì3À;ðt]‹O\u0004‰\u000e‹W\u0004‰V\u0004‹O\u0004‰N\bf‰F"},
@@ -269,9 +230,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             {11.0, "PrimitiveTriangleStrip kPrimitiveQuads kPrimitiveLines kPrimitiveLineStrip kPrimitivePoint"},
                             {11.5, "Frequency m_DampingRatio  JointSuspension2D   WheelJoint2D        Ð£y `½” ð`x `½” ð y à¡y `½” \u0010å@  å@  \\@ `[@ @\u001am à y `½” P{@  \\@ \u0090å@  ­y \u0090¬y @¬y `^x €¬y ð¬y @\u001am \u0090å@ `½” °_x `½” `½” `½”  øR @ax ð_x À§y  `x Ðgx  hx m_LocalAxis m_Suspension  "},
                         };
-                        break;
-                    case "tape3_3":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape3_3":
+                    return new Dictionary<double, string>
                         {
                             {0.0, "OggS \u0002        \u0001       ”à{N\u0001\u001e\u0001vorbis    \u0002D¬              ¸\u0001OggS          \u0001   \u0001   ˜R¥þ\u0011&ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿS\u0003vorbis\u0016   Fmod5Sharp (Samboy063)    \u0001\u0005vorbis+BCV\u0001 \b   1L Å€Ð\u0090U  \u0010  `$)\u000e“fI)¥”¡(y˜”HI)¥”Å0‰˜”‰Å\u0018cŒ1Æ\u0018cŒ1Æ\u0018cŒ 4d\u0015  \u0004 €(\tŽ£æIjÎ9g\u0018'Žr 9iN8§ \aŠQà9\tÂõ&cn¦´¦knÎ)%\b\r\n" },
                             {0.5, "Y\u0005  \u0002 @H!…\u0014RH!…\u0014bˆ!†\u0018bˆ!‡\u001crÈ!§œr\r\n" },
@@ -298,26 +258,21 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             {11.0, "RÖZk­µÖZk­µF)k­µÖZk­µÖZk©µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZk­µÖZK)¥”RJ)¥”RJ)¥”RJ)¥”RJ)¥”RJ)¥”RJ)¥”RJ)¥”RJ)¥”RJ)¥”RJ)¥”RJ)¥”R\u0001Ø\u0005\u001b\u000e€Ñ\u0013F\u0012Rg\u0019V\u001aqã\t\u0018\"\u0090BCV\u0002 i\u0001 €1Œ1æ\u0018t\u0010JI)¥\r\n" },
                             {11.5, "!ç „NB*­Å\u0016c„\u0090s\u0010B(%¥Öb‹1x\u000eB\b!”ÒRl1ÆX<\a!„\u0010Rj-Æ\u0018c\f²…PJ))µÖbŒµ\u0016ÙB(¥””Z‹1ÖZƒ1¦”’Rj­ÕXc¬Å\u0018\u0013JH©µÖbÌµÖb|¬%¥ÔbŒ±ÆXk1Æ¶\u0014R‰-ÆXk\u008dµ\u0018aŒj­ÅXc­±ÖZŒ1Â•\u0016bŠµÖZs-F\bcs‹1ÖXk®¹\u0016aŒÑ¹•Zj\u008d±ÖZ‹/Æ\u0018ak¬5ÆZkÎÅ\u0018#„°µ¶\u001akÍ5×bŒ1Æ\b\u001fc¬µÖÜs1Æ\u0018c„\u00901Æ\u001akÎ¹ €Ü\b\a Ä\u0005#\t©³\f+\u008d¸ñ\u0004\f\u0011H¡!« €\u0018 €! „b²\u0001 €\t\u000e  \u0001V°+³´j£¸©“¼èƒÀ'tÄfdÈ¥TÌäDÐ#5Ôb%Ø¡\u0015Üà\u0005`¡!+\u0001 2  ÄYÍ9Çœ+ä¤µØj,\u0015R\u000eRŠ1vÈ å$ÅZ2d\u0010ƒÔbê\u00142ˆAj©t\f\u0019\u0004%ÆT:…\fƒ\\c+¡c\u000eZ«±¥\u0012:\b  €  À@„Ì\u0004\u0002\u0005P` \u0003 \u000e\u0010\u0012¤ €Â\u0002CÇp\u0011\u0010\u0090KÈ(0(\u001c\u0013ÎI§\r\n" },
                         };
-                        break;
-                    case "tape4_3":
-                        switch (Plugin.Instance.gameLanguage)
-                        {
-                            case "English":
-                                currentSubtitle = new StringBuilder().Insert(0, "YOUNEVERCAMEBACK", 25).ToString();
-                                break;
-                            case "French":
-                                currentSubtitle = new StringBuilder().Insert(0, "TUN'ESJAMAISREVENU", 25).ToString();
-                                break;
-                            case "Dutch":
-                                currentSubtitle = new StringBuilder().Insert(0, "JEBENTNOOITTERUGKWAM", 25).ToString();
-                                break;
-                            case "Japanese":
-                                currentSubtitle = new StringBuilder().Insert(0, "あなたは二度と戻って来なかった", 25).ToString();
-                                break;
-                        }
-                        break;
-                    case "tape5_3":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tape4_3":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "English":
+                            return new Dictionary<double, string> { { 0.0, new StringBuilder().Insert(0, "YOUNEVERCAMEBACK", 25).ToString() } };
+                        case "French":
+                            return new Dictionary<double, string> { { 0.0, new StringBuilder().Insert(0, "TUN'ESJAMAISREVENU", 25).ToString() } };
+                        case "Dutch":
+                            return new Dictionary<double, string> { { 0.0, new StringBuilder().Insert(0, "JEBENTNOOITTERUGKWAM", 25).ToString() } };
+                        case "Japanese":
+                            return new Dictionary<double, string> { { 0.0, new StringBuilder().Insert(0, "あなたは二度と戻って来なかった", 25).ToString() } };
+                    }
+                    break;
+                case "tape5_3":
+                    return new Dictionary<double, string>
                         {
                             { 1.5, "and if we were to disect the house" },
                             { 3.14, "we would find organs"},
@@ -330,9 +285,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 10, "like a mouth" },
                             { 11.25, "it will bite down."}
                         };
-                        break;
-                    case "tapeX_3":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                case "tapeX_3":
+                    return new Dictionary<double, string>
                         {
                             { 1.5, "There is an important distinction that must be drawn between the words \"dissection\" and \"vivisection\"."},
                             { 7.2, "A distinction that would appear to be lost on you."},
@@ -345,11 +299,10 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 40.45, "when a house is both hungry and awake,"},
                             { 44.0, "every room becomes a mouth."}
                         };
-                        break;
 
-                    // Final speech //
-                    case "finalspeech":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                // Final speech //
+                case "finalspeech":
+                    return new Dictionary<double, string>
                         {
                             { 3.2, "What happens to a house when it is left alone?"},
                             { 8.445, "When it becomes worn and aged?" },
@@ -384,11 +337,10 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 145, "Hallways empty." },
                             { 149.8, "Hungry." }
                         };
-                        break;
 
-                    // Bedroom tapes //
-                    case "amen":
-                        subtitleTimestampsGlobal = new Dictionary<double, string>
+                // Bedroom tape //
+                case "amen":
+                    return new Dictionary<double, string>
                         {
                             { 0.05, "Now I lay me down to sleep," },
                             { 4.08, "I pray the Lord my Soul to keep;" },
@@ -396,152 +348,13 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 12.11, "I pray the Lord my Soul to take."},
                             { 16.35, "Amen."},
                         };
-                        break;
-
-                    // Default //
-                    default:
-                        currentSubtitle = "";
-                        break;
-                }
-
-                // Iterate through the dictionary
-                for (int index = 0; index < subtitleTimestampsGlobal.Count; index++)
-                {
-                    KeyValuePair<double, string> subtitle = subtitleTimestampsGlobal.Reverse().ElementAt(index);
-
-                    if (audioTimeInSeconds >= subtitle.Key)
-                    {
-                        currentSubtitle = subtitle.Value;
-                        break;
-                    }
-                }
-
-                // Sound description code
-                if (Plugin.Instance.currentLevelIndex == 3 && screamingTape != null && Vector3.Distance(screamingTape.transform.position, GameObject.Find("PLAYER").transform.position) <= 5.5)
-                {
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "English": currentSubtitle = "[distorted screaming]"; break;
-                        case "French": currentSubtitle = "[cris déformés]"; break;
-                        case "Dutch": currentSubtitle = "[verwrongen schreeuwen]"; break;
-                        case "Japanese": currentSubtitle = "[歪んだ叫び声]"; break;
-                        case "Chinese (Simplified)": currentSubtitle = "[扭曲的尖叫声]"; break;
-                        case "Chinese (Traditional)": currentSubtitle = "[扭曲的尖叫聲]"; break;
-                    }
-                }
-                else if (Plugin.Instance.currentLevelIndex == 3 && title4TV != null && Vector3.Distance(title4TV.transform.position, GameObject.Find("PLAYER").transform.position) <= 5.5)
-                {
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "English": currentSubtitle = "[static]"; break;
-                        case "French": currentSubtitle = "[friture]"; break;
-                        case "Dutch": currentSubtitle = "[statisch]"; break;
-                        case "Japanese": currentSubtitle = "[砂嵐]"; break;
-                        case "Chinese (Simplified)": currentSubtitle = "[噪声]"; break;
-                        case "Chinese (Traditional)": currentSubtitle = "[噪聲]"; break;
-                    }
-                }
-
-                // Display the subtitle
-                if (!string.IsNullOrEmpty(currentSubtitle))
-                {
-                    // Styling
-                    var style = GUISkin.current.label;
-                    style.fontSize = 30;
-                    style.fontStyle = UnityEngine.FontStyle.Italic;
-                    style.font = Plugin.Instance.runningGameFont;
-
-                    float x;
-                    float y;
-                    float width;
-                    float height;
-
-                    // Blow your ears out code
-                    if (Plugin.Instance.lastSoundPlayed == "tape3_2" || (Plugin.Instance.lastSoundPlayed == "tape5_2" && audioTimeInSeconds >= 38.846))
-                    {
-                        style.fontSize = 60;
-                        currentSubtitle = currentSubtitle.ToUpper();
-
-                        width = (float)(Screen.width * 0.75);
-                        height = (float)(Screen.height * 0.75);
-                        x = (float)((Screen.width - width) / 2);
-                        y = (float)((Screen.height - height) / 2);
-                    }
-                    // Dream code
-                    else if (Plugin.Instance.lastSoundPlayed == "tape6_2" && audioTimeInSeconds >= 20.8 && !(audioTimeInSeconds >= 115.3))
-                    {
-                        style.m_Normal.textColor = Color.red;
-
-                        width = (float)(Screen.width * 0.5);
-                        height = (float)(Screen.height);
-                        x = (float)(Screen.width * 0.25);
-                        y = (float)(Screen.height * 0.6);
-                    }
-                    else
-                    {
-                        style.m_Normal.textColor = Color.white;
-
-                        width = (float)(Screen.width * 0.5);
-                        height = (float)(Screen.height);
-                        x = (float)(Screen.width * 0.25);
-                        y = (float)(Screen.height * 0.6);
-                    }
-
-                    // Write the subtitle
-                    UnityEngine.GUI.Label(new Rect(x, y, width, height), new GUIContent(currentSubtitle), style);
-                }
-
-                // Debug subtitle frame counter //
-                if (false)
-                {
-                    string str;
-                    int widthSpacer = (Screen.width - 200) / 2;
-                    int heightSpacer = (Screen.height - 200) / 2;
-
-                    str = "";
-
-                    switch (Plugin.Instance.lastSoundPlayed)
-                    {
-                        case "tapeStop":
-                            break;
-                        case "tape1":
-                        case "tape2":
-                        case "tape3":
-                        case "tape4":
-                        case "tape5":
-                        case "tape6":
-                        case "tape7":
-                        case "tape8":
-                        case "tape9":
-                        case "tape x":
-                        case "tape1_2":
-                        case "tape2_2":
-                        case "tape3_2":
-                        case "tape4_2":
-                        case "tape5_2":
-                        case "tape6_2":
-                        case "finalspeech":
-                        case "tape1_3":
-                        case "tape2_3":
-                        case "tape3_3":
-                        case "tape4_3":
-                        case "tape5_3":
-                        case "tapeX_3":
-                            str = (Plugin.Instance.updateCounter - Plugin.Instance.updateCountAtLastSoundStart).ToString();
-                            break;
-                    }
-
-                    if (!string.IsNullOrEmpty(str))
-                    {
-                        UnityEngine.GUI.DoLabel(new Rect(x: 480, y: 648, width: 960, height: 324), new GUIContent(str), (IntPtr)78015920);
-                    }
-                }
             }
-            catch (Exception ex)
-            {
-                Plugin.Instance.PrintThisString("Anatomy.OnGUI exception: " + ex);
-            }
+
+            // Default
+            return new Dictionary<double, string>
+                {
+                    { 0.0, ""},
+                };
         }
-
     }
 }

@@ -184,7 +184,7 @@ namespace KittyHorrorshowTranslations
                 case "THERE IS A TAPE IN THE BASEMENT":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "IL Y A UNE CASSETTE DANS LE SOUS-SOL"; break;
+                        case "French": str = "IL Y A UNE CASSETTE DANS LE CAVE"; break;
                         case "Dutch": str = "ER IS EEN CASSETTE IN DE KELDER"; break;
                         case "Chinese (Simplified)": str = "地下室里有一把盒带子"; break;
                         case "Chinese (Traditional)": str = "地下室裡有一把盒帶子"; break;

@@ -206,7 +206,7 @@ namespace KittyHorrorshowTranslations
                 case "(Press M to close/open map)":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "(Appuyez M à fermer/ouvrir la carte)"; break;
+                        case "French": str = "(Appuyer sur M à fermer/ouvrir la carte)"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
                     }
@@ -214,7 +214,7 @@ namespace KittyHorrorshowTranslations
                 case "(Press R to close)":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "(Appuyez R pour fermer)"; break;
+                        case "French": str = "(Appuyer sur R pour fermer)"; break;
                         case "Dutch": str = "FILL IN"; break;
                         case "Japanese": str = "FILL IN"; break;
                     }
@@ -255,7 +255,7 @@ namespace KittyHorrorshowTranslations
                 case "Press Enter to continue":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Appuyez Entrée pour continuer"; break;
+                        case "French": str = "Appuyer sur Entrée pour continuer"; break;
                         case "Dutch": str = "Druk Enter om door te gaan"; break;
                         case "Japanese": str = "続行するにはEnterキーを押してください"; break; // bad, fix this
                     }

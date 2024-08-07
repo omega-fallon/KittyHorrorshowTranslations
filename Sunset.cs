@@ -111,7 +111,7 @@ namespace KittyHorrorshowTranslations
                 case "French":
                     message1_trans = "Avec ceux-ci, nous prospérerons. Notre village sera le joyau de la mesa.";
                     message2_trans = "Où est papa ? D'où viennent ces murs ?";
-                    message3_trans = "Je le sens m'observer. Son chant est incessant. J'aurais aimé ne jamais avoir accepté de le garder.";
+                    message3_trans = "Je le sens m'observer. Son chant est incessant. J'aurais aimé ne jamais avoir accepté du garder.";
                     message4_trans = "Au diable le sage. Ses miaulements suspects nourriraient nos os affamés jusqu'au sol.";
                     message5_trans = "Ils revinrent avec un autre. Ils hurlaient plus fort lorsqu'ils étaient rapprochés, comme s'ils s'interpellaient. Crier, ou peut-être rire.";
                     message6_trans = "Mon souffle est coupé. Cela durcit mes pensées, me regarde mourir, fait la fête.";

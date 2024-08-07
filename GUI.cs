@@ -72,6 +72,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
             }
         }
 
+        public bool noHutong;
         public void OnGUI()
         {
             try
@@ -83,13 +84,18 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         break;
                 }
 
-                if (Plugin.Instance.runningGameFont != null && Plugin.Instance.runningGameFont.name != "Arial")
+                if (noHutong)
+                {
+                    // do nothing
+                }
+                else if (Plugin.Instance.runningGameFont != null && Plugin.Instance.runningGameFont.name != "Arial")
                 {
                     // do nothing
                 }
                 else if (Plugin.Instance.noHutong.Contains(Plugin.Instance.runningGame))
                 {
                     Plugin.Instance.runningGameFont = GUISkin.current.font;
+                    GUI.Instance.noHutong = true;
                     Plugin.Instance.PrintThisString("No Hutong so cannot get game font.");
                 }
                 else
@@ -117,7 +123,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 // If the language has already been decided and subtitles have been decided (for games that need them), return
                 if (!string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
                 {
-                    if (Plugin.Instance.runningGame != "Anatomy")
+                    if (Plugin.Instance.runningGame != "Anatomy" && Plugin.Instance.runningGame != "CHYRZA")
                     {
                         subtitlesDecided = true;
                     }
@@ -387,7 +393,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     new Language() { name = "Chinese (Simplified)", localName = "简体中文", prompt = "（按下NUMBER）" },
                     new Language() { name = "Chinese (Traditional)", localName = "繁體中文", prompt = "（按下NUMBER）" },
                     new Language() { name = "Dutch", localName = "Nederlands", prompt = "(Druk op NUMBER)" },
-                    new Language() { name = "French", localName = "Français", prompt = "(Appuyez sur NUMBER)" },
+                    new Language() { name = "French", localName = "Français", prompt = "(Appuyer sur NUMBER)" },
                     //new Language() { name = "German", localName = "Deutsch", prompt = "(Drücke NUMBER)" },
                     //new Language() { name = "Greek", localName = "Ελληνικά", prompt = "(XXX NUMBER)" },
                     //new Language() { name = "Hindi", localName = "हिन्दी", prompt = "(NUMBER दबाएँ)" },
@@ -597,10 +603,6 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     str = "000000FF0000";
                     break;
                 case "CHYRZA":
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "Japanese": str = "チいるザ"; break;
-                    }
                     break;
                 case "Sunset":
                 case "Sunset, Spirit, Steel":

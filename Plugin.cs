@@ -213,13 +213,16 @@ namespace KittyHorrorshowTranslations
                     break;
                 case "Anatomy":
                     gameObject.AddComponent<Anatomy>();
-                    gameObject.AddComponent<Anatomy_Subtitles>();
+                    gameObject.AddComponent<Subtitles>();
+                    gameObject.AddComponent<Subtitles_Anatomy>();
                     break;
                 case "Basements":
                     gameObject.AddComponent<Basements>();
                     break;
                 case "CHYRZA":
                     gameObject.AddComponent<CHYRZA>();
+                    gameObject.AddComponent<Subtitles>();
+                    gameObject.AddComponent<Subtitles_CHYRZA>();
                     break;
                 case "Exclusion":
                     gameObject.AddComponent<Exclusion>();
@@ -576,6 +579,25 @@ namespace KittyHorrorshowTranslations
             public static void PlayOneShot_Patch(AudioClip clip)
             {
                 Plugin.Instance.Logger.LogInfo("PlayOneShot, audio played: " + clip.name);
+
+                if (Plugin.Instance.runningGame == "CHYRZA")
+                {
+                    switch (clip.name)
+                    {
+                        case "message1":
+                        case "message2":
+                        case "message3":
+                        case "message4":
+                        case "message5":
+                        case "message6":
+                        case "message7":
+                        case "message8":
+                        case "message9":
+                            Plugin.Instance.updateCountAtLastSoundStart = Plugin.Instance.updateCounter;
+                            Plugin.Instance.lastSoundPlayed = clip.name;
+                            break;
+                    }
+                }
             }
             [HarmonyPrefix]
             [HarmonyPatch(typeof(AudioSource), nameof(AudioSource.PlayClipAtPoint), new System.Type[] { typeof(AudioClip), typeof(Vector3), typeof(float) })]
@@ -711,7 +733,7 @@ namespace KittyHorrorshowTranslations
             public static void SceneLoad(LoadLevelNum __instance)
             {
                 // DEBUG
-                __instance.levelIndex.Value = 2;
+                //__instance.levelIndex.Value = 2;
 
                 // Setting variables //
                 Plugin.Instance.scenesLoaded += 1;
@@ -776,13 +798,13 @@ namespace KittyHorrorshowTranslations
                         case "Sound Source":
                             if (Plugin.Instance.currentLevelIndex == 3)
                             {
-                                Anatomy_Subtitles.Instance.screamingTape = __instance.gameObject.GameObject.Value;
+                                Subtitles.Instance.screamingTape = __instance.gameObject.GameObject.Value;
                             }
                             break;
                         case "title4":
                             if (Plugin.Instance.currentLevelIndex == 3)
                             {
-                                Anatomy_Subtitles.Instance.title4TV = __instance.gameObject.GameObject.Value;
+                                Subtitles.Instance.title4TV = __instance.gameObject.GameObject.Value;
                             }
                             break;
                     }
@@ -823,7 +845,7 @@ namespace KittyHorrorshowTranslations
                 Plugin.Instance.Logger.LogInfo("Sound played: " + __instance.clip.Value.name);
 
                 // Subtitle code
-                if (Plugin.Instance.runningGame == "Anatomy") 
+                if (Plugin.Instance.runningGame == "Anatomy" && Plugin.Instance.runningGame == "CHYRZA") 
                 {
                     switch (__instance.clip.Value.name)
                     {
