@@ -48,43 +48,49 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     case "CHYRZA":
                         subtitleTimestampsGlobal = Subtitles_CHYRZA.Instance.ReturnSubtitles(Plugin.Instance.lastSoundPlayed);
                         break;
+                    default:
+                        Plugin.Instance.PrintThisString("ERROR! Subtitles enabled but not playing a game with subtitles!");
+                        break;
                 }
 
                 // Iterate through dictionary to join comma-ending strings for testing
-                for (int i = 0; i < subtitleTimestampsGlobal.Count-1; i++)
+                if (Plugin.Instance.runningGame != "Anatomy")
                 {
-                    KeyValuePair<double, string> one = subtitleTimestampsGlobal.ElementAt(i);
-
-                    // Critera for line joining
-                    if (one.Value.EndsWith(",") || one.Value.EndsWith(",\"") || one.Value.EndsWith(";") || one.Value.EndsWith("..."))
+                    for (int i = 0; i < subtitleTimestampsGlobal.Count - 1; i++)
                     {
-                        // Find the first line after this one which DOESN'T meet the critera.
-                        int stoppingIndex = subtitleTimestampsGlobal.Count-1;
-                        for (int i2 = 0; i + i2 < subtitleTimestampsGlobal.Count; i2++)
-                        {
-                            KeyValuePair<double, string> next = subtitleTimestampsGlobal.ElementAt(i+i2);
-                            if (next.Value.EndsWith(",") || next.Value.EndsWith(",\"") || next.Value.EndsWith(";") || next.Value.EndsWith("..."))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                stoppingIndex = i + i2;
-                                break;
-                            }
-                        }
+                        KeyValuePair<double, string> one = subtitleTimestampsGlobal.ElementAt(i);
 
-                        // Loop through every line from i+1 to stoppingIndex, forming the string.
-                        string combinedLine = one.Value;
-                        for (int i3 = i+1; i3 <= stoppingIndex; i3++)
+                        // Critera for line joining
+                        if (one.Value.EndsWith(",") || one.Value.EndsWith(",\"") || one.Value.EndsWith(";") || one.Value.EndsWith("..."))
                         {
-                            combinedLine += " "+subtitleTimestampsGlobal.ElementAt(i3).Value;
-                        }
+                            // Find the first line after this one which DOESN'T meet the critera.
+                            int stoppingIndex = subtitleTimestampsGlobal.Count - 1;
+                            for (int i2 = 0; i + i2 < subtitleTimestampsGlobal.Count; i2++)
+                            {
+                                KeyValuePair<double, string> next = subtitleTimestampsGlobal.ElementAt(i + i2);
+                                if (next.Value.EndsWith(",") || next.Value.EndsWith(",\"") || next.Value.EndsWith(";") || next.Value.EndsWith("..."))
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    stoppingIndex = i + i2;
+                                    break;
+                                }
+                            }
 
-                        // Finally, write the new value to each
-                        for (int i4 = i; i4 <= stoppingIndex; i4++)
-                        {
-                            subtitleTimestampsGlobal[subtitleTimestampsGlobal.ElementAt(i4).Key] = combinedLine;
+                            // Loop through every line from i+1 to stoppingIndex, forming the string.
+                            string combinedLine = one.Value;
+                            for (int i3 = i + 1; i3 <= stoppingIndex; i3++)
+                            {
+                                combinedLine += " " + subtitleTimestampsGlobal.ElementAt(i3).Value;
+                            }
+
+                            // Finally, write the new value to each
+                            for (int i4 = i; i4 <= stoppingIndex; i4++)
+                            {
+                                subtitleTimestampsGlobal[subtitleTimestampsGlobal.ElementAt(i4).Key] = combinedLine;
+                            }
                         }
                     }
                 }
@@ -106,7 +112,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 {
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "English": currentSubtitle = "[distorted screaming]"; break;
+                        case "English": case "English-UK": currentSubtitle = "[distorted screaming]"; break;
                         case "French": currentSubtitle = "[cris déformés]"; break;
                         case "Dutch": currentSubtitle = "[verwrongen schreeuwen]"; break;
                         case "Japanese": currentSubtitle = "[歪んだ叫び声]"; break;
@@ -118,7 +124,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 {
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "English": currentSubtitle = "[static]"; break;
+                        case "English": case "English-UK": currentSubtitle = "[static]"; break;
                         case "French": currentSubtitle = "[friture]"; break;
                         case "Dutch": currentSubtitle = "[statisch]"; break;
                         case "Japanese": currentSubtitle = "[砂嵐]"; break;
@@ -130,6 +136,11 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 // Display the subtitle
                 if (!string.IsNullOrEmpty(currentSubtitle))
                 {
+                    if (Plugin.Instance.gameLanguage == "English-UK")
+                    {
+                        currentSubtitle = Plugin.Instance.Britishize(currentSubtitle);
+                    }
+                    
                     // Styling
                     var style = GUISkin.current.label;
                     style.fontSize = 30;

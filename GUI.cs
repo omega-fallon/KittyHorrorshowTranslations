@@ -181,6 +181,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                                         titleCardText = "„" + translatedTitle + "”" + "\nKitty Horrorshow";
                                         break;
                                     case "English":
+                                    case "English-UK":
                                         titleCardText = "";
                                         break;
                                     default:
@@ -318,7 +319,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         string subtitlePrompt;
                         switch (Plugin.Instance.gameLanguage)
                         {
-                            case "English": subtitlePrompt = "Enable subtitles?\n\n" + MiscGames.Instance.YesNo(); break;
+                            case "English": case "English-UK": subtitlePrompt = "Enable subtitles?\n\n" + MiscGames.Instance.YesNo(); break;
                             case "French": subtitlePrompt = "Activer les sous-titres ?\n\n" + MiscGames.Instance.YesNo(); break;
                             case "Dutch": subtitlePrompt = "Ondertiteling inschakelen?\n\n" + MiscGames.Instance.YesNo(); break;
                             case "Japanese": subtitlePrompt = "字幕を有効にしますか?\n\n" + MiscGames.Instance.YesNo(); break;
@@ -376,15 +377,22 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     case "Village_win":
                         availableLanguagesForThisGame = ["All"];
                         break;
+                    case "Anatomy":
+                        availableLanguagesForThisGame = ["English", "English (UK)", "French"];
+                        break;
+                    case "Actias":
+                        availableLanguagesForThisGame = ["English", "French"];
+                        break;
                     default:
-                        availableLanguagesForThisGame = ["English", "French", "Dutch", "Japanese", "Chinese (Simplified)", "Chinese (Traditional)"];
+                        availableLanguagesForThisGame = ["English", "English-UK", "French", "Dutch", "Japanese", "Chinese (Simplified)", "Chinese (Traditional)"];
                         break;
                 }
 
                 // List of languages
                 List<Language> languageList =
                 [
-                    new Language() { name = "English", localName = "English", prompt = "(Press NUMBER)" },
+                    new Language() { name = "English", localName = "English (US)", prompt = "(Press NUMBER)" },
+                    new Language() { name = "English-UK", localName = "English (UK)", prompt = "(Press NUMBER)" },
 
                     // Other langs
                     //new Language() { name = "Arabic", localName = "عربي", prompt = "(اضغط على NUMBER)" },
@@ -509,7 +517,14 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         availableLanguagesForThisGame[i] = availableLanguagesForThisGame[i].Replace(lang.name, lang.localName);
                     }
                 }
-                Array.Sort(availableLanguagesForThisGame, 1, availableLanguagesForThisGame.Length-1);
+                if (availableLanguagesForThisGame[1] == "English (UK)")
+                {
+                    Array.Sort(availableLanguagesForThisGame, 2, availableLanguagesForThisGame.Length - 2);
+                }
+                else
+                {
+                    Array.Sort(availableLanguagesForThisGame, 1, availableLanguagesForThisGame.Length - 1);
+                }
                 foreach (Language lang in languageList)
                 {
                     for (int i = 0; i < availableLanguagesForThisGame.Length; i++)

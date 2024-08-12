@@ -75,6 +75,12 @@ namespace KittyHorrorshowTranslations
                         case "French": str = "FILL IN"; break;
                     }
                     break;
+                case "It is watching me die.  Sapping my breath.  Hardening my thoughts.  Celebrating my fear.  Curse them.  Curse us.":
+                    switch (Plugin.Instance.gameLanguage)
+                    {
+                        case "French": str = "FILL IN"; break;
+                    }
+                    break;
             }
             if (originalString != str)
             {

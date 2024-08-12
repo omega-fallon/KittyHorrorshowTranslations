@@ -733,7 +733,7 @@ namespace KittyHorrorshowTranslations
             public static void SceneLoad(LoadLevelNum __instance)
             {
                 // DEBUG
-                //__instance.levelIndex.Value = 2;
+                //__instance.levelIndex.Value = 1;
 
                 // Setting variables //
                 Plugin.Instance.scenesLoaded += 1;
@@ -845,7 +845,7 @@ namespace KittyHorrorshowTranslations
                 Plugin.Instance.Logger.LogInfo("Sound played: " + __instance.clip.Value.name);
 
                 // Subtitle code
-                if (Plugin.Instance.runningGame == "Anatomy" && Plugin.Instance.runningGame == "CHYRZA") 
+                if (Plugin.Instance.runningGame == "Anatomy") 
                 {
                     switch (__instance.clip.Value.name)
                     {
@@ -883,7 +883,7 @@ namespace KittyHorrorshowTranslations
                 }
 
                 // Don't do any actual replacements if the language is English or null/empty
-                if (Plugin.Instance.gameLanguage == "English" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
+                if (Plugin.Instance.gameLanguage == "English" || Plugin.Instance.gameLanguage == "English-UK" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
                 {
                     return;
                 }
@@ -924,7 +924,7 @@ namespace KittyHorrorshowTranslations
                     audioRanThrough += 1;
 
                     // Don't do any actual replacements if the language is English or null/empty
-                    if (gameLanguage == "English" || string.IsNullOrEmpty(gameLanguage))
+                    if (gameLanguage == "English" || gameLanguage == "English-UK" || string.IsNullOrEmpty(gameLanguage))
                     {
                         continue;
                     }
@@ -1062,6 +1062,85 @@ namespace KittyHorrorshowTranslations
                 default:
                     return "ERROR";
             }
+        }
+
+        // US to UK English
+        public string Britishize(string str)
+        {
+            // -or to -our
+            str = str.Replace("color", "colour");
+            str = str.Replace("behavior", "behaviour");
+            str = str.Replace("favor", "favour");
+            str = str.Replace("flavor", "flavour");
+            str = str.Replace("harbor", "harbour");
+            str = str.Replace("honor", "honour");
+            str = str.Replace("humor", "humour");
+            str = str.Replace("labor", "labour");
+            str = str.Replace("neighbor", "neighbour");
+            str = str.Replace("rumor", "rumour");
+            str = str.Replace("splendor", "splendour");
+
+            str = str.Replace("honourary", "honorary");
+            str = str.Replace("honourific", "honorific");
+            str = str.Replace("humourous", "humorous");
+            str = str.Replace("labourious", "laborious");
+            str = str.Replace("vigourous", "vigorous");
+
+            // -er to -re
+            str = str.Replace("center", "centre");
+            str = str.Replace("caliber", "calibre");
+            str = str.Replace("fiber", "fibre");
+            str = str.Replace("somber", "sombre");
+            str = str.Replace("specter", "spectre");
+            str = str.Replace("theater", "theatre");
+
+            // -se to -ce
+            str = str.Replace("defense", "defence");
+            str = str.Replace("offense", "offence");
+            str = str.Replace("pretense", "pretence");
+
+            // ae to oe
+            str = str.Replace("eon", "aeon");
+            str = str.Replace("anemia", "anaemia");
+            str = str.Replace("anesthesia", "anaesthesia");
+            str = str.Replace("diarrhea", "diarrhoea");
+            str = str.Replace("encyclopedia", "encyclopaedia");
+            str = str.Replace("feces", "faeces");
+            str = str.Replace("fetal", "foetal");
+            str = str.Replace("hemoglobin", "haemoglobin");
+            str = str.Replace("esophagus", "oesophagus");
+            str = str.Replace("estrogen", "oestrogen");
+            str = str.Replace("archeology", "archaeology");
+
+            // -ize to -ise
+            str = str.Replace("civilized", "civilised");
+            str = str.Replace("organize", "organise");
+            str = str.Replace("realize", "realise");
+            str = str.Replace("recognize", "recognise");
+
+            // -yze to -yse
+            str = str.Replace("analyze", "analyse");
+            str = str.Replace("catalyze", "catalyse");
+            str = str.Replace("paralyze", "paralyse");
+
+            // -og to -ogue
+            str = str.Replace("analog", "analogue");
+            str = str.Replace("catalog", "catalogue");
+            str = str.Replace("dialog", "dialogue");
+
+            // double consonants
+            str = str.Replace("canceled", "cancelled");
+            str = str.Replace("counselor", "counsellor");
+            str = str.Replace("cruelest", "cruellest");
+            str = str.Replace("labeled", "labelled");
+            str = str.Replace("modeling", "modelling");
+            str = str.Replace("quarreled", "quarrelled");
+            str = str.Replace("signaling", "signalling");
+            str = str.Replace("traveler", "traveller");
+            str = str.Replace("traveling", "travelling");
+            str = str.Replace("jewelery", "jewellery");
+
+            return str;
         }
 
         // Call this function at Start if you wanna see something funny.

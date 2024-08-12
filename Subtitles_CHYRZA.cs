@@ -160,9 +160,6 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             { 0.487, "I wish so badly that my mother were here." },
                             { 8.725, "" },
                         };
-                default:
-                    //Plugin.Instance.PrintThisString(str);
-                    break;
             }
 
             // Default
