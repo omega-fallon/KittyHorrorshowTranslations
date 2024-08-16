@@ -280,6 +280,12 @@ namespace KittyHorrorshowTranslations
                     }
                     break;
             }
+            
+            if (Plugin.Instance.gameLanguage == "English-UK")
+            {
+                return Plugin.Instance.Britishize(str);
+            }
+            
             return str;
         }
     }

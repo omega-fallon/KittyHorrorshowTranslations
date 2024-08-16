@@ -240,6 +240,9 @@ namespace KittyHorrorshowTranslations
                 case "Living Room":
                     gameObject.AddComponent<Living_Room>();
                     break;
+                case "Rainhouse":
+                    gameObject.AddComponent<RainHouseEternity>();
+                    break;
                 case "Sunset":
                     gameObject.AddComponent<Sunset>();
                     break;
@@ -549,6 +552,9 @@ namespace KittyHorrorshowTranslations
                 case "Gloompuke":
                     Gloompuke.Instance.TextSearch();
                     break;
+                case "Rainhouse":
+                    RainHouseEternity.Instance.AssetLoading();
+                    break;
             }
 
             // Do texture replacements //
@@ -707,6 +713,9 @@ namespace KittyHorrorshowTranslations
                                 break;
                             case "Grandmother":
                                 Fsm.FsmList[i].Variables.StringVariables[i2].Value = Grandmother.Instance.TextReplacement(Fsm.FsmList[i].Variables.StringVariables[i2].Value);
+                                break;
+                            case "Rainhouse":
+                                Fsm.FsmList[i].Variables.StringVariables[i2].Value = RainHouseEternity.Instance.TextReplacement(Fsm.FsmList[i].Variables.StringVariables[i2].Value);
                                 break;
                             case "Sunset":
                                 Fsm.FsmList[i].Variables.StringVariables[i2].Value = Sunset.Instance.TextReplacement(Fsm.FsmList[i].Variables.StringVariables[i2].Value);
@@ -962,6 +971,9 @@ namespace KittyHorrorshowTranslations
                         case "Actias":
                             image.sprite = Actias.Instance.TextureReplacement(image);
                             break;
+                        case "Rainhouse":
+                            image.sprite = RainHouseEternity.Instance.TextureReplacement(image);
+                            break;
                     }
 
                 }
@@ -1079,6 +1091,8 @@ namespace KittyHorrorshowTranslations
             str = str.Replace("neighbor", "neighbour");
             str = str.Replace("rumor", "rumour");
             str = str.Replace("splendor", "splendour");
+            str = str.Replace("armor", "armour");
+            str = str.Replace("tumor", "tumour");
 
             str = str.Replace("honourary", "honorary");
             str = str.Replace("honourific", "honorific");
@@ -1114,9 +1128,15 @@ namespace KittyHorrorshowTranslations
 
             // -ize to -ise
             str = str.Replace("civilized", "civilised");
+            str = str.Replace("civilization", "civilisation");
             str = str.Replace("organize", "organise");
             str = str.Replace("realize", "realise");
             str = str.Replace("recognize", "recognise");
+            str = str.Replace("socializing", "socialising");
+            str = str.Replace("hybridization", "hybridisation");
+            str = str.Replace("realization", "realisation");
+            str = str.Replace("patronizing", "patronising");
+            // note to self: practice/practise and advice/advise are contextual
 
             // -yze to -yse
             str = str.Replace("analyze", "analyse");
@@ -1130,15 +1150,37 @@ namespace KittyHorrorshowTranslations
 
             // double consonants
             str = str.Replace("canceled", "cancelled");
+            str = str.Replace("chanelled", "channelled");
+            str = str.Replace("channeled", "channelled");
+            str = str.Replace("Channeling", "Channelling");
+            str = str.Replace("channeling", "channelling");
             str = str.Replace("counselor", "counsellor");
             str = str.Replace("cruelest", "cruellest");
+            str = str.Replace("jewelery", "jewellery");
             str = str.Replace("labeled", "labelled");
             str = str.Replace("modeling", "modelling");
             str = str.Replace("quarreled", "quarrelled");
+            str = str.Replace("shriveled", "shrivelled");
             str = str.Replace("signaling", "signalling");
             str = str.Replace("traveler", "traveller");
             str = str.Replace("traveling", "travelling");
-            str = str.Replace("jewelery", "jewellery");
+            str = str.Replace("traveled", "travelled");
+            str = str.Replace("tunneling ", "tunnelling");
+            str = str.Replace("worshiper", "worshipper");
+            str = str.Replace("leveled ", "levelled");
+
+            // misc.
+            str = str.Replace("gray", "grey");
+            str = str.Replace("cozy", "cosy");
+            str = str.Replace("Cozy", "Cosy");
+            str = str.Replace("asshole", "arsehole");
+            str = str.Replace("Asshole", "Arsehole");
+            str = str.Replace("acknowlegement", "acknowledgement");
+            str = str.Replace("dreamed", "dreamt");
+            str = str.Replace("learned", "learnt");
+            str = str.Replace("naught", "nought");
+            str = str.Replace("my ass", "my arse");
+            str = str.Replace("some kind of draft", "some kind of draught");
 
             return str;
         }

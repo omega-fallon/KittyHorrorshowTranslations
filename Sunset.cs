@@ -28,19 +28,19 @@ namespace KittyHorrorshowTranslations
                 case "With these, we shall flourish.  Our village will be the jewel of the mesa.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "Avec ceux-ci, nous prospérerons.  Notre village sera le joyau de la mesa."; break;
+                        case "French": str = "Nous prospérerons grâce à ces.  Notre village sera le joyau du mesa."; break;
                     }
                     break;
                 case "They understood our avarice, honed it into knives, and through our own hands hunted us.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "FILL IN"; break;
+                        case "French": str = "Ils ont compris notre avarice.  Ils l'ont aiguisée comme un couteau, et, de nos propres mains, nous ont poignardé avec."; break;
                     }
                     break;
                 case "My breath is being sapped.  It is hardening my thoughts, watching me die, celebrating.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "FILL IN"; break;
+                        case "French": str = "Ma respiration se fait couper.  Il grave mes souvenirs.  Il me regarde mourir, jubilant."; break;
                     }
                     break;
                 case "Forgive me.":
@@ -54,31 +54,31 @@ namespace KittyHorrorshowTranslations
                 case "They returned with another.  They howled louder when they were brought close together, as though they were calling out to one another.  Screaming, or maybe laughing.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "FILL IN"; break;
+                        case "French": str = "Ils sont revenus avec un autre.  Plus ces choses sont proches, plus fort elles hurlent.  Comme si elles criaient leurs noms pour se retrouver.  Ou comme si cela leur faisait rire."; break;
                     }
                     break;
                 case "I feel it observing me.  Its singing is ceaseless.  I wish I had never agreed to keep it.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "FILL IN"; break;
+                        case "French": str = "Je le sens m'observer.  J'entends son chant perpétuel.  Je n'aurais jamais dû accepter de le garder."; break;
                     }
                     break;
                 case "Damn the sage.  His suspicious mewling would feed our hungry bones to the soil.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "FILL IN"; break;
+                        case "French": str = "Maudit soit notre sage.  Alors que nous affamons, ses larmes nourrissent le sol sous lequel nous finirons tous."; break;
                     }
                     break;
                 case "Where is papa?  Where did these walls come from?":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "FILL IN"; break;
+                        case "French": str = "Où est papa ?  D'où viennent tous ces murs ?"; break;
                     }
                     break;
                 case "It is watching me die.  Sapping my breath.  Hardening my thoughts.  Celebrating my fear.  Curse them.  Curse us.":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "FILL IN"; break;
+                        case "French": str = "Il me regarde mourir, coupe ma respiration, grave mes souvenirs.  Ma peur le fait jubiler.  Qu'ils soient maudits.  Tous, et nous aussi."; break;
                     }
                     break;
             }
@@ -116,7 +116,7 @@ namespace KittyHorrorshowTranslations
             {
                 case "French":
                     message1_trans = "Avec ceux-ci, nous prospérerons. Notre village sera le joyau de la mesa.";
-                    message2_trans = "Où est papa ? D'où viennent ces murs ?";
+                    message2_trans = "Où est papa ? D'où viennent ces murs ?";
                     message3_trans = "Je le sens m'observer. Son chant est incessant. J'aurais aimé ne jamais avoir accepté du garder.";
                     message4_trans = "Au diable le sage. Ses miaulements suspects nourriraient nos os affamés jusqu'au sol.";
                     message5_trans = "Ils revinrent avec un autre. Ils hurlaient plus fort lorsqu'ils étaient rapprochés, comme s'ils s'interpellaient. Crier, ou peut-être rire.";

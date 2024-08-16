@@ -151,7 +151,7 @@ namespace KittyHorrorshowTranslations
             [HarmonyPatch(typeof(PixelCrushers.DialogueSystem.DialogueEntry), nameof(PixelCrushers.DialogueSystem.DialogueEntry.DialogueText), MethodType.Getter)]
             public static bool DialogueTextOverride(ref string __result, DialogueEntry __instance)
             {
-                __result = Field.FieldValue(Field.AssignedField(__instance.fields, Localization.Language) ?? Field.Lookup(__instance.fields, "Dialogue Text"));
+                __result = Field.FieldValue(Field.AssignedField(__instance.fields, Localization.Language) ?? Field.Lookup(__instance.fields, "Dialogue Text"));
 
                 if (__result != Gloompuke.Instance.lastDialogue)
                 {
@@ -200,7 +200,7 @@ namespace KittyHorrorshowTranslations
             [HarmonyPatch(typeof(PixelCrushers.DialogueSystem.DialogueEntry), nameof(PixelCrushers.DialogueSystem.DialogueEntry.MenuText), MethodType.Getter)]
             public static bool MenuTextOverride(ref string __result, DialogueEntry __instance)
             {
-                __result = Field.FieldValue(Field.AssignedField(__instance.fields, Field.LocalizedTitle("Menu Text")) ?? Field.Lookup(__instance.fields, "Menu Text"));
+                __result = Field.FieldValue(Field.AssignedField(__instance.fields, Field.LocalizedTitle("Menu Text")) ?? Field.Lookup(__instance.fields, "Menu Text"));
 
                 Plugin.Instance.PrintThisString("MenuText is: " + __result);
 
@@ -226,7 +226,7 @@ namespace KittyHorrorshowTranslations
                     case "what's going on around here?":
                         switch (Plugin.Instance.gameLanguage)
                         {
-                            case "French": __result = "que se passe-t-il par ici ?"; break;
+                            case "French": __result = "que se passe-t-il par ici ?"; break;
                             case "Dutch": __result = "wat is hier aan de hand?"; break;
                             case "Japanese": __result = "この辺りで何が起こっているんですか？"; break;
                         }

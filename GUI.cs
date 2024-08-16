@@ -107,7 +107,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 // Creating standard button style
                 GUIStyle standardButtonStyle = GUISkin.current.button;
 
-                // For rainhouse specifically, introduce a pause before showing the menu
+                // For games with title cards, introduce a pause before showing the menu
                 switch (Plugin.Instance.runningGame)
                 {
                     case "Rainhouse":
@@ -377,14 +377,33 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     case "Village_win":
                         availableLanguagesForThisGame = ["All"];
                         break;
+                    case "Basements":
+                    case "Bhk":
+                    case "Wormclot":
+                    case "Exclusion":
+                    case "GhostLake":
+                    case "Grandmother":
+                    case "Grandmother's Garden":
+                    case "Lethargy Hill":
+                    case "Monastery":
+                    case "Pente":
+                    case "Roads":
+                    case "Seven":
+                    case "Tenement":
+                        availableLanguagesForThisGame = ["English", "English (UK)"];
+                        break;
                     case "Anatomy":
                         availableLanguagesForThisGame = ["English", "English (UK)", "French"];
                         break;
                     case "Actias":
+                    case "Sunset":
+                    case "Rainhouse":
+                    case "Cccccc":
+                    case "Leechbowl":
                         availableLanguagesForThisGame = ["English", "French"];
                         break;
                     default:
-                        availableLanguagesForThisGame = ["English", "English-UK", "French", "Dutch", "Japanese", "Chinese (Simplified)", "Chinese (Traditional)"];
+                        availableLanguagesForThisGame = ["English", "English-UK"];
                         break;
                 }
 
@@ -523,6 +542,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 }
                 else
                 {
+                    languageList[1].localName = "English";
                     Array.Sort(availableLanguagesForThisGame, 1, availableLanguagesForThisGame.Length - 1);
                 }
                 foreach (Language lang in languageList)

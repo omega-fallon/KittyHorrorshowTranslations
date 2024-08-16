@@ -32,6 +32,19 @@ namespace KittyHorrorshowTranslations
             }
         }
 
+        public UnityEngine.Sprite TextureReplacement(SpriteRenderer spriteRenderer)
+        {
+            int textureWidth = (int)spriteRenderer.sprite.rect.m_Width;
+            int textureHeight = (int)spriteRenderer.sprite.rect.m_Height;
+
+            if (actiasReplacedImages.Contains(spriteRenderer.gameObject.name))
+            {
+                spriteRenderer.sprite = Plugin.Instance.SpriteReplace(actiasImages[spriteRenderer.gameObject.name], textureWidth, textureHeight);
+            }
+
+            return spriteRenderer.sprite;
+        }
+
         public string TextReplacement(string str)
         {
             switch (str)
@@ -52,19 +65,6 @@ namespace KittyHorrorshowTranslations
                     break;
             }
             return str;
-        }
-
-        public UnityEngine.Sprite TextureReplacement(SpriteRenderer spriteRenderer)
-        {
-            int textureWidth = (int)spriteRenderer.sprite.rect.m_Width;
-            int textureHeight = (int)spriteRenderer.sprite.rect.m_Height;
-
-            if (actiasReplacedImages.Contains(spriteRenderer.gameObject.name))
-            {
-                spriteRenderer.sprite = Plugin.Instance.SpriteReplace(actiasImages[spriteRenderer.gameObject.name], textureWidth, textureHeight);
-            }
-
-            return spriteRenderer.sprite;
         }
     }
 }

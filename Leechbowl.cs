@@ -153,7 +153,7 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "Rt Œstre";
+                            str = "Chem Œstre";
                             break;
                         case "Dutch":
                             str = "Horzel Rt";
@@ -167,7 +167,7 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "Rt Bol-Sangsue";
+                            str = "Chem Bol-Sangsue";
                             break;
                         case "Dutch":
                             str = "Lijkkom Rt";
@@ -183,7 +183,7 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "Ave Choléra";
+                            str = "Av Choléra";
                             break;
                         case "Dutch":
                             str = "Cholera Ln";
@@ -197,7 +197,7 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "Ave Crachat";
+                            str = "Av Crachat";
                             break;
                         case "Dutch":
                             str = "Sputum Ln";
@@ -227,7 +227,7 @@ namespace KittyHorrorshowTranslations
                     switch (Plugin.Instance.gameLanguage)
                     {
                         case "French":
-                            str = "Chem Hématome";
+                            str = "Rt Hématome";
                             break;
                         case "Dutch":
                             str = "Hematoom Weg";
