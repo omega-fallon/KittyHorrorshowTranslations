@@ -181,7 +181,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                                         titleCardText = "„" + translatedTitle + "”" + "\nKitty Horrorshow";
                                         break;
                                     case "English":
-                                    case "English-UK":
+                                    case "English (UK)":
                                         titleCardText = "";
                                         break;
                                     default:
@@ -319,7 +319,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         string subtitlePrompt;
                         switch (Plugin.Instance.gameLanguage)
                         {
-                            case "English": case "English-UK": subtitlePrompt = "Enable subtitles?\n\n" + MiscGames.Instance.YesNo(); break;
+                            case "English": case "English (UK)": subtitlePrompt = "Enable subtitles?\n\n" + MiscGames.Instance.YesNo(); break;
                             case "French": subtitlePrompt = "Activer les sous-titres ?\n\n" + MiscGames.Instance.YesNo(); break;
                             case "Dutch": subtitlePrompt = "Ondertiteling inschakelen?\n\n" + MiscGames.Instance.YesNo(); break;
                             case "Japanese": subtitlePrompt = "字幕を有効にしますか?\n\n" + MiscGames.Instance.YesNo(); break;
@@ -403,7 +403,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         availableLanguagesForThisGame = ["English", "French"];
                         break;
                     default:
-                        availableLanguagesForThisGame = ["English", "English-UK"];
+                        availableLanguagesForThisGame = ["English", "English (UK)"];
                         break;
                 }
 
@@ -411,7 +411,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 List<Language> languageList =
                 [
                     new Language() { name = "English", localName = "English (US)", prompt = "(Press NUMBER)" },
-                    new Language() { name = "English-UK", localName = "English (UK)", prompt = "(Press NUMBER)" },
+                    new Language() { name = "English (UK)", localName = "English (UK)", prompt = "(Press NUMBER)" },
 
                     // Other langs
                     //new Language() { name = "Arabic", localName = "عربي", prompt = "(اضغط على NUMBER)" },
@@ -542,7 +542,6 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 }
                 else
                 {
-                    languageList[1].localName = "English";
                     Array.Sort(availableLanguagesForThisGame, 1, availableLanguagesForThisGame.Length - 1);
                 }
                 foreach (Language lang in languageList)
@@ -551,6 +550,11 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     {
                         availableLanguagesForThisGame[i] = availableLanguagesForThisGame[i].Replace(lang.localName, lang.name);
                     }
+                }
+
+                if (availableLanguagesForThisGame[1] != "English (UK)")
+                {
+                    languageList[1].localName = "English";
                 }
 
                 // Standard buttons

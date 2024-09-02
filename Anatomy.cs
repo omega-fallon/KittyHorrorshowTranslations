@@ -54,13 +54,13 @@ namespace KittyHorrorshowTranslations
             anatomyAudio = new Dictionary<string, AudioClip> { };
             foreach (string str in anatomyReplacedAudio)
             {
-                if (Plugin.Instance.gameLanguage == "English-UK") { break; }
+                if (Plugin.Instance.gameLanguage == "English (UK)") { break; }
                 anatomyAudio.Add(str, Plugin.Instance.GetAudio("Anatomy", Plugin.Instance.gameLanguage, str + ".mp3"));
             }
 
             // Images
             anatomyReplacedImages = ["input", "title1", "title2", "title3", "title4"];
-            if (Plugin.Instance.gameLanguage == "English-UK") { anatomyReplacedImages = ["title1", "title2"]; }
+            if (Plugin.Instance.gameLanguage == "English (UK)") { anatomyReplacedImages = ["title1", "title2"]; }
             anatomyImages = new Dictionary<string, Texture2D> { };
             foreach (string str in anatomyReplacedImages)
             {

@@ -1,4 +1,4 @@
-Actias - Un prélude
+Pente - Un prélude
 par Kitty Horrorshow
 
 wasd + souris pour se déplacer
@@ -8,7 +8,7 @@ espace pour sauter
 si vous avez téléchargé ce jeu gratuitement et que vous l'avez apprécié,
 pensez à faire un don ! votre générosité aide
 prennent en charge des mondes oniriques abstraits similaires, ainsi que le
-suite possible de l'histoire d'Actias à court terme
+suite possible de l'histoire d'Pente à court terme
 avenir
 
 pour des escapades fantasmatiques plus courtes, pensez à soutenir

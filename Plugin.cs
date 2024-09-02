@@ -26,7 +26,7 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("village_win.exe")] // 
 
     // Fully works under x86
-    [BepInProcess("actias.exe")] // 5.2.0
+    [BepInProcess("Actias.exe")] // 5.2.0
     [BepInProcess("ccccccc.exe")] // 5.0.2
     [BepInProcess("Anatomy.exe")] // 5.2.0
 
@@ -57,6 +57,7 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("sunset.exe")] // 4.6.3
     [BepInProcess("rainhouse.exe")] // 4.6.3
     [BepInProcess("CHYRZA.exe")] // 4.3.3
+    [BepInProcess("DUSTCITY.exe")] // 4.3.3
 
     // Fully works under x64
     [BepInProcess("Monastery.exe")] // 5.4.3
@@ -97,7 +98,7 @@ namespace KittyHorrorshowTranslations
 
         public string runningGame_windowTitle;
 
-        public string[] noHutong = ["CHYRZA", "Wraith", "Village", "Village_win", "Bhk"];
+        public string[] noHutong = ["CHYRZA", "Wraith", "Village", "Village_win", "Bhk", "DUSTCITY"];
 
         public void Awake()
         {
@@ -171,6 +172,10 @@ namespace KittyHorrorshowTranslations
                 case "Artery":
                     runningGame_windowTitle = "Artery Heights";
                     break;
+                case "DUSTCITY":
+                case "DUST CITY":
+                    runningGame_windowTitle = "Dust City";
+                    break;
             }
 
             // Unity patches
@@ -184,24 +189,20 @@ namespace KittyHorrorshowTranslations
             }
 
             // Hutong patches
-            switch (runningGame)
+            if (Array.IndexOf(noHutong, runningGame) != -1)
             {
-                case "CHYRZA":
-                case "Wraith":
-                case "Village":
-                case "Village_win":
-                case "Bhk":
-                    break;
-                default:
-                    try
-                    {
-                        Harmony.CreateAndPatchAll(typeof(HutongPatches));
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogInfo("Error in doing Hutong patches: " + ex.ToString());
-                    }
-                    break;
+                //nothing
+            }
+            else
+            {
+                try
+                {
+                    Harmony.CreateAndPatchAll(typeof(HutongPatches));
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogInfo("Error in doing Hutong patches: " + ex.ToString());
+                }
             }
 
             // Add .cs files and Harmony patches for individual games
@@ -219,10 +220,17 @@ namespace KittyHorrorshowTranslations
                 case "Basements":
                     gameObject.AddComponent<Basements>();
                     break;
+                case "CCCCCC":
+                case "Cccccc":
+                    gameObject.AddComponent<CCCCCC>();
+                    break;
                 case "CHYRZA":
                     gameObject.AddComponent<CHYRZA>();
                     gameObject.AddComponent<Subtitles>();
                     gameObject.AddComponent<Subtitles_CHYRZA>();
+                    break;
+                case "DUSTCITY":
+                    gameObject.AddComponent<DUSTCITY>();
                     break;
                 case "Exclusion":
                     gameObject.AddComponent<Exclusion>();
@@ -239,6 +247,9 @@ namespace KittyHorrorshowTranslations
                     break;
                 case "Living Room":
                     gameObject.AddComponent<Living_Room>();
+                    break;
+                case "Pente":
+                    gameObject.AddComponent<Pente>();
                     break;
                 case "Rainhouse":
                     gameObject.AddComponent<RainHouseEternity>();
@@ -547,10 +558,17 @@ namespace KittyHorrorshowTranslations
                 case "Actias":
                     Actias.Instance.AssetLoading();
                     break;
+                case "CCCCCC":
+                case "Cccccc":
+                    CCCCCC.Instance.AssetLoading();
+                    break;
                 case "CHYRZA":
                     break;
                 case "Gloompuke":
                     Gloompuke.Instance.TextSearch();
+                    break;
+                case "Pente":
+                    Pente.Instance.AssetLoading();
                     break;
                 case "Rainhouse":
                     RainHouseEternity.Instance.AssetLoading();
@@ -638,30 +656,22 @@ namespace KittyHorrorshowTranslations
                 }
 
                 // Font replacement - WIP
-                if (false)
+                switch (Plugin.Instance.runningGame)
                 {
-                    switch (Plugin.Instance.gameLanguage)
-                    {
-                        case "French":
-                            switch (Plugin.Instance.runningGame)
-                            {
-                                case "Anatomy":
-                                case "Actias":
-                                    Plugin.Instance.Logger.LogInfo("Changing everything to Comic Sans because life sucks.");
-                                    style.font = UnityEngine.Font.CreateDynamicFontFromOSFont("Comic Sans MS", 30);
-                                    break;
-                            }
-                            break;
-                        case "Japanese":
-                            switch (Plugin.Instance.runningGame)
-                            {
-                                case "Anatomy":
-                                case "Actias":
-                                    style.font = UnityEngine.Font.CreateDynamicFontFromOSFont("Microsoft Himalaya", 30);
-                                    break;
-                            }
-                            break;
-                    }
+                    case "Sunset":
+                        switch (Plugin.Instance.gameLanguage)
+                        {
+                            case "French":
+                                //style.font = UnityEngine.Font.CreateDynamicFontFromOSFont("Times New Roman", 30);
+
+                                foreach (UnityEngine.Font font in FindObjectsOfType<UnityEngine.Font>())
+                                {
+                                    Plugin.Instance.Logger.LogInfo("Found font with name: "+font.name);
+                                }
+
+                                break;
+                        }
+                        break;
                 }
 
                 // Call individual games' text replacement functions
@@ -892,7 +902,7 @@ namespace KittyHorrorshowTranslations
                 }
 
                 // Don't do any actual replacements if the language is English or null/empty
-                if (Plugin.Instance.gameLanguage == "English" || Plugin.Instance.gameLanguage == "English-UK" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
+                if (Plugin.Instance.gameLanguage == "English" || Plugin.Instance.gameLanguage == "English (UK)" || string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
                 {
                     return;
                 }
@@ -933,7 +943,7 @@ namespace KittyHorrorshowTranslations
                     audioRanThrough += 1;
 
                     // Don't do any actual replacements if the language is English or null/empty
-                    if (gameLanguage == "English" || gameLanguage == "English-UK" || string.IsNullOrEmpty(gameLanguage))
+                    if (gameLanguage == "English" || gameLanguage == "English (UK)" || string.IsNullOrEmpty(gameLanguage))
                     {
                         continue;
                     }
@@ -970,6 +980,13 @@ namespace KittyHorrorshowTranslations
                             break;
                         case "Actias":
                             image.sprite = Actias.Instance.TextureReplacement(image);
+                            break;
+                        case "CCCCCC":
+                        case "Cccccc":
+                            image.sprite = CCCCCC.Instance.TextureReplacement(image);
+                            break;
+                        case "Pente":
+                            image.sprite = Pente.Instance.TextureReplacement(image);
                             break;
                         case "Rainhouse":
                             image.sprite = RainHouseEternity.Instance.TextureReplacement(image);

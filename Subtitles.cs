@@ -112,7 +112,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 {
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "English": case "English-UK": currentSubtitle = "[distorted screaming]"; break;
+                        case "English": case "English (UK)": currentSubtitle = "[distorted screaming]"; break;
                         case "French": currentSubtitle = "[cris déformés]"; break;
                         case "Dutch": currentSubtitle = "[verwrongen schreeuwen]"; break;
                         case "Japanese": currentSubtitle = "[歪んだ叫び声]"; break;
@@ -124,7 +124,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 {
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "English": case "English-UK": currentSubtitle = "[static]"; break;
+                        case "English": case "English (UK)": currentSubtitle = "[static]"; break;
                         case "French": currentSubtitle = "[friture]"; break;
                         case "Dutch": currentSubtitle = "[statisch]"; break;
                         case "Japanese": currentSubtitle = "[砂嵐]"; break;
@@ -136,7 +136,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 // Display the subtitle
                 if (!string.IsNullOrEmpty(currentSubtitle))
                 {
-                    if (Plugin.Instance.gameLanguage == "English-UK")
+                    if (Plugin.Instance.gameLanguage == "English (UK)")
                     {
                         currentSubtitle = Plugin.Instance.Britishize(currentSubtitle);
                     }

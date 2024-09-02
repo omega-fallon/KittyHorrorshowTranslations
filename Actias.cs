@@ -14,8 +14,8 @@ namespace KittyHorrorshowTranslations
             Instance = this;
         }
 
-        public string[] actiasReplacedImages;
-        public Dictionary<string, Texture2D> actiasImages;
+        public string[] ActiasReplacedImages;
+        public Dictionary<string, Texture2D> ActiasImages;
         public void AssetLoading()
         {
             // Don't do any asset loads if the language is English or null/empty
@@ -24,11 +24,11 @@ namespace KittyHorrorshowTranslations
                 return;
             }
 
-            actiasReplacedImages = ["title", "1a", "1b", "1c", "2a", "2b", "2c", "3a", "3b", "3c", "4a", "4b", "4c", "5a", "5b", "5c", "6a", "6b", "6c"];
-            actiasImages = new Dictionary<string, Texture2D> { };
-            foreach (string str in actiasReplacedImages)
+            ActiasReplacedImages = ["title", "1a", "1b", "1c", "2a", "2b", "2c", "3a", "3b", "3c", "4a", "4b", "4c", "5a", "5b", "5c", "6a", "6b", "6c"];
+            ActiasImages = new Dictionary<string, Texture2D> { };
+            foreach (string str in ActiasReplacedImages)
             {
-                actiasImages.Add(str, Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, str + ".png"));
+                ActiasImages.Add(str, Plugin.Instance.GetTexture("Actias", Plugin.Instance.gameLanguage, str + ".png"));
             }
         }
 
@@ -37,9 +37,9 @@ namespace KittyHorrorshowTranslations
             int textureWidth = (int)spriteRenderer.sprite.rect.m_Width;
             int textureHeight = (int)spriteRenderer.sprite.rect.m_Height;
 
-            if (actiasReplacedImages.Contains(spriteRenderer.gameObject.name))
+            if (ActiasReplacedImages.Contains(spriteRenderer.gameObject.name))
             {
-                spriteRenderer.sprite = Plugin.Instance.SpriteReplace(actiasImages[spriteRenderer.gameObject.name], textureWidth, textureHeight);
+                spriteRenderer.sprite = Plugin.Instance.SpriteReplace(ActiasImages[spriteRenderer.gameObject.name], textureWidth, textureHeight);
             }
 
             return spriteRenderer.sprite;

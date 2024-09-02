@@ -19,7 +19,7 @@ namespace KittyHorrorshowTranslations
             string yes = "YES";
             string no = "NO";
             
-            if (Plugin.Instance.gameLanguage == "English" || Plugin.Instance.gameLanguage == "English-UK") 
+            if (Plugin.Instance.gameLanguage == "English" || Plugin.Instance.gameLanguage == "English (UK)") 
             {
                 return "Y" + new String(' ', spaces) + "/" + new String(' ', spaces) + "N";
             }
@@ -281,7 +281,7 @@ namespace KittyHorrorshowTranslations
                     break;
             }
             
-            if (Plugin.Instance.gameLanguage == "English-UK")
+            if (Plugin.Instance.gameLanguage == "English (UK)")
             {
                 return Plugin.Instance.Britishize(str);
             }
