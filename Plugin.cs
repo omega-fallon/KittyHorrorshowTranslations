@@ -26,7 +26,7 @@ namespace KittyHorrorshowTranslations
     [BepInProcess("village_win.exe")] // 
 
     // Fully works under x86
-    [BepInProcess("Actias.exe")] // 5.2.0
+    [BepInProcess("actias.exe")] // 5.2.0
     [BepInProcess("ccccccc.exe")] // 5.0.2
     [BepInProcess("Anatomy.exe")] // 5.2.0
 

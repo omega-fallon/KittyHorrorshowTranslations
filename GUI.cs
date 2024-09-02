@@ -386,13 +386,13 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     case "Grandmother's Garden":
                     case "Lethargy Hill":
                     case "Monastery":
-                    case "Pente":
                     case "Roads":
                     case "Seven":
                     case "Tenement":
                         availableLanguagesForThisGame = ["English", "English (UK)"];
                         break;
                     case "Anatomy":
+                    case "Pente":
                         availableLanguagesForThisGame = ["English", "English (UK)", "French"];
                         break;
                     case "Actias":
@@ -410,7 +410,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 // List of languages
                 List<Language> languageList =
                 [
-                    new Language() { name = "English", localName = "English (US)", prompt = "(Press NUMBER)" },
+                    new Language() { name = "English", localName = "English", prompt = "(Press NUMBER)" },
                     new Language() { name = "English (UK)", localName = "English (UK)", prompt = "(Press NUMBER)" },
 
                     // Other langs
@@ -503,7 +503,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 }
 
                 // No translation needed popup
-                if (notNeededButtonFrames > 10 * 60)
+                /*if (notNeededButtonFrames > 10 * 60)
                 {
                     Plugin.Instance.gameLanguage = "English";
                     return;
@@ -518,7 +518,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     notNeededButtonFrames += 1;
 
                     return;
-                }
+                }*/
 
                 // Printing dimensions
                 if (!guiDimensionsPrinted)
@@ -552,9 +552,9 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     }
                 }
 
-                if (availableLanguagesForThisGame[1] != "English (UK)")
+                if (availableLanguagesForThisGame.Contains("English (UK)"))
                 {
-                    languageList[1].localName = "English";
+                    languageList[0].localName = "English (US)";
                 }
 
                 // Standard buttons
