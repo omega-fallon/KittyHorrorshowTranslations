@@ -398,8 +398,8 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     case "Actias":
                     case "Sunset":
                     case "Rainhouse":
-                    case "Cccccc":
                     case "Leechbowl":
+                    case "Ccccccc":
                         availableLanguagesForThisGame = ["English", "French"];
                         break;
                     default:
@@ -637,7 +637,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         case "Japanese": str = "解剖学"; break;
                     }
                     break;
-                case "Ccccccc":
+                case "Cccccccc":
                 case "000000FF0000":
                     str = "000000FF0000";
                     break;

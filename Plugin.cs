@@ -19,6 +19,7 @@ using BepInEx.Logging;
 using HutongGames.PlayMaker;
 using static PixelCrushers.DialogueSystem.Articy.ArticyData;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 
 namespace KittyHorrorshowTranslations
 {
@@ -220,9 +221,8 @@ namespace KittyHorrorshowTranslations
                 case "Basements":
                     gameObject.AddComponent<Basements>();
                     break;
-                case "CCCCCC":
-                case "Cccccc":
-                    gameObject.AddComponent<CCCCCC>();
+                case "Ccccccc":
+                    gameObject.AddComponent<Ccccccc>();
                     break;
                 case "CHYRZA":
                     gameObject.AddComponent<CHYRZA>();
@@ -558,9 +558,8 @@ namespace KittyHorrorshowTranslations
                 case "Actias":
                     Actias.Instance.AssetLoading();
                     break;
-                case "CCCCCC":
-                case "Cccccc":
-                    CCCCCC.Instance.AssetLoading();
+                case "Ccccccc":
+                    Ccccccc.Instance.AssetLoading();
                     break;
                 case "CHYRZA":
                     break;
@@ -743,6 +742,7 @@ namespace KittyHorrorshowTranslations
             }
         }
 
+        public string lastDrawTextureName;
         [HarmonyPatch]
         public class HutongPatches
         {
@@ -776,11 +776,11 @@ namespace KittyHorrorshowTranslations
 
             // SetGUISkin
             [HarmonyPostfix]
-            [HarmonyPatch(typeof(SetGUISkin),nameof(SetGUISkin.OnGUI))]
+            [HarmonyPatch(typeof(SetGUISkin), nameof(SetGUISkin.OnGUI))]
             public static void SetGUISkin_Patch(SetGUISkin __instance)
             {
                 Plugin.Instance.runningGameFont = __instance.skin.font;
-                Plugin.Instance.PrintThisString("SetGUISkin patch: "+ Plugin.Instance.runningGameFont.name);
+                Plugin.Instance.PrintThisString("SetGUISkin patch: " + Plugin.Instance.runningGameFont.name);
             }
 
             // GameObject activation
@@ -797,7 +797,7 @@ namespace KittyHorrorshowTranslations
                     Plugin.Instance.Logger.LogInfo("A GameObject was deactivated: " + __instance.gameObject.GameObject.ToString());
                 }
 
-                
+
                 // For some reason, these two tapes do not use Hutong's "PlaySound" so we're doing this hacky workaround. It works, and that's what matters.
                 if (Plugin.Instance.runningGame == "Anatomy" && __instance.activate.Value)
                 {
@@ -864,7 +864,7 @@ namespace KittyHorrorshowTranslations
                 Plugin.Instance.Logger.LogInfo("Sound played: " + __instance.clip.Value.name);
 
                 // Subtitle code
-                if (Plugin.Instance.runningGame == "Anatomy") 
+                if (Plugin.Instance.runningGame == "Anatomy")
                 {
                     switch (__instance.clip.Value.name)
                     {
@@ -917,9 +917,38 @@ namespace KittyHorrorshowTranslations
                             break;
                     }
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                    Plugin.Instance.Logger.LogError("Error occured while doing audio replacement: "+ex.ToString());
+                    Plugin.Instance.Logger.LogError("Error occured while doing audio replacement: " + ex.ToString());
+                }
+            }
+
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.DrawTexture), nameof(HutongGames.PlayMaker.Actions.DrawTexture.OnGUI))]
+            public static void DrawTexture_Patch(HutongGames.PlayMaker.Actions.DrawTexture __instance)
+            {
+                if (__instance.texture.Value.name != Plugin.Instance.lastDrawTextureName) 
+                {
+                    Plugin.Instance.lastDrawTextureName = __instance.texture.Value.name;
+                    Plugin.Instance.PrintThisString("Drawing a new texture to the screen named \"" + __instance.texture.Value.name + "\"");
+                }
+
+                switch (Plugin.Instance.runningGame)
+                {
+                    case "Ccccccc":
+                        switch (__instance.texture.Value.name)
+                        {
+                            case "msg1":
+                            case "msg2":
+                            case "scr2":
+                            case "scr3":
+                            case "scr4":
+                            case "scr5":
+                                __instance.texture.Value = Ccccccc.Instance.CccccccImages[__instance.texture.Value.name];
+
+                                break;
+                        }
+                        break;
                 }
             }
         }
@@ -981,9 +1010,8 @@ namespace KittyHorrorshowTranslations
                         case "Actias":
                             image.sprite = Actias.Instance.TextureReplacement(image);
                             break;
-                        case "CCCCCC":
-                        case "Cccccc":
-                            image.sprite = CCCCCC.Instance.TextureReplacement(image);
+                        case "Ccccccc":
+                            image.sprite = Ccccccc.Instance.TextureReplacement(image);
                             break;
                         case "Pente":
                             image.sprite = Pente.Instance.TextureReplacement(image);

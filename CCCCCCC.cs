@@ -7,16 +7,16 @@ using UnityEngine;
 
 namespace OmegaFallon.KittyHorrorshowTranslations
 {
-    public class CCCCCC : MonoBehaviour
+    public class Ccccccc : MonoBehaviour
     {
-        public static CCCCCC Instance;
+        public static Ccccccc Instance;
         public void Awake()
         {
             Instance = this;
         }
 
-        public string[] CCCCCCReplacedImages;
-        public Dictionary<string, Texture2D> CCCCCCImages;
+        public string[] CccccccReplacedImages;
+        public Dictionary<string, Texture2D> CccccccImages;
         public void AssetLoading()
         {
             // Don't do any asset loads if the language is English or null/empty
@@ -25,11 +25,11 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 return;
             }
 
-            CCCCCCReplacedImages = ["msg1", "msg2", "scr2", "scr3", "scr4", "scr5"];
-            CCCCCCImages = new Dictionary<string, Texture2D> { };
-            foreach (string str in CCCCCCReplacedImages)
+            CccccccReplacedImages = ["msg1", "msg2", "scr2", "scr3", "scr4", "scr5"];
+            CccccccImages = new Dictionary<string, Texture2D> { };
+            foreach (string str in CccccccReplacedImages)
             {
-                CCCCCCImages.Add(str, Plugin.Instance.GetTexture("CCCCCC", Plugin.Instance.gameLanguage, str + ".png"));
+                CccccccImages.Add(str, Plugin.Instance.GetTexture("Ccccccc", Plugin.Instance.gameLanguage, str + ".png"));
             }
         }
 
@@ -38,9 +38,9 @@ namespace OmegaFallon.KittyHorrorshowTranslations
             int textureWidth = (int)spriteRenderer.sprite.rect.m_Width;
             int textureHeight = (int)spriteRenderer.sprite.rect.m_Height;
 
-            if (CCCCCCReplacedImages.Contains(spriteRenderer.gameObject.name))
+            if (CccccccReplacedImages.Contains(spriteRenderer.gameObject.name))
             {
-                spriteRenderer.sprite = Plugin.Instance.SpriteReplace(CCCCCCImages[spriteRenderer.gameObject.name], textureWidth, textureHeight);
+                spriteRenderer.sprite = Plugin.Instance.SpriteReplace(CccccccImages[spriteRenderer.gameObject.name], textureWidth, textureHeight);
             }
 
             return spriteRenderer.sprite;
