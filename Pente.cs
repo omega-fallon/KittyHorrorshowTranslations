@@ -25,6 +25,7 @@ namespace KittyHorrorshowTranslations
             }
 
             PenteReplacedImages = ["msg fountain","msg henges","msg island","writing1","writing2","writing3","writing4","writing5"];
+            if (Plugin.Instance.gameLanguage == "English (UK)") { PenteReplacedImages = [ "msg henges" ]; }
             PenteImages = new Dictionary<string, Texture2D> { };
             foreach (string str in PenteReplacedImages)
             {

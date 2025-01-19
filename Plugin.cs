@@ -429,7 +429,7 @@ namespace KittyHorrorshowTranslations
         {
             try
             {
-                string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "audio", mainFolder, subFolder, fileName };
+                string[] pathParts = [Paths.PluginPath, "KittyHorrorshowTranslations", "audio", mainFolder, subFolder, fileName];
                 pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 var path = String.Join("\\", pathParts);
                 Logger.LogInfo("Loading audio from " + path);
@@ -445,7 +445,7 @@ namespace KittyHorrorshowTranslations
             {
                 try
                 {
-                    string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "audio", mainFolder, subFolder, fileName };
+                    string[] pathParts = [Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "audio", mainFolder, subFolder, fileName];
                     pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                     var path = String.Join("\\", pathParts);
                     Logger.LogInfo("Loading audio from " + path);
@@ -468,7 +468,7 @@ namespace KittyHorrorshowTranslations
         {
             try
             {
-                string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "images", mainFolder, subFolder, fileName };
+                string[] pathParts = [Paths.PluginPath, "KittyHorrorshowTranslations", "images", mainFolder, subFolder, fileName];
                 pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 var path = String.Join("\\", pathParts);
                 Logger.LogInfo("Loading texture from " + path);
@@ -481,7 +481,7 @@ namespace KittyHorrorshowTranslations
             {
                 try
                 {
-                    string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "images", mainFolder, subFolder, fileName };
+                    string[] pathParts = [Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "images", mainFolder, subFolder, fileName];
                     pathParts = pathParts.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                     var path = String.Join("\\", pathParts);
                     Logger.LogInfo("Loading texture from " + path);
@@ -582,7 +582,7 @@ namespace KittyHorrorshowTranslations
         public bool texturereplaceOnLoad;
         public int scenesLoaded;
         public int currentLevelIndex;
-        public GUIStyle guiStyle = new GUIStyle();
+        public GUIStyle guiStyle = new();
 
         public string lastSoundPlayed;
         public int updateCountAtLastSoundStart;
@@ -598,7 +598,7 @@ namespace KittyHorrorshowTranslations
         {
             // Audio replacement
             [HarmonyPrefix]
-            [HarmonyPatch(typeof(AudioSource), nameof(AudioSource.PlayOneShot), new System.Type[] { typeof(AudioClip), typeof(float) })]
+            [HarmonyPatch(typeof(AudioSource), nameof(AudioSource.PlayOneShot), [typeof(AudioClip), typeof(float)])]
             public static void PlayOneShot_Patch(AudioClip clip)
             {
                 Plugin.Instance.Logger.LogInfo("PlayOneShot, audio played: " + clip.name);
@@ -623,7 +623,7 @@ namespace KittyHorrorshowTranslations
                 }
             }
             [HarmonyPrefix]
-            [HarmonyPatch(typeof(AudioSource), nameof(AudioSource.PlayClipAtPoint), new System.Type[] { typeof(AudioClip), typeof(Vector3), typeof(float) })]
+            [HarmonyPatch(typeof(AudioSource), nameof(AudioSource.PlayClipAtPoint), [typeof(AudioClip), typeof(Vector3), typeof(float)])]
             public static void PlayClipAtPoint_Patch(AudioClip clip)
             {
                 Plugin.Instance.Logger.LogInfo("PlayClipAtPoint, audio played: " + clip.name);
@@ -631,7 +631,7 @@ namespace KittyHorrorshowTranslations
 
             // Text replacement
             [HarmonyPrefix]
-            [HarmonyPatch(typeof(UnityEngine.GUI), nameof(UnityEngine.GUI.Label), new System.Type[] { typeof(Rect), typeof(GUIContent), typeof(GUIStyle) })]
+            [HarmonyPatch(typeof(UnityEngine.GUI), nameof(UnityEngine.GUI.Label), [typeof(Rect), typeof(GUIContent), typeof(GUIStyle)])]
             public static void GUILabel_Prefix(UnityEngine.GUI __instance, Rect position, GUIContent content, GUIStyle style)
             {
                 if (content.m_Text != Plugin.Instance.lastText && Plugin.Instance.runningGame != "Gloompuke")

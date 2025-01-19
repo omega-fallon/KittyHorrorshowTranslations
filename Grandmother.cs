@@ -179,7 +179,7 @@ namespace KittyHorrorshowTranslations
                 case "iknowwhichhouseisyours":
                     switch (Plugin.Instance.gameLanguage)
                     {
-                        case "French": str = "jesaisquellemaisonestlavôtre"; break;
+                        case "French": str = "jesaisquelleesttamaison"; break;
                         case "Dutch": str = "ikweetwelkhuisvanjouis"; break;
                         case "Japanese": str = "どの              \n  家が            \n    あな          \n      たの        \n        家か      \n          知っ    \n            てい  \n              ます"; break;
                     }
@@ -212,17 +212,17 @@ namespace KittyHorrorshowTranslations
                             sheSays = "Elle dit : ";
                             pressSpace = "  (Appuyer sur Espace pour continuer)";
 
-                            book1 = "FILL IN";
-                            book2 = "FILL IN";
-                            book3 = "FILL IN";
-                            book4 = "FILL IN";
-                            book5 = "FILL IN";
+                            book1 = "« Alors que la nonne se noyait dans la boue, cette dernière lui sussura dans son oreille déjà bouchée, la bonne soeur sentait Ses huiles et Ses mystères longer la chair ridée de sa cervelle, elle tremblait, et son couteau se terra sous ses côtes... »";
+                            book2 = "« Tu sauras que tu es au royaume du Pape, car les cafards auront les dents des hommes, car les guêpes auront des langues au lieu des dards, car les vers se noueront comme des cordes jusqu'à saignement et déchirement... »";
+                            book3 = "« Sa mère, qui n'avait en tête que les chansons perverties du Roi Lambeau, enferma la jeune fille au grenier, où le sang coule à flot des gencives d'un cheval de bois au regard fou, où les araignées rient comme des barbares... »";
+                            book4 = "« L'homme suivit les cris de la Tour comme du bétail, et à chaque nouveau pas, dans sa semelle s'ajoutait un ver de terre, jusqu'à devenir leur foyer, leur abri de chair, tandis que les familles de vers grouillaient dans ses orbites creuses... »";
+                            book5 = "« Le jeune garçon arriva à une clairière, et y trouva une immense tique pataugeant dans un étang peu profond. Il eut compris qu'il ne put plus parler, car Elle eut rempli sa bouche de sangsues tandis qu'il courut dans les marécages... »";
 
-                            woman1 = "FILL IN";
-                            woman2 = "FILL IN";
-                            woman3 = "FILL IN";
-                            woman4 = "FILL IN";
-                            woman5 = "FILL IN";
+                            woman1 = "« Je sais quelle est ta maison. J'ai regardé ton lit. »";
+                            woman2 = "« J'ai dévoré les cadavres du cimetière. Je dévorerai les prochains. »";
+                            woman3 = "« J'ai arraché une paupière de chaque corps. Je m'en suis fait un foulard. »";
+                            woman4 = "« Tu n'aurais pas dû venir. »";
+                            woman5 = "« J'ai ratissé mes dents contre ma propre tombe jusqu'à ce qu'elles tombent en miettes. Je vomis encore mon sang. »";
 
                             break;
                         case "Dutch":

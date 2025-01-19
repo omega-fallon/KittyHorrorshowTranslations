@@ -204,10 +204,10 @@ namespace OmegaFallon.KittyHorrorshowTranslations
 
                     if (subtitlesDecided && !readmeDecided)
                     {
-                        string[] pathParts = { Paths.PluginPath, "KittyHorrorshowTranslations", "readmes", Plugin.Instance.runningGame, Plugin.Instance.gameLanguage };
-                        string[] pathParts2 = { Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "readmes", Plugin.Instance.runningGame, Plugin.Instance.gameLanguage };
+                        string[] pathParts = [Paths.PluginPath, "KittyHorrorshowTranslations", "readmes", Plugin.Instance.runningGame, Plugin.Instance.gameLanguage];
+                        string[] pathParts2 = [Paths.PluginPath, "KittyHorrorshowTranslations", "net35", "readmes", Plugin.Instance.runningGame, Plugin.Instance.gameLanguage];
 
-                        string[][] listsOfPathParts = { pathParts, pathParts2 };
+                        string[][] listsOfPathParts = [pathParts, pathParts2];
                         string path = "";
 
                         foreach (string[] pathPartList in listsOfPathParts)
@@ -382,7 +382,6 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     case "Wormclot":
                     case "Exclusion":
                     case "GhostLake":
-                    case "Grandmother":
                     case "Grandmother's Garden":
                     case "Lethargy Hill":
                     case "Monastery":
@@ -393,6 +392,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         break;
                     case "Anatomy":
                     case "Pente":
+                    case "Grandmother":
                         availableLanguagesForThisGame = ["English", "English (UK)", "French"];
                         break;
                     case "Actias":
@@ -438,12 +438,12 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 // "All" shorthand
                 if (Array.IndexOf(availableLanguagesForThisGame, "All") != -1)
                 {
-                    List<string> tempLangList = new List<string>();
+                    List<string> tempLangList = [];
                     foreach (Language lang in languageList)
                     {
                         tempLangList.Add(lang.name);
                     }
-                    availableLanguagesForThisGame = tempLangList.ToArray();
+                    availableLanguagesForThisGame = [.. tempLangList];
                 }
 
                 // Math for button spacing
