@@ -108,6 +108,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                 GUIStyle standardButtonStyle = GUISkin.current.button;
 
                 // For games with title cards, introduce a pause before showing the menu
+                var no_buttons_yet = false;
                 switch (Plugin.Instance.runningGame)
                 {
                     case "Rainhouse":
@@ -115,13 +116,13 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                     case "Actias":
                         if (Plugin.Instance.imagesRanThrough == 1 || Plugin.Instance.imagesRanThrough == 0)
                         {
-                            return;
+                            no_buttons_yet = true;
                         }
                         break;
                 }
 
                 // If the language has already been decided and subtitles have been decided (for games that need them), return
-                if (!string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
+                if (!no_buttons_yet && !string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
                 {
                     if (Plugin.Instance.runningGame != "Anatomy" && Plugin.Instance.runningGame != "CHYRZA")
                     {
@@ -362,6 +363,12 @@ namespace OmegaFallon.KittyHorrorshowTranslations
 
                     return;
                 }
+                
+                // Prevents language buttons from appearing
+                if (no_buttons_yet || !string.IsNullOrEmpty(Plugin.Instance.gameLanguage))
+                {
+                    return;
+                }
 
                 Plugin.Instance.UnlockCursor();
 
@@ -444,6 +451,36 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         tempLangList.Add(lang.name);
                     }
                     availableLanguagesForThisGame = [.. tempLangList];
+                }
+
+                // Choosing language automatically based on config
+                var config_path = Paths.PluginPath + "\\" + "language.save";
+                var invalid_language = false;
+                if (File.Exists(config_path))
+                {
+                    var data = File.ReadAllText(config_path);
+
+                    if (!string.IsNullOrEmpty(data))
+                    {
+                        foreach (Language lang in languageList)
+                        {
+                            if (data == lang.localName)
+                            {
+                                data = lang.name;
+                            }
+                        }
+
+                        if (Array.IndexOf(availableLanguagesForThisGame, "All") != -1 || Array.IndexOf(availableLanguagesForThisGame, data) != -1)
+                        {
+                            Plugin.Instance.gameLanguage = data;
+                            Plugin.Instance.AfterLanguageSelection(true);
+                            return;
+                        }
+                        else
+                        {
+                            invalid_language = true;
+                        }
+                    }
                 }
 
                 // Math for button spacing
@@ -574,7 +611,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             if (UnityEngine.GUI.Button(new Rect(widthSpacer + (lang.index * widthSpacer) + (lang.index * buttonWidth), heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
                             {
                                 Plugin.Instance.gameLanguage = lang.name;
-                                Plugin.Instance.AfterLanguageSelection();
+                                Plugin.Instance.AfterLanguageSelection(!invalid_language);
                                 return;
                             }
                         }
@@ -584,7 +621,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             if (UnityEngine.GUI.Button(new Rect(widthSpacer2 + ((lang.index- maxLangsPerColumn) * widthSpacer2) + ((lang.index- maxLangsPerColumn) * buttonWidth), heightSpacer + buttonHeight + heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
                             {
                                 Plugin.Instance.gameLanguage = lang.name;
-                                Plugin.Instance.AfterLanguageSelection();
+                                Plugin.Instance.AfterLanguageSelection(!invalid_language);
                                 return;
                             }
                         }
@@ -594,7 +631,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                             if (UnityEngine.GUI.Button(new Rect(widthSpacer3 + ((lang.index - (maxLangsPerColumn*2)) * widthSpacer3) + ((lang.index - (maxLangsPerColumn*2)) * buttonWidth), heightSpacer + buttonHeight + heightSpacer + buttonHeight + heightSpacer, buttonWidth, buttonHeight), lang.localName + "\n\n" + lang.prompt, standardButtonStyle))
                             {
                                 Plugin.Instance.gameLanguage = lang.name;
-                                Plugin.Instance.AfterLanguageSelection();
+                                Plugin.Instance.AfterLanguageSelection(!invalid_language);
                                 return;
                             }
                         }
@@ -609,7 +646,7 @@ namespace OmegaFallon.KittyHorrorshowTranslations
                         if (Input.GetKeyDown(promptKeyCodes[i]) && numLangs >= i + 1 && !string.IsNullOrEmpty(availableLanguagesForThisGame[i]))
                         {
                             Plugin.Instance.gameLanguage = availableLanguagesForThisGame[i];
-                            Plugin.Instance.AfterLanguageSelection();
+                            Plugin.Instance.AfterLanguageSelection(!invalid_language);
                             return;
                         }
                     }

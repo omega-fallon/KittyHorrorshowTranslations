@@ -516,10 +516,17 @@ namespace KittyHorrorshowTranslations
         public static extern System.IntPtr FindWindow(System.String className, System.String windowName);
 
         // Loading textures and audio
-        public void AfterLanguageSelection()
+        public void AfterLanguageSelection(bool write_to_file)
         {
             LockCursor();
 
+            if (write_to_file) {
+            var config_path = Paths.PluginPath + "\\" + "language.save";
+                using (FileStream fileStream = new FileStream(@"file_no.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
+                {
+                    System.IO.File.WriteAllText(config_path, gameLanguage);
+                }
+            }
             Logger.LogInfo("Language set to "+gameLanguage);
 
             // Window name
